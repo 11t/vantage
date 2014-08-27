@@ -32,7 +32,6 @@
 
         public Orientation()
         {
-            
         }
 
         public Vector3 Forward { get; set; }

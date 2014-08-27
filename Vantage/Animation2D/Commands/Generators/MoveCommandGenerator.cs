@@ -1,6 +1,5 @@
 namespace Vantage.Animation2D.Commands.Generators
 {
-    using Vantage.Animation2D;
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.OsbTypes;
 
@@ -9,7 +8,7 @@ namespace Vantage.Animation2D.Commands.Generators
         public MoveCommandGenerator(float allowedError)
             : base(allowedError)
         {
-            DidMove = false;
+            this.DidMove = false;
         }
 
         public bool DidMove { get; set; }

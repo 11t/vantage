@@ -87,7 +87,6 @@
     <Compile Include="Animation3D\Animation\PositionProperty.cs" />
     <Compile Include="Animation3D\Animation\RotationProperty.cs" />
     <Compile Include="Animation3D\Animation\ScaleProperty.cs" />
-    <Compile Include="Animation3D\DiscreteProperty.cs" />
     <Compile Include="Animation3D\Layers\Camera.cs" />
     <Compile Include="Animation3D\Layers\ILayer.cs" />
     <Compile Include="Animation3D\Layers\Layer.cs" />

@@ -142,6 +142,7 @@
                         cameraPosition = cameraSlidePosition;
                         position = slidePosition;
                     }
+
                     mc.SetPosition(nextBeginTime, cameraPosition);
                     previousPosition = position;
                 }
@@ -154,6 +155,7 @@
                         rotation = slideRotation;
                         angle = slideAngle;
                     }
+
                     mc.SetRotation(nextBeginTime, rotation, CubicBezierEasingCurve.EaseIn);
                     previousAngle = angle;
                 }
@@ -200,6 +202,7 @@
                 {
                     z = -500;
                 }
+
                 yield return new Vector3(position.X, position.Y, z);
             }
         }

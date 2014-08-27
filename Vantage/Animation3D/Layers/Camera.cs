@@ -14,30 +14,25 @@
     {
         #region Fields
 
-        private readonly Vector2 _resolution;
-        private readonly float _aspectRatio;
+        private readonly Vector2 resolution;
+        private readonly float aspectRatio;
 
-        private float _horizontalFieldOfView;
-        private float _verticalFieldOfView;
-        private float _focalLength;
-        private float _nearPlaneDistance;
-        private float _farPlaneDistance;
-        private float _nearPlaneWidth;
+        private float horizontalFieldOfView;
+        private float verticalFieldOfView;
+        private float focalLength;
+        private float nearPlaneDistance;
+        private float farPlaneDistance;
+        private float nearPlaneWidth;
 
         #endregion
 
         public Camera(float width, float height)
         {
-            this._resolution = new Vector2(width, height);
-            this._aspectRatio = width / height;
+            this.resolution = new Vector2(width, height);
+            this.aspectRatio = width / height;
             this.HorizontalFieldOfView = 60.0f;
             this.NearPlaneDistance = 10.0f;
             this.FarPlaneDistance = 2000.0f;
-            /*
-            _forward = Vector3.ForwardRH;
-            _up = Vector3.Up;
-            _right = Vector3.Right;
-            */
         }
 
         #region Properties
@@ -96,7 +91,7 @@
 
         public Vector2 Resolution
         {
-            get { return this._resolution; }
+            get { return this.resolution; }
         }
 
         public float Width
@@ -111,41 +106,41 @@
 
         public float AspectRatio
         {
-            get { return this._aspectRatio; }
+            get { return this.aspectRatio; }
         }
 
         public float HorizontalFieldOfView
         {
             get
             {
-                return this._horizontalFieldOfView;
+                return this.horizontalFieldOfView;
             }
 
             set
             {
-                this._horizontalFieldOfView = value;
-                this._verticalFieldOfView = VerticalFromHorizontalFieldOfView(this.HorizontalFieldOfView, this.AspectRatio);
-                this._focalLength = FocalLengthFromFieldOfView(this.HorizontalFieldOfView);
-                this._nearPlaneWidth = this.Resolution.X * this.FocalLength * 0.5f;
+                this.horizontalFieldOfView = value;
+                this.verticalFieldOfView = VerticalFromHorizontalFieldOfView(this.HorizontalFieldOfView, this.AspectRatio);
+                this.focalLength = FocalLengthFromFieldOfView(this.HorizontalFieldOfView);
+                this.nearPlaneWidth = this.Resolution.X * this.FocalLength * 0.5f;
                 this.ProjectionNeedsUpdate = true;
             }
         }
 
         public float VerticalFieldOfView
         {
-            get { return this._verticalFieldOfView; }
+            get { return this.verticalFieldOfView; }
         }
 
         public float NearPlaneDistance
         {
             get
             {
-                return this._nearPlaneDistance;
+                return this.nearPlaneDistance;
             }
 
             set
             {
-                this._nearPlaneDistance = value;
+                this.nearPlaneDistance = value;
                 this.ProjectionNeedsUpdate = true;
             }
         }
@@ -154,24 +149,24 @@
         {
             get
             {
-                return this._farPlaneDistance;
+                return this.farPlaneDistance;
             }
 
             set
             {
-                this._farPlaneDistance = value;
+                this.farPlaneDistance = value;
                 this.ProjectionNeedsUpdate = true;
             }
         }
 
         public float FocalLength
         {
-            get { return this._focalLength; }
+            get { return this.focalLength; }
         }
 
         public float NearPlaneWidth
         {
-            get { return this._nearPlaneWidth; }
+            get { return this.nearPlaneWidth; }
         }
 
         public bool ViewNeedsUpdate { get; set; }
@@ -195,28 +190,6 @@
                 this.FarPlaneDistance);
             this.ProjectionNeedsUpdate = false;
         }
-
-        /*
-        public void SetTarget(float time, Vector3 target)
-        {
-            this.Target.InsertKeyframe(time, target);
-        }
-
-        public void SetTarget(float time, Vector3 target, IEasingCurve easingCurve)
-        {
-            this.Target.InsertKeyframe(time, target, easingCurve);
-        }
-
-        public void SetTarget(float time, float x, float y, float z)
-        {
-            this.Target.InsertKeyframe(time, x, y, z);
-        }
-
-        public void SetTarget(float time, float x, float y, float z, IEasingCurve easingCurve)
-        {
-            this.Target.InsertKeyframe(easingCurve, time, x, y, z);
-        }
-        */
 
         public void SetTargetLayer(float time, ILayer targetLayer, IEasingCurve easingCurve)
         {
@@ -261,27 +234,8 @@
 
         public override void UpdateToTime(float time)
         {
+            // TODO: UpdateProjection() does not always need to be called
             base.UpdateToTime(time);
-
-            /*
-            bool updated = false;
-            if (this.ViewNeedsUpdate)
-            {
-                this.UpdateView();
-                updated = true;
-            }
-
-            if (this.ProjectionNeedsUpdate)
-            {
-                this.UpdateProjection();
-                updated = true;
-            }
-
-            if (updated)
-            {
-                this.ViewProjection = this.View * this.Projection;
-            }
-            */
             this.UpdateView();
             this.UpdateProjection();
             this.ViewProjection = this.View * this.Projection;

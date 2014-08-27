@@ -1,27 +1,22 @@
 ﻿namespace Vantage
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
 
     public sealed class StoryboardResourceManager
     {
-        [SuppressMessage("StyleCop.CSharp.NamingRules",
-            "SA1311:StaticReadonlyFieldsMustBeginWithUpperCaseLetter",
-            Justification = "Reviewed. Suppression is OK here.")]
-        private static readonly StoryboardResourceManager _instance =
-            new StoryboardResourceManager();
+        private static readonly StoryboardResourceManager InstancePrivate = new StoryboardResourceManager();
 
         private StoryboardResourceManager()
         {
-            SpriteImageDictionary = new Dictionary<string, Image>();
+            this.SpriteImageDictionary = new Dictionary<string, Image>();
         }
 
         public static StoryboardResourceManager Instance
         {
             get
             {
-                return _instance;
+                return InstancePrivate;
             }
         }
 
@@ -30,19 +25,18 @@
         public Image GetImage(string imageName)
         {
             return
-                GetImageFromAbsolutePath(
-                    System.IO.Path.Combine(StoryboardSettings.Instance.Directory, imageName));
+                this.GetImageFromAbsolutePath(System.IO.Path.Combine(StoryboardSettings.Instance.Directory, imageName));
         }
 
         public Image GetImageFromAbsolutePath(string imagePath)
         {
-            if (SpriteImageDictionary.ContainsKey(imagePath))
+            if (this.SpriteImageDictionary.ContainsKey(imagePath))
             {
-                return SpriteImageDictionary[imagePath];
+                return this.SpriteImageDictionary[imagePath];
             }
 
             Image image = Image.FromFile(imagePath);
-            SpriteImageDictionary[imagePath] = image;
+            this.SpriteImageDictionary[imagePath] = image;
             return image;
         }
     }

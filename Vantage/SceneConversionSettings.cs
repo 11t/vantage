@@ -4,14 +4,19 @@
     {
         public SceneConversionSettings()
         {
+            this.TimePrecision = 1;
+
             this.MoveThreshold = 8.0f;
-            this.RotateThreshold = 0.01f;
+            this.RotateThreshold = 0.00f;
             this.ScaleThreshold = 0.00f;
             this.ColorThreshold = 1.0f;
             this.FadeThreshold = 0;
+
             this.DefaultTextLetterSpacing = 0;
             this.DefaultTextSpaceWidth = 30;
         }
+
+        public float TimePrecision { get; set; }
 
         public float MoveThreshold { get; set; }
 

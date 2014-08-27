@@ -8,6 +8,7 @@ namespace Vantage.Animation3D.Animation.EasingCurves
             {
                 return 1;
             }
+
             return 0;
         }
     }

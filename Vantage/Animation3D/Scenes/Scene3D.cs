@@ -38,6 +38,7 @@
             {
                 return this.bpm;
             }
+
             set
             {
                 this.bpm = value;

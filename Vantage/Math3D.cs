@@ -8,6 +8,11 @@
     {
         public const double Pi2 = 2 * Math.PI;
 
+        public static bool TimesAreEqual(double a, double b)
+        {
+            return Math.Abs(a - b) < StoryboardSettings.Instance.SceneConversionSettings.TimePrecision;
+        }
+
         public static double AngleDistance(double a, double b)
         {
             double change = Math.Abs(a - b);

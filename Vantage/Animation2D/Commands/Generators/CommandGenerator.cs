@@ -46,6 +46,7 @@
 
                     // prevVisible = visible;
                 }
+
                 this.Value = value;
                 this.Time = time;
 
@@ -68,6 +69,7 @@
                     this.Time = time;
                 }
             }
+
             this.Visible = visible;
             return command;
         }

@@ -2,17 +2,15 @@
 {
     using System.Collections.Generic;
 
-    using SharpDX;
-
     public class TextLayer : Layer, ITextLayer
     {
-        private readonly IList<Sprite3D> _textSprites; 
+        private readonly IList<Sprite3D> textSprites; 
 
-        private Font _font;
-        private string _text;
-        private int _letterSpacing;
-        private int _spaceWidth;
-        private TextAlignment _alignment;
+        private Font font;
+        private string text;
+        private int letterSpacing;
+        private int spaceWidth;
+        private TextAlignment alignment;
 
         public TextLayer(Font font)
             : this(font, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextLetterSpacing)
@@ -31,23 +29,23 @@
 
         public TextLayer(Font font, int letterSpacing, int spaceWidth, TextAlignment alignment)
         {
-            this._font = font;
-            this._letterSpacing = letterSpacing;
-            this._spaceWidth = spaceWidth;
-            this._alignment = alignment;
-            _textSprites = new List<Sprite3D>();
+            this.font = font;
+            this.letterSpacing = letterSpacing;
+            this.spaceWidth = spaceWidth;
+            this.alignment = alignment;
+            this.textSprites = new List<Sprite3D>();
         }
 
         public Font Font
         {
             get
             {
-                return this._font;
+                return this.font;
             }
 
             set
             {
-                this._font = value;
+                this.font = value;
                 this.ClearTextSprites();
                 this.CreateTextSprites();
             }
@@ -57,12 +55,12 @@
         {
             get
             {
-                return this._text;
+                return this.text;
             }
 
             set
             {
-                this._text = value;
+                this.text = value;
                 this.ClearTextSprites();
                 this.CreateTextSprites();
             }
@@ -72,12 +70,12 @@
         {
             get
             {
-                return this._letterSpacing;
+                return this.letterSpacing;
             }
 
             set
             {
-                this._letterSpacing = value;
+                this.letterSpacing = value;
                 this.UpdateTextSpritesPositions();
             }
         }
@@ -86,12 +84,12 @@
         {
             get
             {
-                return this._spaceWidth;
+                return this.spaceWidth;
             }
 
             set
             {
-                this._spaceWidth = value;
+                this.spaceWidth = value;
                 this.UpdateTextSpritesPositions();
             }
         }
@@ -100,23 +98,24 @@
         {
             get
             {
-                return this._alignment;
+                return this.alignment;
             }
 
             set
             {
-                this._alignment = value;
+                this.alignment = value;
                 this.UpdateTextSpritesPositions();
             }
         }
 
         private void ClearTextSprites()
         {
-            foreach (Sprite3D sprite in _textSprites)
+            foreach (Sprite3D sprite in this.textSprites)
             {
                 Children.Remove(sprite);
             }
-            _textSprites.Clear();
+
+            this.textSprites.Clear();
         }
 
         private void CreateTextSprites()
@@ -125,6 +124,7 @@
             {
                 return;
             }
+
             IList<int> positions = this.HorizontalPositions();
             int i = 0;
             foreach (char c in this.Text)
@@ -133,10 +133,11 @@
                 {
                     continue;
                 }
+
                 string imageName = this.Font.Letters[c].ImageName;
                 Sprite3D sprite = this.NewSprite(imageName);
                 sprite.SetPosition(0, positions[i], 0, 0);
-                _textSprites.Add(sprite);
+                this.textSprites.Add(sprite);
                 i++;
             }
         }
@@ -147,6 +148,7 @@
             {
                 return;
             }
+
             IList<int> positions = this.HorizontalPositions();
             int i = 0;
             foreach (char c in this.Text)
@@ -155,7 +157,8 @@
                 {
                     continue;
                 }
-                Sprite3D sprite = _textSprites[i];
+
+                Sprite3D sprite = this.textSprites[i];
                 sprite.SetPosition(0, positions[i], 0, 0);
                 i++;
             }
@@ -175,6 +178,7 @@
                     spaceAdjustment += this.SpaceWidth;
                     continue;
                 }
+
                 int halfWidth = this.Font.Letters[c].Width / 2;
                 int position = prevPosition + prevHalfWidth + this.LetterSpacing + halfWidth + spaceAdjustment;
                 positions.Add(position);
@@ -192,6 +196,7 @@
                     {
                         positions[i] -= center;
                     }
+
                     break;
 
                 case TextAlignment.Left:
@@ -203,8 +208,10 @@
                     {
                         positions[i] -= right;
                     }
+
                     break;
             }
+
             return positions;
         }
     }

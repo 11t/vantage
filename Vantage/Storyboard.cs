@@ -9,13 +9,19 @@
 
     public class Storyboard
     {
-        public static readonly Vector2 ViewportSize = new Vector2(854, 480);
+        #region Static Fields
 
-        public static readonly Rectangle ViewportBounds = new Rectangle(-107, 0, 854, 480);
+        public static readonly int DefaultResolutionHeight = 768;
 
         public static readonly int DefaultResolutionWidth = 1366;
 
-        public static readonly int DefaultResolutionHeight = 768;
+        public static readonly Rectangle ViewportBounds = new Rectangle(-107, 0, 854, 480);
+
+        public static readonly Vector2 ViewportSize = new Vector2(854, 480);
+
+        #endregion
+
+        #region Constructors and Destructors
 
         public Storyboard()
             : this(1366, 768)
@@ -24,64 +30,74 @@
 
         public Storyboard(int width, int height)
         {
-            Sprite2Ds = new List<Sprite2D>();
-            Scene3Ds = new List<Scene3D>();
-            Resolution = new Vector2(width, height);
+            this.Sprite2Ds = new List<Sprite2D>();
+            this.Scene3Ds = new List<Scene3D>();
+            this.Resolution = new Vector2(width, height);
         }
 
-        public IList<Sprite2D> Sprite2Ds { get; set; }
+        #endregion
+
+        #region Public Properties
+
+        public Vector2 Resolution { get; set; }
 
         public IList<Scene3D> Scene3Ds { get; set; }
 
-        public Vector2 Resolution { get; set; }
+        public IList<Sprite2D> Sprite2Ds { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public Scene3D NewScene3D(float bpm, float startTime, float endTime)
+        {
+            return this.NewScene3D(bpm, startTime, endTime, 8.0f);
+        }
+
+        public Scene3D NewScene3D(float bpm, float startTime, float endTime, float rendersPerBeat)
+        {
+            var scene = new Scene3D(bpm, startTime, endTime, rendersPerBeat, this.Resolution.X, this.Resolution.Y);
+            this.Scene3Ds.Add(scene);
+            return scene;
+        }
 
         public Sprite2D NewSprite2D(string image, string layer, string origin)
         {
             var sprite = new Sprite2D(image, layer, origin);
-            Sprite2Ds.Add(sprite);
+            this.Sprite2Ds.Add(sprite);
             return sprite;
         }
 
         public Sprite2D NewSprite2D(string image)
         {
-            return NewSprite2D(image, "Foreground", "Centre");
-        }
-
-        public Scene3D NewScene3D(float bpm, float startTime, float endTime)
-        {
-            return NewScene3D(bpm, startTime, endTime, 8.0f);
-        }
-
-        public Scene3D NewScene3D(float bpm, float startTime, float endTime, float rendersPerBeat)
-        {
-            var scene = new Scene3D(bpm, startTime, endTime, rendersPerBeat, Resolution.X, Resolution.Y);
-            Scene3Ds.Add(scene);
-            return scene;
+            return this.NewSprite2D(image, "Foreground", "Centre");
         }
 
         public string ToOsbString()
         {
-            string header = @"[Events]
+            const string Header = @"[Events]
 //Background and Video events
 //Storyboard Layer 0 (Background)
 //Storyboard Layer 1 (Fail)
 //Storyboard Layer 2 (Pass)
 //Storyboard Layer 3 (Foreground)";
 
-            string[] stringArray = new string[Scene3Ds.Count + Sprite2Ds.Count + 1];
-            for (int i = 0; i < Scene3Ds.Count; i++)
+            string[] stringArray = new string[this.Scene3Ds.Count + this.Sprite2Ds.Count + 1];
+            for (int i = 0; i < this.Scene3Ds.Count; i++)
             {
-                stringArray[i] = Scene3Ds[i].ToOsbString();
+                stringArray[i] = this.Scene3Ds[i].ToOsbString();
             }
 
             // 2D
-            for (int i = 0; i < Sprite2Ds.Count; i++)
+            for (int i = 0; i < this.Sprite2Ds.Count; i++)
             {
-                stringArray[i + Scene3Ds.Count] = Sprite2Ds[i].ToOsbString();
+                stringArray[i + this.Scene3Ds.Count] = this.Sprite2Ds[i].ToOsbString();
             }
 
-            stringArray[Scene3Ds.Count + Sprite2Ds.Count] = @"//Storyboard Sound Samples";
-            return header + "\n" + string.Join("\n", stringArray);
+            stringArray[this.Scene3Ds.Count + this.Sprite2Ds.Count] = @"//Storyboard Sound Samples";
+            return Header + "\n" + string.Join("\n", stringArray);
         }
+
+        #endregion
     }
 }

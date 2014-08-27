@@ -92,12 +92,9 @@
                 {
                     this.CurrentIndex--;
                 }
-
-                // this.CurrentValue = this.keyframes[this.CurrentIndex].ValueAtTime(this.NextKeyframe, this.CurrentTime);
             }
         }
 
-        // public TValue CurrentValue { get; private set; }
         public TValue CurrentValue
         {
             get
@@ -145,7 +142,7 @@
                 this.CurrentIndex = 0;
             }
 
-            if (this.CurrentTime == this.CurrentKeyframe.Time)
+            if (Math3D.TimesAreEqual(this.CurrentTime, this.CurrentKeyframe.Time))
             {
                 this.keyframes[this.CurrentIndex] = keyframe;
             }
@@ -204,12 +201,13 @@
             {
                 for (var i = 0; i < this.keyframes.Count; i++)
                 {
-                    if (time == this.keyframes[i].Time)
+                    if (Math3D.TimesAreEqual(time, this.keyframes[i].Time))
                     {
                         this.keyframes[i] = keyframe;
                         break;
                     }
 
+                    // TODO: use TimePrecision in comparison
                     if (time < this.keyframes[i].Time)
                     {
                         this.keyframes.Insert(i, keyframe);

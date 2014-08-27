@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Globalization;
 
     using SharpDX;
 
@@ -9,20 +10,19 @@
 
     public class Sprite3D : Layer
     {
-        private readonly Sprite2D _representative;
+        private readonly Sprite2D representative;
 
-        private string _imageName;
-        private int _width;
-        private int _height;
+        private string imageName;
+        private int width;
+        private int height;
 
         public Sprite3D(string imageName, string layer, string origin)
-            : base()
         {
             this.ImageName = imageName;
             this.Layer = layer;
             this.Origin = origin;
 
-            this._representative = new Sprite2D(imageName, layer, origin);
+            this.representative = new Sprite2D(imageName, layer, origin);
         }
 
         public Sprite3D(string imageName)
@@ -34,7 +34,7 @@
         {
             get
             {
-                return this._imageName;
+                return this.imageName;
             }
 
             set
@@ -42,11 +42,11 @@
                 if (value != null)
                 {
                     Image image = StoryboardResourceManager.Instance.GetImage(value);
-                    this._width = image.Width;
-                    this._height = image.Height;
+                    this.width = image.Width;
+                    this.height = image.Height;
                 }
 
-                this._imageName = value;
+                this.imageName = value;
             }
         }
 
@@ -58,7 +58,7 @@
         {
             get
             {
-                return this._width;
+                return this.width;
             }
         }
 
@@ -66,7 +66,7 @@
         {
             get
             {
-                return this._height;
+                return this.height;
             }
         }
 
@@ -76,7 +76,7 @@
         {
             get
             {
-                return this._representative;
+                return this.representative;
             }
         }
 
@@ -152,9 +152,10 @@
                 this.VerticalFlip,
                 this.Width,
                 this.Height);
-            if (DebugTrack)
+
+            if (this.DebugTrack)
             {
-                System.Diagnostics.Debug.WriteLine(this.CurrentTime.ToString(), mainCamera.ViewProjection.ToString());
+                System.Diagnostics.Debug.WriteLine(this.CurrentTime.ToString(CultureInfo.InvariantCulture), mainCamera.ViewProjection.ToString());
             }
         }
 
@@ -164,12 +165,9 @@
             float y = rotation.Y;
             float z = rotation.Z;
             float w = rotation.W;
-            /*
-            return (float)Math.Atan2(
-                2 * rotation.Y * rotation.W - 2 * rotation.X * rotation.Z,
-                1 - 2 * rotation.Y * rotation.Y - 2 * rotation.Z * rotation.Z);
-             */
-            return -(float)Math.Atan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z);
+            float a = 2 * ((x * y) + (w * z));
+            float b = (w * w) + (x * x) - (y * y) - (z * z);
+            return -(float)Math.Atan2(a, b);
         }
     }
 }

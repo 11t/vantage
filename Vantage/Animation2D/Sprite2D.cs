@@ -6,15 +6,6 @@
     using Vantage.Animation2D.Commands.Generators;
     using Vantage.Animation2D.OsbTypes;
 
-    // TODO: faster to use enum, then convert to string when converting to .osb
-    public class OsbSpriteLayer
-    {
-        public static readonly string Foreground = "Foreground";
-        public static readonly string Background = "Background";
-        public static readonly string Pass = "Pass";
-        public static readonly string Fail = "Fail";
-    }
-
     public class Sprite2D
     {
         public static readonly MoveCommandGenerator MoveGenerator =
@@ -102,7 +93,7 @@
                 this.AddCommand(MoveGenerator.Generate(time, state.Position, visible));
                 this.AddCommand(RotateGenerator.Generate(time, state.Rotation, visible));
                 this.AddCommand(ScaleGenerator.Generate(time, state.Scale, visible));
-                this.AddCommand(ColorGenerator.Generate(time, (OsbColor)state.Color, visible));
+                this.AddCommand(ColorGenerator.Generate(time, state.Color, visible));
                 this.AddCommand(FadeGenerator.Generate(time, state.Opacity, visible));
             }
 

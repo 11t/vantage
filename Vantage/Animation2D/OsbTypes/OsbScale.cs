@@ -62,6 +62,7 @@ namespace Vantage.Animation2D.OsbTypes
             {
                 return false;
             }
+
             return obj is OsbScale && this.Equals((OsbScale)obj);
         }
 

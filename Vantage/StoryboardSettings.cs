@@ -1,14 +1,10 @@
 ﻿namespace Vantage
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     public sealed class StoryboardSettings
     {
-        [SuppressMessage("StyleCop.CSharp.NamingRules", 
-            "SA1311:StaticReadonlyFieldsMustBeginWithUpperCaseLetter",
-            Justification = "Reviewed. Suppression is OK here.")]
-        private static readonly StoryboardSettings instance = new StoryboardSettings();
+        private static readonly StoryboardSettings InstancePrivate = new StoryboardSettings();
 
         private string directory;
 
@@ -21,7 +17,7 @@
         {
             get
             {
-                return instance;
+                return InstancePrivate;
             }
         }
 
@@ -33,6 +29,7 @@
                 {
                     throw new Exception("StoryboardSettings.Directory not initialized");
                 }
+
                 return this.directory;
             }
 

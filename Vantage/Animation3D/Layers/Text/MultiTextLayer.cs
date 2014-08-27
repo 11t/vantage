@@ -2,22 +2,20 @@ namespace Vantage.Animation3D.Layers.Text
 {
     using System.Collections.Generic;
 
-    using SharpDX;
-
     public class MultiTextLayer : Layer, ITextLayer
     {
-        private Font _font;
-        private string _text;
-        private int _letterSpacing;
-        private int _spaceWidth;
-        private TextAlignment _alignment;
+        private Font font;
+        private string text;
+        private int letterSpacing;
+        private int spaceWidth;
+        private TextAlignment alignment;
 
         public MultiTextLayer(Font font, int letterSpacing, int spaceWidth, TextAlignment alignment)
         {
-            this._font = font;
-            this._letterSpacing = letterSpacing;
-            this._spaceWidth = spaceWidth;
-            this._alignment = alignment;
+            this.font = font;
+            this.letterSpacing = letterSpacing;
+            this.spaceWidth = spaceWidth;
+            this.alignment = alignment;
             this.TextLayers = new List<ITextLayer>();
         }
 
@@ -27,12 +25,12 @@ namespace Vantage.Animation3D.Layers.Text
         {
             get
             {
-                return this._font;
+                return this.font;
             }
 
             set
             {
-                this._font = value;
+                this.font = value;
                 foreach (ITextLayer textLayer in this.TextLayers)
                 {
                     textLayer.Font = value;
@@ -44,12 +42,12 @@ namespace Vantage.Animation3D.Layers.Text
         {
             get
             {
-                return this._text;
+                return this.text;
             }
 
             set
             {
-                this._text = value;
+                this.text = value;
                 foreach (ITextLayer textLayer in this.TextLayers)
                 {
                     textLayer.Text = value;
@@ -61,12 +59,12 @@ namespace Vantage.Animation3D.Layers.Text
         {
             get
             {
-                return this._letterSpacing;
+                return this.letterSpacing;
             }
 
             set
             {
-                this._letterSpacing = value;
+                this.letterSpacing = value;
                 foreach (ITextLayer textLayer in this.TextLayers)
                 {
                     textLayer.LetterSpacing = value;
@@ -78,12 +76,12 @@ namespace Vantage.Animation3D.Layers.Text
         {
             get
             {
-                return this._spaceWidth;
+                return this.spaceWidth;
             }
 
             set
             {
-                this._spaceWidth = value;
+                this.spaceWidth = value;
                 foreach (ITextLayer textLayer in this.TextLayers)
                 {
                     textLayer.SpaceWidth = value;
@@ -95,12 +93,12 @@ namespace Vantage.Animation3D.Layers.Text
         {
             get
             {
-                return this._alignment;
+                return this.alignment;
             }
 
             set
             {
-                this._alignment = value;
+                this.alignment = value;
                 foreach (ITextLayer textLayer in this.TextLayers)
                 {
                     textLayer.Alignment = value;

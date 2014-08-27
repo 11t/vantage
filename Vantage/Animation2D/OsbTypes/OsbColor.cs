@@ -124,7 +124,8 @@ namespace Vantage.Animation2D.OsbTypes
             {
                 return false;
             }
-            return obj is OsbColor && Equals((OsbColor)obj);
+
+            return obj is OsbColor && this.Equals((OsbColor)obj);
         }
 
         public override int GetHashCode()

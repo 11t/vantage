@@ -75,6 +75,7 @@ namespace Vantage.Animation2D.OsbTypes
             {
                 return false;
             }
+
             return obj is OsbPosition && this.Equals((OsbPosition)obj);
         }
 

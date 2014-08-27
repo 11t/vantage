@@ -1,5 +1,7 @@
 ﻿namespace Vantage.Animation3D.Animation.EasingCurves
 {
+    using System;
+
     using SharpDX;
 
     public class CubicBezierEasingCurve : IEasingCurve
@@ -25,16 +27,12 @@
 
         public float Evaluate(float x)
         {
-            if (this.P1.X == this.P1.Y && this.P2.X == this.P2.Y)
-            {
-                return x;
-            }
             var t = this.FindT(x);
-            var C = 3.0f * this.P1.Y;
-            var D = 3.0f * this.P2.Y;
-            var A = 1.0f - D + C;
-            var B = D - 2.0f * C;
-            return ((A * t + B) * t + C) * t;
+            var c = 3.0f * this.P1.Y;
+            var d = 3.0f * this.P2.Y;
+            var a = 1.0f - d + c;
+            var b = d - (2.0f * c);
+            return ((((a * t) + b) * t) + c) * t;
         }
 
         // Finds the t value that corresponds to the given x value on the curve
@@ -45,18 +43,20 @@
             var t = x;
             for (var i = 0; i < 4; i++)
             {
-                var C = 3.0f * x1;
-                var D = 3.0f * x2;
-                var A = 1.0f - D + C;
-                var B = D - 2.0f * C;
-                var slope = 3.0f * A * t * t + 2.0f * B * t + C;
-                if (slope == 0.0f)
+                var c = 3.0f * x1;
+                var d = 3.0f * x2;
+                var a = 1.0f - d + c;
+                var b = d - (2.0f * c);
+                var slope = (3.0f * a * t * t) + (2.0f * b * t) + c;
+                if (Math.Abs(slope) < 0.0001)
                 {
                     return t;
                 }
-                var currentX = ((A * t + B) * t + C) * t - x;
+
+                var currentX = (((((a * t) + b) * t) + c) * t) - x;
                 t -= currentX / slope;
             }
+
             return t;
         }
     }
