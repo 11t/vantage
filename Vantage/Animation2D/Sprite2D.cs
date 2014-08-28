@@ -301,7 +301,7 @@
 
 		public void ColorHsb(float startTime, float endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) 
 		{
-			this.Color(0, startTime, endTime, startHue, startSaturation, startBrightness, endHue, endSaturation, endBrightness);
+			this.ColorHsb(0, startTime, endTime, startHue, startSaturation, startBrightness, endHue, endSaturation, endBrightness);
 		}
 
 		public void ColorHsb(int easing, float time, double hue, double saturation, double brightness) 
@@ -312,7 +312,7 @@
 
 		public void ColorHsb(float time, double hue, double saturation, double brightness) 
 		{
-			this.Color(0, time, hue, saturation, brightness);
+			this.ColorHsb(0, time, hue, saturation, brightness);
 		}
 
         public void Fade(int easing, float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
