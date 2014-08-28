@@ -19,7 +19,7 @@
 			return sprite;
 		}
 
-		public void Register() 
+		public void InsertSprites()
 		{
 			foreach (Sprite2D sprite in this.sprites)
 				this.storyboard.RegisterSprite2D(sprite);

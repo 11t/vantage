@@ -192,6 +192,46 @@
 			this.Move(0, time, x, y);
 		}
 
+		public void MoveX(int easing, float startTime, float endTime, OsbDecimal startX, OsbDecimal endX) 
+		{
+			this.Commands.Add(new MoveXCommand(easing, startTime, endTime, startX, endX));
+		}
+
+		public void MoveX(float startTime, float endTime, OsbDecimal startX, OsbDecimal endX) 
+		{
+			this.MoveX(0, startTime, endTime, startX, endX);
+		}
+
+		public void MoveX(int easing, float time, OsbDecimal x) 
+		{
+			this.MoveX(easing, time, time, x, x);
+		}
+
+		public void MoveX(float time, OsbDecimal x) 
+		{
+			this.MoveX(0, time, time, x, x);
+		}
+
+		public void MoveY(int easing, float startTime, float endTime, OsbDecimal startY, OsbDecimal endY) 
+		{
+			this.Commands.Add(new MoveYCommand(easing, startTime, endTime, startY, endY));
+		}
+
+		public void MoveY(float startTime, float endTime, OsbDecimal startY, OsbDecimal endY) 
+		{
+			this.MoveY(0, startTime, endTime, startY, endY);
+		}
+
+		public void MoveY(int easing, float time, OsbDecimal y) 
+		{
+			this.MoveY(easing, time, time, y, y);
+		}
+
+		public void MoveY(float time, OsbDecimal y) 
+		{
+			this.MoveY(0, time, time, y, y);
+		}
+
         public void Rotate(int easing, float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
         {
             this.Commands.Add(new RotateCommand(easing, startTime, endTime, startRotation, endRotation));
