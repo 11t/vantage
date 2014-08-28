@@ -1,86 +1,121 @@
-﻿namespace Vantage.Animation2D.Util
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Sprite2DPool.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Vantage.Animation2D.Util
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 
-	public class Sprite2DPool 
-	{
-		private Storyboard storyboard;
-		private string path;
-		private string layer;
-		private string origin;
-		private bool additive;
-		private Sprite2DGroup spriteGroup;
+    public class Sprite2DPool
+    {
+        #region Fields
 
-		private List<PooledSprite> pooledSprites = new List<PooledSprite>();
+        private bool additive;
 
-		public Sprite2DPool(Storyboard storyboard, String path, String layer, String origin, bool additive, Sprite2DGroup spriteGroup) 
-		{
-			this.storyboard = storyboard;
-			this.path = path;
-			this.layer = layer;
-			this.origin = origin;
-			this.additive = additive;
-			this.spriteGroup = spriteGroup;
-		}
+        private string layer;
 
-		public Sprite2D Get(double startTime, double endTime) 
-		{
-			Sprite2D sprite = this.Get(startTime);
-			this.Release(sprite, endTime);
-			return sprite;
-		}
+        private string origin;
 
-		public Sprite2D Get(double startTime) 
-		{
-			var result = (PooledSprite)null;
-			foreach (var pooledSprite in pooledSprites) 
-			{
-				if (pooledSprite.endTime < startTime)
-				{
-					result = pooledSprite;
-					break;
-				}
-			}
+        private string path;
 
-			if (result != null) 
-			{
-				pooledSprites.Remove(result);
-				return result.sprite;
-			}
+        private List<PooledSprite> pooledSprites = new List<PooledSprite>();
 
-			if (spriteGroup != null)
-				return spriteGroup.NewSprite2D(path, layer, origin);
+        private Sprite2DGroup spriteGroup;
 
-			return this.storyboard.NewSprite2D(path, layer, origin);
-		}
+        private Storyboard storyboard;
 
-		public void Release(Sprite2D sprite, double endTime) 
-		{
-			this.pooledSprites.Add(new PooledSprite(sprite, endTime));
-		}
+        #endregion
 
-		public void Clear() {
-			if (additive) {
-				foreach (PooledSprite pooledSprite in this.pooledSprites) {
-					var sprite = pooledSprite.sprite;
-					sprite.AdditiveP(sprite.GetCommandsStartTime(), (int)pooledSprite.endTime);
-				}
-			}
+        #region Constructors and Destructors
 
-			this.pooledSprites.Clear();
-		}
+        public Sprite2DPool(
+            Storyboard storyboard, 
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            Sprite2DGroup spriteGroup)
+        {
+            this.storyboard = storyboard;
+            this.path = path;
+            this.layer = layer;
+            this.origin = origin;
+            this.additive = additive;
+            this.spriteGroup = spriteGroup;
+        }
 
-		class PooledSprite 
-		{
-			public Sprite2D sprite;
-			public double endTime;
+        #endregion
 
-			public PooledSprite(Sprite2D sprite, double endTime) 
-			{
-				this.sprite = sprite;
-				this.endTime = endTime;
-			}
-		}
-	}
+        #region Public Methods and Operators
+
+        public void Clear()
+        {
+            if (this.additive)
+            {
+                foreach (PooledSprite pooledSprite in this.pooledSprites)
+                {
+                    var sprite = pooledSprite.Sprite;
+                    sprite.AdditiveP(sprite.GetCommandsStartTime(), (int)pooledSprite.EndTime);
+                }
+            }
+
+            this.pooledSprites.Clear();
+        }
+
+        public Sprite2D Get(double startTime, double endTime)
+        {
+            Sprite2D sprite = this.Get(startTime);
+            this.Release(sprite, endTime);
+            return sprite;
+        }
+
+        public Sprite2D Get(double startTime)
+        {
+            var result = (PooledSprite)null;
+            foreach (var pooledSprite in this.pooledSprites)
+            {
+                if (pooledSprite.EndTime < startTime)
+                {
+                    result = pooledSprite;
+                    break;
+                }
+            }
+
+            if (result != null)
+            {
+                this.pooledSprites.Remove(result);
+                return result.Sprite;
+            }
+
+            if (this.spriteGroup != null)
+            {
+                return this.spriteGroup.NewSprite2D(this.path, this.layer, this.origin);
+            }
+
+            return this.storyboard.NewSprite2D(this.path, this.layer, this.origin);
+        }
+
+        public void Release(Sprite2D sprite, double endTime)
+        {
+            this.pooledSprites.Add(new PooledSprite(sprite, endTime));
+        }
+
+        #endregion
+
+        private class PooledSprite
+        {
+            public PooledSprite(Sprite2D sprite, double endTime)
+            {
+                this.Sprite = sprite;
+                this.EndTime = endTime;
+            }
+
+            public double EndTime { get; set; }
+
+            public Sprite2D Sprite { get; set; }
+        }
+    }
 }

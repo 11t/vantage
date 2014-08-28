@@ -1,4 +1,9 @@
-﻿namespace Vantage.Animation2D
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Sprite2D.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Vantage.Animation2D
 {
     using System;
     using System.Collections.Generic;
@@ -7,34 +12,82 @@
     using Vantage.Animation2D.Commands.Generators;
     using Vantage.Animation2D.OsbTypes;
 
+    /// <summary>
+    /// Represents a 2D .osb Sprite.
+    /// </summary>
     public class Sprite2D
     {
-        public static readonly MoveCommandGenerator MoveGenerator =
-            new MoveCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
+        #region Static Fields
 
-        public static readonly RotateCommandGenerator RotateGenerator =
-            new RotateCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold);
-
-        public static readonly ScaleCommandGenerator ScaleGenerator =
-            new ScaleCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold);
-
+        /// <summary>
+        /// The generator used for creating Color commands from Sprite2DState objects.
+        /// </summary>
         public static readonly ColorCommandGenerator ColorGenerator =
             new ColorCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold);
 
+        /// <summary>
+        /// The generator used for creating Fade commands from Sprite2DState objects.
+        /// </summary>
         public static readonly FadeCommandGenerator FadeGenerator =
             new FadeCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold);
 
+        /// <summary>
+        /// The generator used for creating Move commands from Sprite2DState objects.
+        /// </summary>
+        public static readonly MoveCommandGenerator MoveGenerator =
+            new MoveCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
+
+        /// <summary>
+        /// The generator used for creating Rotate commands from Sprite2DState objects.
+        /// </summary>
+        public static readonly RotateCommandGenerator RotateGenerator =
+            new RotateCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold);
+
+        /// <summary>
+        /// The generator used for creating Scale and VScale commands from Sprite2DState objects.
+        /// </summary>
+        public static readonly ScaleCommandGenerator ScaleGenerator =
+            new ScaleCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold);
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sprite2D"/> class.
+        /// </summary>
+        /// <param name="image">
+        /// The Sprite's image name within the map directory.
+        /// </param>
         public Sprite2D(string image)
             : this(image, "Foreground", "Centre")
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sprite2D"/> class.
+        /// </summary>
+        /// <param name="image">
+        /// The Sprite's image name within the map directory.
+        /// </param>
+        /// <param name="layer">
+        /// The name of the .osb layer (Foreground, Background, etc.) where the Sprite resides.
+        /// </param>
+        /// <param name="origin">
+        /// The name of the location of the anchor point (Centre, TopLeft, etc.) of the Sprite. 
+        /// </param>
         public Sprite2D(string image, string layer, string origin)
             : this(image, layer, origin, false, false, false)
         {
         }
 
-        public Sprite2D(string image, string layer, string origin, bool additive, bool horizontalFlip, bool verticalFlip)
+        public Sprite2D(
+            string image, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            bool horizontalFlip, 
+            bool verticalFlip)
         {
             this.Commands = new List<ICommand>();
             this.States = new List<Sprite2DState>();
@@ -46,9 +99,15 @@
             this.VerticalFlip = verticalFlip;
         }
 
+        #endregion
+
+        #region Public Properties
+
+        public bool Additive { get; set; }
+
         public IList<ICommand> Commands { get; private set; }
 
-        public IList<Sprite2DState> States { get; private set; }
+        public bool HorizontalFlip { get; set; }
 
         public string ImageName { get; set; }
 
@@ -56,11 +115,21 @@
 
         public string Origin { get; set; }
 
-        public bool Additive { get; set; }
-
-        public bool HorizontalFlip { get; set; }
+        public IList<Sprite2DState> States { get; private set; }
 
         public bool VerticalFlip { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void AddCommand(ICommand command)
+        {
+            if (command != null)
+            {
+                this.Commands.Add(command);
+            }
+        }
 
         public void AddCommandsFromStates()
         {
@@ -114,20 +183,17 @@
 
             if (this.Additive)
             {
-                this.Commands.Add(
-                    new ParameterCommand(0, initialTime, finalTime, OsbParameter.AdditiveBlending));
+                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.AdditiveBlending));
             }
 
             if (this.HorizontalFlip)
             {
-                this.Commands.Add(
-                    new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipHorizontal));
+                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipHorizontal));
             }
 
             if (this.VerticalFlip)
             {
-                this.Commands.Add(
-                    new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipVertical));
+                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipVertical));
             }
 
             OsbColor finalColor = finalState.Color;
@@ -137,271 +203,303 @@
             }
         }
 
-        public void AddCommand(ICommand command)
+        public void AdditiveP(float startTime, float endTime)
         {
-            if (command != null)
-            {
-                this.Commands.Add(command);
-            }
+            this.Parameter(0, startTime, endTime, OsbParameter.AdditiveBlending);
         }
 
-		public float GetCommandsStartTime() {
-			float commandsStartTime = Single.MaxValue;
-			foreach (ICommand command in Commands)
-				commandsStartTime = Math.Min(commandsStartTime, command.StartTime);
-			return commandsStartTime;
-		}
-
-        public void Move(int easing, float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
+        public void ClearCommands()
         {
-            this.Commands.Add(new MoveCommand(easing, startTime, endTime, startPosition, endPosition));
+            this.Commands.Clear();
         }
-
-		public void Move(float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition) 
-		{
-			this.Move(0, startTime, endTime, startPosition, endPosition);
-		}
-
-		public void Move(int easing, float time, OsbPosition position) 
-		{
-			this.Move(easing, time, time, position, position);
-		}
-
-		public void Move(float time, OsbPosition position) 
-		{
-			this.Move(0, time, time, position, position);
-		}
-
-		public void Move(int easing, float startTime, float endTime, double startX, double startY, double endX, double endY) 
-		{
-			this.Move(easing, startTime, endTime, new OsbPosition(startX, startY), new OsbPosition(endX, endY));
-		}
-
-		public void Move(float startTime, float endTime, double startX, double startY, double endX, double endY) 
-		{
-			this.Move(0, startTime, endTime, startX, startY, endX, endY);
-		}
-
-		public void Move(int easing, float time, double x, double y) 
-		{
-			this.Move(easing, time, new OsbPosition(x, y));
-		}
-
-		public void Move(float time, double x, double y) 
-		{
-			this.Move(0, time, x, y);
-		}
-
-		public void MoveX(int easing, float startTime, float endTime, OsbDecimal startX, OsbDecimal endX) 
-		{
-			this.Commands.Add(new MoveXCommand(easing, startTime, endTime, startX, endX));
-		}
-
-		public void MoveX(float startTime, float endTime, OsbDecimal startX, OsbDecimal endX) 
-		{
-			this.MoveX(0, startTime, endTime, startX, endX);
-		}
-
-		public void MoveX(int easing, float time, OsbDecimal x) 
-		{
-			this.MoveX(easing, time, time, x, x);
-		}
-
-		public void MoveX(float time, OsbDecimal x) 
-		{
-			this.MoveX(0, time, time, x, x);
-		}
-
-		public void MoveY(int easing, float startTime, float endTime, OsbDecimal startY, OsbDecimal endY) 
-		{
-			this.Commands.Add(new MoveYCommand(easing, startTime, endTime, startY, endY));
-		}
-
-		public void MoveY(float startTime, float endTime, OsbDecimal startY, OsbDecimal endY) 
-		{
-			this.MoveY(0, startTime, endTime, startY, endY);
-		}
-
-		public void MoveY(int easing, float time, OsbDecimal y) 
-		{
-			this.MoveY(easing, time, time, y, y);
-		}
-
-		public void MoveY(float time, OsbDecimal y) 
-		{
-			this.MoveY(0, time, time, y, y);
-		}
-
-        public void Rotate(int easing, float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
-        {
-            this.Commands.Add(new RotateCommand(easing, startTime, endTime, startRotation, endRotation));
-        }
-
-		public void Rotate(float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation) 
-		{
-			this.Rotate(0, startTime, endTime, startRotation, endRotation);
-		}
-
-		public void Rotate(int easing, float time, OsbDecimal rotation) 
-		{
-			this.Rotate(easing, time, time, rotation, rotation);
-		}
-
-		public void Rotate(float time, OsbDecimal rotation) 
-		{
-			this.Rotate(0, time, time, rotation, rotation);
-		}
-
-        public void Scale(int easing, float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
-        {
-            this.Commands.Add(new ScaleCommand(easing, startTime, endTime, startScale, endScale));
-        }
-
-		public void Scale(float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale) 
-		{
-			this.Scale(0, startTime, endTime, startScale, endScale);
-		}
-
-		public void Scale(int easing, float time, OsbDecimal scale) 
-		{
-			this.Scale(easing, time, time, scale, scale);
-		}
-
-		public void Scale(float time, OsbDecimal scale) {
-			this.Scale(0, time, time, scale, scale);
-		}
-
-        public void VScale(int easing, float startTime, float endTime, OsbScale startScale, OsbScale endScale)
-        {
-            this.Commands.Add(new VScaleCommand(easing, startTime, endTime, startScale, endScale));
-        }
-
-		public void VScale(float startTime, float endTime, OsbScale startScale, OsbScale endScale) 
-		{
-			this.VScale(0, startTime, endTime, startScale, endScale);
-		}
-
-		public void VScale(int easing, float startTime, float endTime, OsbDecimal startScaleX, OsbDecimal startScaleY, OsbDecimal endScaleX, OsbDecimal endScaleY) 
-		{
-			this.VScale(easing, startTime, endTime, new OsbScale(startScaleX, startScaleY), new OsbScale(endScaleX, endScaleY));
-		}
-
-		public void VScale(float startTime, float endTime, OsbDecimal startScaleX, OsbDecimal startScaleY, OsbDecimal endScaleX, OsbDecimal endScaleY) 
-		{
-			this.VScale(0, startTime, endTime, startScaleX, startScaleY, endScaleX, endScaleY);
-		}
-
-		public void VScale(int easing, float time, OsbDecimal scaleX, OsbDecimal scaleY) 
-		{
-			this.VScale(easing, time, time, scaleX, scaleY, scaleX, scaleY);
-		}
-
-		public void VScale(float time, OsbDecimal scaleX, OsbDecimal scaleY) 
-		{
-			this.VScale(0, time, time, scaleX, scaleY, scaleX, scaleY);
-		}
 
         public void Color(int easing, float startTime, float endTime, OsbColor startColor, OsbColor endColor)
         {
             this.Commands.Add(new ColorCommand(easing, startTime, endTime, startColor, endColor));
         }
 
-		public void Color(float startTime, float endTime, OsbColor startColor, OsbColor endColor) 
-		{
-			this.Color(0, startTime, endTime, startColor, endColor);
-		}
+        public void Color(float startTime, float endTime, OsbColor startColor, OsbColor endColor)
+        {
+            this.Color(0, startTime, endTime, startColor, endColor);
+        }
 
-		public void Color(int easing, float time, OsbColor color) 
-		{
-			this.Color(easing, time, time, color, color);
-		}
+        public void Color(int easing, float time, OsbColor color)
+        {
+            this.Color(easing, time, time, color, color);
+        }
 
-		public void Color(float time, OsbColor color) 
-		{
-			this.Color(0, time, time, color, color);
-		}
+        public void Color(float time, OsbColor color)
+        {
+            this.Color(0, time, time, color, color);
+        }
 
-		public void Color(int easing, float startTime, float endTime, double startRed, double startGreen, double startBlue, double endRed, double endGreen, double endBlue) 
-		{
-			this.Color(easing, startTime, endTime, new OsbColor(startRed, startGreen, startBlue), new OsbColor(endRed, endGreen, endBlue));
-		}
+        public void Color(
+            int easing, 
+            float startTime, 
+            float endTime, 
+            double startRed, 
+            double startGreen, 
+            double startBlue, 
+            double endRed, 
+            double endGreen, 
+            double endBlue)
+        {
+            this.Color(
+                easing, 
+                startTime, 
+                endTime, 
+                new OsbColor(startRed, startGreen, startBlue), 
+                new OsbColor(endRed, endGreen, endBlue));
+        }
 
-		public void Color(float startTime, float endTime, double startRed, double startGreen, double startBlue, double endRed, double endGreen, double endBlue) 
-		{
-			this.Color(0, startTime, endTime,startRed, startGreen, startBlue, endRed, endGreen, endBlue);
-		}
+        public void Color(
+            float startTime, 
+            float endTime, 
+            double startRed, 
+            double startGreen, 
+            double startBlue, 
+            double endRed, 
+            double endGreen, 
+            double endBlue)
+        {
+            this.Color(0, startTime, endTime, startRed, startGreen, startBlue, endRed, endGreen, endBlue);
+        }
 
-		public void Color(int easing, float time, double red, double green, double blue) 
-		{
-			OsbColor color = new OsbColor(red, green, blue);
-			this.Color(easing, time, time, color, color);
-		}
+        public void Color(int easing, float time, double red, double green, double blue)
+        {
+            OsbColor color = new OsbColor(red, green, blue);
+            this.Color(easing, time, time, color, color);
+        }
 
-		public void Color(float time, double red, double green, double blue) 
-		{
-			this.Color(0, time, red, green, blue);
-		}
+        public void Color(float time, double red, double green, double blue)
+        {
+            this.Color(0, time, red, green, blue);
+        }
 
-		public void ColorHsb(int easing, float startTime, float endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) 
-		{
-			this.Color(easing, startTime, endTime, OsbColor.FromHsb(startHue, startSaturation, startBrightness), OsbColor.FromHsb(endHue, endSaturation, endBrightness));
-		}
+        public void ColorHsb(
+            int easing, 
+            float startTime, 
+            float endTime, 
+            double startHue, 
+            double startSaturation, 
+            double startBrightness, 
+            double endHue, 
+            double endSaturation, 
+            double endBrightness)
+        {
+            this.Color(
+                easing, 
+                startTime, 
+                endTime, 
+                OsbColor.FromHsb(startHue, startSaturation, startBrightness), 
+                OsbColor.FromHsb(endHue, endSaturation, endBrightness));
+        }
 
-		public void ColorHsb(float startTime, float endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) 
-		{
-			this.ColorHsb(0, startTime, endTime, startHue, startSaturation, startBrightness, endHue, endSaturation, endBrightness);
-		}
+        public void ColorHsb(
+            float startTime, 
+            float endTime, 
+            double startHue, 
+            double startSaturation, 
+            double startBrightness, 
+            double endHue, 
+            double endSaturation, 
+            double endBrightness)
+        {
+            this.ColorHsb(
+                0, 
+                startTime, 
+                endTime, 
+                startHue, 
+                startSaturation, 
+                startBrightness, 
+                endHue, 
+                endSaturation, 
+                endBrightness);
+        }
 
-		public void ColorHsb(int easing, float time, double hue, double saturation, double brightness) 
-		{
-			OsbColor color = OsbColor.FromHsb(hue, saturation, brightness);
-			this.Color(easing, time, time, color, color);
-		}
+        public void ColorHsb(int easing, float time, double hue, double saturation, double brightness)
+        {
+            OsbColor color = OsbColor.FromHsb(hue, saturation, brightness);
+            this.Color(easing, time, time, color, color);
+        }
 
-		public void ColorHsb(float time, double hue, double saturation, double brightness) 
-		{
-			this.ColorHsb(0, time, hue, saturation, brightness);
-		}
+        public void ColorHsb(float time, double hue, double saturation, double brightness)
+        {
+            this.ColorHsb(0, time, hue, saturation, brightness);
+        }
 
         public void Fade(int easing, float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Commands.Add(new FadeCommand(easing, startTime, endTime, startOpacity, endOpacity));
         }
 
-		public void Fade(float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity) 
-		{
-			this.Fade(0, startTime, endTime, startOpacity, endOpacity);
-		}
+        public void Fade(float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
+        {
+            this.Fade(0, startTime, endTime, startOpacity, endOpacity);
+        }
 
-		public void Fade(int easing, float time, OsbDecimal opacity) 
-		{
-			this.Fade(easing, time, time, opacity, opacity);
-		}
+        public void Fade(int easing, float time, OsbDecimal opacity)
+        {
+            this.Fade(easing, time, time, opacity, opacity);
+        }
 
-		public void Fade(float time, OsbDecimal opacity) 
-		{
-			this.Fade(0, time, time, opacity, opacity);
-		}
+        public void Fade(float time, OsbDecimal opacity)
+        {
+            this.Fade(0, time, time, opacity, opacity);
+        }
+
+        public void FlipH(float startTime, float endTime)
+        {
+            this.Parameter(0, startTime, endTime, OsbParameter.FlipHorizontal);
+        }
+
+        public void FlipV(float startTime, float endTime)
+        {
+            this.Parameter(0, startTime, endTime, OsbParameter.FlipVertical);
+        }
+
+        public float GetCommandsStartTime()
+        {
+            float commandsStartTime = float.MaxValue;
+            foreach (ICommand command in this.Commands)
+            {
+                commandsStartTime = Math.Min(commandsStartTime, command.StartTime);
+            }
+
+            return commandsStartTime;
+        }
+
+        public void Move(int easing, float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
+        {
+            this.Commands.Add(new MoveCommand(easing, startTime, endTime, startPosition, endPosition));
+        }
+
+        public void Move(float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
+        {
+            this.Move(0, startTime, endTime, startPosition, endPosition);
+        }
+
+        public void Move(int easing, float time, OsbPosition position)
+        {
+            this.Move(easing, time, time, position, position);
+        }
+
+        public void Move(float time, OsbPosition position)
+        {
+            this.Move(0, time, time, position, position);
+        }
+
+        public void Move(
+            int easing, 
+            float startTime, 
+            float endTime, 
+            double startX, 
+            double startY, 
+            double endX, 
+            double endY)
+        {
+            this.Move(easing, startTime, endTime, new OsbPosition(startX, startY), new OsbPosition(endX, endY));
+        }
+
+        public void Move(float startTime, float endTime, double startX, double startY, double endX, double endY)
+        {
+            this.Move(0, startTime, endTime, startX, startY, endX, endY);
+        }
+
+        public void Move(int easing, float time, double x, double y)
+        {
+            this.Move(easing, time, new OsbPosition(x, y));
+        }
+
+        public void Move(float time, double x, double y)
+        {
+            this.Move(0, time, x, y);
+        }
+
+        public void MoveX(int easing, float startTime, float endTime, OsbDecimal startX, OsbDecimal endX)
+        {
+            this.Commands.Add(new MoveXCommand(easing, startTime, endTime, startX, endX));
+        }
+
+        public void MoveX(float startTime, float endTime, OsbDecimal startX, OsbDecimal endX)
+        {
+            this.MoveX(0, startTime, endTime, startX, endX);
+        }
+
+        public void MoveX(int easing, float time, OsbDecimal x)
+        {
+            this.MoveX(easing, time, time, x, x);
+        }
+
+        public void MoveX(float time, OsbDecimal x)
+        {
+            this.MoveX(0, time, time, x, x);
+        }
+
+        public void MoveY(int easing, float startTime, float endTime, OsbDecimal startY, OsbDecimal endY)
+        {
+            this.Commands.Add(new MoveYCommand(easing, startTime, endTime, startY, endY));
+        }
+
+        public void MoveY(float startTime, float endTime, OsbDecimal startY, OsbDecimal endY)
+        {
+            this.MoveY(0, startTime, endTime, startY, endY);
+        }
+
+        public void MoveY(int easing, float time, OsbDecimal y)
+        {
+            this.MoveY(easing, time, time, y, y);
+        }
+
+        public void MoveY(float time, OsbDecimal y)
+        {
+            this.MoveY(0, time, time, y, y);
+        }
 
         public void Parameter(int easing, float startTime, float endTime, OsbParameter parameter)
         {
             this.Commands.Add(new ParameterCommand(easing, startTime, endTime, parameter));
         }
 
-		public void AdditiveP(float startTime, float endTime) 
-		{
-			this.Parameter(0, startTime, endTime, OsbParameter.AdditiveBlending);
-		}
+        public void Rotate(int easing, float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
+        {
+            this.Commands.Add(new RotateCommand(easing, startTime, endTime, startRotation, endRotation));
+        }
 
-		public void FlipH(float startTime, float endTime) 
-		{
-			this.Parameter(0, startTime, endTime, OsbParameter.FlipHorizontal);
-		}
+        public void Rotate(float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
+        {
+            this.Rotate(0, startTime, endTime, startRotation, endRotation);
+        }
 
-		public void FlipV(float startTime, float endTime) 
-		{
-			this.Parameter(0, startTime, endTime, OsbParameter.FlipVertical);
-		}
+        public void Rotate(int easing, float time, OsbDecimal rotation)
+        {
+            this.Rotate(easing, time, time, rotation, rotation);
+        }
+
+        public void Rotate(float time, OsbDecimal rotation)
+        {
+            this.Rotate(0, time, time, rotation, rotation);
+        }
+
+        public void Scale(int easing, float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
+        {
+            this.Commands.Add(new ScaleCommand(easing, startTime, endTime, startScale, endScale));
+        }
+
+        public void Scale(float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
+        {
+            this.Scale(0, startTime, endTime, startScale, endScale);
+        }
+
+        public void Scale(int easing, float time, OsbDecimal scale)
+        {
+            this.Scale(easing, time, time, scale, scale);
+        }
+
+        public void Scale(float time, OsbDecimal scale)
+        {
+            this.Scale(0, time, time, scale, scale);
+        }
 
         public string ToOsbString()
         {
@@ -422,9 +520,54 @@
             return string.Join("\n ", stringArray);
         }
 
-        public void ClearCommands()
+        public void VScale(int easing, float startTime, float endTime, OsbScale startScale, OsbScale endScale)
         {
-            this.Commands.Clear();
+            this.Commands.Add(new VScaleCommand(easing, startTime, endTime, startScale, endScale));
         }
+
+        public void VScale(float startTime, float endTime, OsbScale startScale, OsbScale endScale)
+        {
+            this.VScale(0, startTime, endTime, startScale, endScale);
+        }
+
+        public void VScale(
+            int easing, 
+            float startTime, 
+            float endTime, 
+            OsbDecimal startScaleX, 
+            OsbDecimal startScaleY, 
+            OsbDecimal endScaleX, 
+            OsbDecimal endScaleY)
+        {
+            this.VScale(
+                easing, 
+                startTime, 
+                endTime, 
+                new OsbScale(startScaleX, startScaleY), 
+                new OsbScale(endScaleX, endScaleY));
+        }
+
+        public void VScale(
+            float startTime, 
+            float endTime, 
+            OsbDecimal startScaleX, 
+            OsbDecimal startScaleY, 
+            OsbDecimal endScaleX, 
+            OsbDecimal endScaleY)
+        {
+            this.VScale(0, startTime, endTime, startScaleX, startScaleY, endScaleX, endScaleY);
+        }
+
+        public void VScale(int easing, float time, OsbDecimal scaleX, OsbDecimal scaleY)
+        {
+            this.VScale(easing, time, time, scaleX, scaleY, scaleX, scaleY);
+        }
+
+        public void VScale(float time, OsbDecimal scaleX, OsbDecimal scaleY)
+        {
+            this.VScale(0, time, time, scaleX, scaleY, scaleX, scaleY);
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,10 @@
-﻿namespace Vantage
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Storyboard.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Vantage
 {
     using System.Collections.Generic;
 
@@ -73,15 +79,15 @@
             return this.NewSprite2D(image, "Foreground", "Centre");
         }
 
-		public Sprite2D NewUnregisteredSprite2D(string image, string layer, string origin) 
-		{
-			return new Sprite2D(image, layer, origin);
-		}
+        public Sprite2D NewUnregisteredSprite2D(string image, string layer, string origin)
+        {
+            return new Sprite2D(image, layer, origin);
+        }
 
-		public void RegisterSprite2D(Sprite2D sprite) 
-		{
-			this.Sprite2Ds.Add(sprite);
-		}
+        public void RegisterSprite2D(Sprite2D sprite)
+        {
+            this.Sprite2Ds.Add(sprite);
+        }
 
         public string ToOsbString()
         {

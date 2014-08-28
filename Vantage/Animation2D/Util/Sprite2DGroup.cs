@@ -1,29 +1,51 @@
-﻿namespace Vantage.Animation2D.Util
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Sprite2DGroup.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Vantage.Animation2D.Util
 {
-	using System.Collections.Generic;
+    using System.Collections.Generic;
 
-	public class Sprite2DGroup 
-	{
-		private Storyboard storyboard;
-		private List<Sprite2D> sprites = new List<Sprite2D>();
+    public class Sprite2DGroup
+    {
+        #region Fields
 
-		public Sprite2DGroup(Storyboard storyboard) 
-		{
-			this.storyboard = storyboard;
-		}
+        private List<Sprite2D> sprites = new List<Sprite2D>();
 
-		public Sprite2D NewSprite2D(string path, string layer, string origin) 
-		{
-			Sprite2D sprite = this.storyboard.NewUnregisteredSprite2D(path, layer, origin);
-			this.sprites.Add(sprite);
-			return sprite;
-		}
+        private Storyboard storyboard;
 
-		public void InsertSprites()
-		{
-			foreach (Sprite2D sprite in this.sprites)
-				this.storyboard.RegisterSprite2D(sprite);
-			this.sprites.Clear();
-		}
-	}
+        #endregion
+
+        #region Constructors and Destructors
+
+        public Sprite2DGroup(Storyboard storyboard)
+        {
+            this.storyboard = storyboard;
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void InsertSprites()
+        {
+            foreach (Sprite2D sprite in this.sprites)
+            {
+                this.storyboard.RegisterSprite2D(sprite);
+            }
+
+            this.sprites.Clear();
+        }
+
+        public Sprite2D NewSprite2D(string path, string layer, string origin)
+        {
+            Sprite2D sprite = this.storyboard.NewUnregisteredSprite2D(path, layer, origin);
+            this.sprites.Add(sprite);
+            return sprite;
+        }
+
+        #endregion
+    }
 }

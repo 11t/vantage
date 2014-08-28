@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="OsbColor.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Vantage.Animation2D.OsbTypes
 {
     using System;
@@ -6,8 +12,12 @@ namespace Vantage.Animation2D.OsbTypes
 
     using SharpDX;
 
+    using Color = System.Drawing.Color;
+
     public struct OsbColor : IOsbType, IEquatable<OsbColor>
     {
+        #region Static Fields
+
         public static OsbColor AliceBlue = FromHtml("#F0F8FF");
 
         public static OsbColor AntiqueWhite = FromHtml("#FAEBD7");
@@ -52,11 +62,21 @@ namespace Vantage.Animation2D.OsbTypes
 
         public static OsbColor Yellow = FromHtml("#FFFF00");
 
-		private readonly double r;
-		private readonly double g;
-		private readonly double b;
+        #endregion
 
-		public OsbColor(double r, double g, double b)
+        #region Fields
+
+        private readonly double b;
+
+        private readonly double g;
+
+        private readonly double r;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public OsbColor(double r, double g, double b)
         {
             this.r = r;
             this.g = g;
@@ -68,11 +88,15 @@ namespace Vantage.Animation2D.OsbTypes
         {
         }
 
-        public int R
+        #endregion
+
+        #region Public Properties
+
+        public int B
         {
             get
             {
-                return Clamp((int)(this.r * 255));
+                return Clamp((int)(this.b * 255));
             }
         }
 
@@ -84,47 +108,70 @@ namespace Vantage.Animation2D.OsbTypes
             }
         }
 
-        public int B
+        public int R
         {
             get
             {
-                return Clamp((int)(this.b * 255));
+                return Clamp((int)(this.r * 255));
             }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public static OsbColor FromHsb(double hue, double saturation, double brightness)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = (hue / 60) - Math.Floor(hue / 60);
+
+            double v = brightness;
+            double p = brightness * (1 - saturation);
+            double q = brightness * (1 - (f * saturation));
+            double t = brightness * (1 - ((1 - f) * saturation));
+
+            if (hi == 0)
+            {
+                return new OsbColor(v, t, p);
+            }
+
+            if (hi == 1)
+            {
+                return new OsbColor(q, v, p);
+            }
+
+            if (hi == 2)
+            {
+                return new OsbColor(p, v, t);
+            }
+
+            if (hi == 3)
+            {
+                return new OsbColor(p, q, v);
+            }
+
+            if (hi == 4)
+            {
+                return new OsbColor(t, p, v);
+            }
+
+            return new OsbColor(v, p, q);
         }
 
         public static OsbColor FromHtml(string htmlColor)
         {
-            System.Drawing.Color sysColor = ColorTranslator.FromHtml(htmlColor);
+            Color sysColor = ColorTranslator.FromHtml(htmlColor);
             return new OsbColor(sysColor.R / 255.0f, sysColor.G / 255.0f, sysColor.B / 255.0f);
         }
-
-		public static OsbColor FromHsb(double hue, double saturation, double brightness) 
-		{
-			int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-			double f = hue / 60 - Math.Floor(hue / 60);
-
-			double v = brightness;
-			double p = brightness * (1 - saturation);
-			double q = brightness * (1 - f * saturation);
-			double t = brightness * (1 - (1 - f) * saturation);
-
-			if (hi == 0)
-				return new OsbColor(v, t, p);
-			else if (hi == 1)
-				return new OsbColor(q, v, p);
-			else if (hi == 2)
-				return new OsbColor(p, v, t);
-			else if (hi == 3)
-				return new OsbColor(p, q, v);
-			else if (hi == 4)
-				return new OsbColor(t, p, v);
-			else
-				return new OsbColor(v, p, q);
-		}
 
         public static bool operator ==(OsbColor left, OsbColor right)
         {
             return left.Equals(right);
+        }
+
+        public static implicit operator OsbColor(Vector3 vector)
+        {
+            return new OsbColor(vector);
         }
 
         public static bool operator !=(OsbColor left, OsbColor right)
@@ -132,9 +179,13 @@ namespace Vantage.Animation2D.OsbTypes
             return !left.Equals(right);
         }
 
-        public static implicit operator OsbColor(Vector3 vector)
+        public float DistanceFrom(object obj)
         {
-            return new OsbColor(vector);
+            OsbColor other = (OsbColor)obj;
+            float diffR = this.R - other.R;
+            float diffG = this.G - other.G;
+            float diffB = this.B - other.B;
+            return (float)Math.Sqrt((diffR * diffR) + (diffG * diffG) + (diffB * diffB));
         }
 
         public bool Equals(OsbColor other)
@@ -168,14 +219,9 @@ namespace Vantage.Animation2D.OsbTypes
             return this.R.ToString(CultureInfo.InvariantCulture) + ',' + this.G + ',' + this.B;
         }
 
-        public float DistanceFrom(object obj)
-        {
-            OsbColor other = (OsbColor)obj;
-            float diffR = this.R - other.R;
-            float diffG = this.G - other.G;
-            float diffB = this.B - other.B;
-            return (float)Math.Sqrt((diffR * diffR) + (diffG * diffG) + (diffB * diffB));
-        }
+        #endregion
+
+        #region Methods
 
         private static int Clamp(int x)
         {
@@ -191,5 +237,7 @@ namespace Vantage.Animation2D.OsbTypes
 
             return x;
         }
+
+        #endregion
     }
 }

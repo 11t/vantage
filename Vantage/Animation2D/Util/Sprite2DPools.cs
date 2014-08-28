@@ -1,98 +1,162 @@
-﻿namespace Vantage.Animation2D.Util {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Sprite2DPools.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-	public class Sprite2DPools {
-		private Storyboard storyboard;
-		private Dictionary<String, Sprite2DPool> pools = new Dictionary<String, Sprite2DPool>();
-		private List<Sprite2DGroup> spriteGroups = new List<Sprite2DGroup>();
+namespace Vantage.Animation2D.Util
+{
+    using System;
+    using System.Collections.Generic;
 
-		public Sprite2DPools(Storyboard storyboard) 
-		{
-			this.storyboard = storyboard;
-		}
+    public class Sprite2DPools
+    {
+        #region Fields
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin, bool additive, Sprite2DGroup spriteGroup, int poolGroup) 
-		{
-			return this.GetPool(path, layer, origin, additive, spriteGroup, poolGroup).Get(startTime, endTime);
-		}
+        private Dictionary<string, Sprite2DPool> pools = new Dictionary<string, Sprite2DPool>();
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin, bool additive, Sprite2DGroup spriteGroup) 
-		{
-			return this.GetPool(path, layer, origin, additive, spriteGroup, 0).Get(startTime, endTime);
-		}
+        private List<Sprite2DGroup> spriteGroups = new List<Sprite2DGroup>();
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin, bool additive, int poolGroup) 
-		{
-			return this.GetPool(path, layer, origin, additive, null, poolGroup).Get(startTime, endTime);
-		}
+        private Storyboard storyboard;
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin, bool additive) 
-		{
-			return this.GetPool(path, layer, origin, additive, null, 0).Get(startTime, endTime);
-		}
+        #endregion
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin, int poolGroup) 
-		{
-			return this.GetPool(path, layer, origin, false, null, poolGroup).Get(startTime, endTime);
-		}
+        #region Constructors and Destructors
 
-		public Sprite2D Get(double startTime, double endTime, String path, String layer, String origin) 
-		{
-			return this.GetPool(path, layer, origin, false, null, 0).Get(startTime, endTime);
-		}
+        public Sprite2DPools(Storyboard storyboard)
+        {
+            this.storyboard = storyboard;
+        }
 
-		public Sprite2D Get(double startTime, String path, String layer, String origin) 
-		{
-			return this.GetPool(path, layer, origin, false, null, 0).Get(startTime);
-		}
+        #endregion
 
-		public void Release(Sprite2D sprite, double endTime) 
-		{
-			this.GetPool(sprite.ImageName, sprite.Layer, sprite.Origin, false, null, 0).Release(sprite, endTime);
-		}
+        #region Public Methods and Operators
 
-		public void Clear() 
-		{
-			foreach (var pool in this.pools)
-				pool.Value.Clear();
-			this.pools.Clear();
-		}
+        public void Clear()
+        {
+            foreach (var pool in this.pools)
+            {
+                pool.Value.Clear();
+            }
 
-		private Sprite2DPool GetPool(String path, String layer, String origin, bool additive, Sprite2DGroup spriteGroup, int poolGroup) 
-		{
-			String key = GetKey(path, layer, origin, additive, spriteGroup, poolGroup);
+            this.pools.Clear();
+        }
 
-			Sprite2DPool pool;
-			if (!this.pools.TryGetValue(key, out pool)) {
-				pool = new Sprite2DPool(this.storyboard, path, layer, origin, additive, spriteGroup);
-				pools.Add(key, pool);
-			}
+        public Sprite2D Get(
+            double startTime, 
+            double endTime, 
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            Sprite2DGroup spriteGroup, 
+            int poolGroup)
+        {
+            return this.GetPool(path, layer, origin, additive, spriteGroup, poolGroup).Get(startTime, endTime);
+        }
 
-			return pool;
-		}
+        public Sprite2D Get(
+            double startTime, 
+            double endTime, 
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            Sprite2DGroup spriteGroup)
+        {
+            return this.GetPool(path, layer, origin, additive, spriteGroup, 0).Get(startTime, endTime);
+        }
 
-		private String GetKey(String path, String layer, String origin, bool additive, Sprite2DGroup spriteGroup, int poolGroup) 
-		{
-			return path + "#" + layer + "#" + origin + "#" + (additive ? "1" : "0") + "#" + GetSpriteGroupId(spriteGroup) + "#" + poolGroup;
-		}
+        public Sprite2D Get(
+            double startTime, 
+            double endTime, 
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            int poolGroup)
+        {
+            return this.GetPool(path, layer, origin, additive, null, poolGroup).Get(startTime, endTime);
+        }
 
-		private int GetSpriteGroupId(Sprite2DGroup spriteGroup) 
-		{
-			if (spriteGroup == null)
-				return -1;
+        public Sprite2D Get(double startTime, double endTime, string path, string layer, string origin, bool additive)
+        {
+            return this.GetPool(path, layer, origin, additive, null, 0).Get(startTime, endTime);
+        }
 
-			var index = spriteGroups.IndexOf(spriteGroup);
-			if (index < 0) 
-			{
-				spriteGroups.Add(spriteGroup);
-				return spriteGroups.Count - 1;
-			}
+        public Sprite2D Get(double startTime, double endTime, string path, string layer, string origin, int poolGroup)
+        {
+            return this.GetPool(path, layer, origin, false, null, poolGroup).Get(startTime, endTime);
+        }
 
-			return index;
-		}
-	}
+        public Sprite2D Get(double startTime, double endTime, string path, string layer, string origin)
+        {
+            return this.GetPool(path, layer, origin, false, null, 0).Get(startTime, endTime);
+        }
+
+        public Sprite2D Get(double startTime, string path, string layer, string origin)
+        {
+            return this.GetPool(path, layer, origin, false, null, 0).Get(startTime);
+        }
+
+        public void Release(Sprite2D sprite, double endTime)
+        {
+            this.GetPool(sprite.ImageName, sprite.Layer, sprite.Origin, false, null, 0).Release(sprite, endTime);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private string GetKey(
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            Sprite2DGroup spriteGroup, 
+            int poolGroup)
+        {
+            return path + "#" + layer + "#" + origin + "#" + (additive ? "1" : "0") + "#"
+                   + this.GetSpriteGroupId(spriteGroup) + "#" + poolGroup;
+        }
+
+        private Sprite2DPool GetPool(
+            string path, 
+            string layer, 
+            string origin, 
+            bool additive, 
+            Sprite2DGroup spriteGroup, 
+            int poolGroup)
+        {
+            string key = this.GetKey(path, layer, origin, additive, spriteGroup, poolGroup);
+
+            Sprite2DPool pool;
+            if (!this.pools.TryGetValue(key, out pool))
+            {
+                pool = new Sprite2DPool(this.storyboard, path, layer, origin, additive, spriteGroup);
+                this.pools.Add(key, pool);
+            }
+
+            return pool;
+        }
+
+        private int GetSpriteGroupId(Sprite2DGroup spriteGroup)
+        {
+            if (spriteGroup == null)
+            {
+                return -1;
+            }
+
+            var index = this.spriteGroups.IndexOf(spriteGroup);
+            if (index < 0)
+            {
+                this.spriteGroups.Add(spriteGroup);
+                return this.spriteGroups.Count - 1;
+            }
+
+            return index;
+        }
+
+        #endregion
+    }
 }
