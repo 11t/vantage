@@ -1,5 +1,6 @@
 ﻿namespace Vantage.Animation2D
 {
+    using System;
     using System.Collections.Generic;
 
     using Vantage.Animation2D.Commands;
@@ -143,6 +144,13 @@
                 this.Commands.Add(command);
             }
         }
+
+		public float GetCommandsStartTime() {
+			float commandsStartTime = Single.MaxValue;
+			foreach (ICommand command in Commands)
+				commandsStartTime = Math.Min(commandsStartTime, command.StartTime);
+			return commandsStartTime;
+		}
 
         public void Move(int easing, float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
         {
@@ -339,6 +347,21 @@
         {
             this.Commands.Add(new ParameterCommand(easing, startTime, endTime, parameter));
         }
+
+		public void AdditiveP(float startTime, float endTime) 
+		{
+			this.Parameter(0, startTime, endTime, OsbParameter.AdditiveBlending);
+		}
+
+		public void FlipH(float startTime, float endTime) 
+		{
+			this.Parameter(0, startTime, endTime, OsbParameter.FlipHorizontal);
+		}
+
+		public void FlipV(float startTime, float endTime) 
+		{
+			this.Parameter(0, startTime, endTime, OsbParameter.FlipVertical);
+		}
 
         public string ToOsbString()
         {

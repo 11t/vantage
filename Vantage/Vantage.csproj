@@ -70,7 +70,9 @@
     <Compile Include="Animation2D\OsbTypes\OsbPosition.cs" />
     <Compile Include="Animation2D\OsbTypes\OsbScale.cs" />
     <Compile Include="Animation2D\Sprite2D.cs" />
-    <Compile Include="Animation2D\Sprite2DGroup.cs" />
+    <Compile Include="Animation2D\Util\Sprite2DGroup.cs" />
+    <Compile Include="Animation2D\Util\Sprite2DPools.cs" />
+    <Compile Include="Animation2D\Util\Sprite2DPool.cs" />
     <Compile Include="Animation2D\Sprite2DState.cs" />
     <Compile Include="Animation3D\Animation\AnimatableProperty.cs" />
     <Compile Include="Animation3D\Animation\ColorProperty.cs" />
