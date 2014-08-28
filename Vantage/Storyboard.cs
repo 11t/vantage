@@ -5,7 +5,7 @@
     using SharpDX;
 
     using Vantage.Animation2D;
-    using Vantage.Animation3D;
+    using Vantage.Animation3D.Scenes;
 
     public class Storyboard
     {
@@ -85,14 +85,9 @@
 
         public string ToOsbString()
         {
-            const string Header = @"[Events]
-//Background and Video events
-//Storyboard Layer 0 (Background)
-//Storyboard Layer 1 (Fail)
-//Storyboard Layer 2 (Pass)
-//Storyboard Layer 3 (Foreground)";
+            const string Header = @"[Events]\n";
 
-            string[] stringArray = new string[this.Scene3Ds.Count + this.Sprite2Ds.Count + 1];
+            string[] stringArray = new string[this.Scene3Ds.Count + this.Sprite2Ds.Count];
             for (int i = 0; i < this.Scene3Ds.Count; i++)
             {
                 stringArray[i] = this.Scene3Ds[i].ToOsbString();
@@ -104,8 +99,7 @@
                 stringArray[i + this.Scene3Ds.Count] = this.Sprite2Ds[i].ToOsbString();
             }
 
-            stringArray[this.Scene3Ds.Count + this.Sprite2Ds.Count] = @"//Storyboard Sound Samples";
-            return Header + "\n" + string.Join("\n", stringArray);
+            return Header + string.Join("\n", stringArray);
         }
 
         #endregion

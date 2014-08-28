@@ -12,8 +12,6 @@
 
     public class Camera : Layer, ICamera
     {
-        #region Fields
-
         private readonly Vector2 resolution;
         private readonly float aspectRatio;
 
@@ -24,8 +22,6 @@
         private float farPlaneDistance;
         private float nearPlaneWidth;
 
-        #endregion
-
         public Camera(float width, float height)
         {
             this.resolution = new Vector2(width, height);
@@ -35,51 +31,11 @@
             this.FarPlaneDistance = 2000.0f;
         }
 
-        #region Properties
-
         public Matrix View { get; private set; }
 
         public Matrix Projection { get; private set; }
 
         public Matrix ViewProjection { get; private set; }
-
-        /*
-        public Vector3 Forward
-        {
-            get
-            {
-                return _forward;
-            }
-            set
-            {
-                _forward = Vector3.Normalize(value);
-            }
-        }
-
-        public Vector3 Up
-        {
-            get
-            {
-                return _up;
-            }
-            set
-            {
-                _up = Vector3.Normalize(value);
-            }
-        }
-
-        public Vector3 Right
-        {
-            get
-            {
-                return _right;
-            }
-            set
-            {
-                _right = Vector3.Normalize(value);
-            }
-        }
-        */
         
         public Vector3 Target
         {
@@ -172,8 +128,6 @@
         public bool ViewNeedsUpdate { get; set; }
 
         public bool ProjectionNeedsUpdate { get; set; }
-
-        #endregion
 
         public void UpdateView()
         {

@@ -20,7 +20,8 @@
             this.HexagonSpriteName = @"sb/hexagon.png";
             this.HexagonRadius = 120;
             this.HexagonThickness = 0;
-            this.HexagonAppearScale = 10;
+            this.HexagonBeginScale = 10;
+            this.HexagonAppearScale = 1;
             this.HexagonAppearTransitionDurationBeats = 1;
 
             this.HexagonTextScale = 0.3f;
@@ -34,6 +35,8 @@
         public float HexagonRadius { get; set; }
 
         public float HexagonThickness { get; set; }
+
+        public float HexagonBeginScale { get; set; }
 
         public float HexagonAppearScale { get; set; }
 
@@ -79,7 +82,7 @@
             float previousAngle = 0;
             Vector2 previousPosition = Vector2.Zero;
 
-            for (int i = 1; i < beats.Count - 1; i++)
+            for (int i = 0; i < beats.Count - 1; i++)
             {
                 this.EnumeratorsMoveNext();
 
@@ -92,7 +95,7 @@
                 Vector2 position = HexagonPosition(
                     gridPosition.Item1,
                     gridPosition.Item2,
-                    this.HexagonRadius,
+                    this.HexagonRadius * this.HexagonAppearScale,
                     this.HexagonThickness);
                 Vector2 slidePosition = this.CalculatePositionSlide(previousPosition, position);
                 Vector3 hexagonPosition = new Vector3(position.X, position.Y, defaultZ);
@@ -107,8 +110,8 @@
                 var hexagonLayer = hexagonMasterLayer.NewLayer();
                 hexagonLayer.OpacityTransition(beginTime, appearTime, 0, 1);
                 hexagonLayer.SetPosition(scene.StartTime, hexagonPosition);
-                hexagonLayer.SetScale(beginTime, this.HexagonAppearScale, this.HexagonAppearScale, 1);
-                hexagonLayer.SetScale(appearTime, 1, 1, 1);
+                hexagonLayer.SetScale(beginTime, this.HexagonBeginScale);
+                hexagonLayer.SetScale(appearTime, this.HexagonAppearScale);
                 hexagonLayer.SetAngles(beginTime, 0, 80, 0);
                 hexagonLayer.SetAngles(appearTime, 0, 0, 0);
 
@@ -164,6 +167,22 @@
             return scene;
         }
 
+        protected static Vector2 HexagonPosition(int gridX, int gridY, float radius, float thickness)
+        {
+            double sqrt3 = Math.Sqrt(3);
+            double adjustedRadius = radius + (thickness / sqrt3);
+            double innerRadius = 0.5 * adjustedRadius * sqrt3;
+
+            float y = (float)(2 * innerRadius * gridY);
+            if (Math.Abs(gridX) % 2 != 0)
+            {
+                y = (float)(y + innerRadius);
+            }
+
+            float x = (float)(1.5 * adjustedRadius * gridX);
+            return new Vector2(x, y);
+        }
+
         protected virtual Tuple<bool, bool, bool> CameraMovementForBeat(float beat)
         {
             bool moveCamera = false;
@@ -195,7 +214,7 @@
                 Vector2 position = HexagonPosition(
                     gridPosition.Item1,
                     gridPosition.Item2,
-                    this.HexagonRadius,
+                    this.HexagonRadius * this.HexagonAppearScale,
                     this.HexagonThickness);
                 float z = 0;
                 if (beat % 2 == 1)
@@ -298,22 +317,6 @@
             float slideDistance = Random.Next(20, 200);
             Vector2 slideDirection = Vector2.Normalize(currentPosition - previousPosition);
             return currentPosition + (slideDirection * slideDistance);
-        }
-
-        private static Vector2 HexagonPosition(int gridX, int gridY, float radius, float thickness)
-        {
-            double sqrt3 = Math.Sqrt(3);
-            double adjustedRadius = radius + (thickness / sqrt3);
-            double innerRadius = 0.5 * adjustedRadius * sqrt3;
-
-            float y = (float)(2 * innerRadius * gridY);
-            if (Math.Abs(gridX) % 2 != 0)
-            {
-                y = (float)(y + innerRadius);
-            }
-
-            float x = (float)(1.5 * adjustedRadius * gridX);
-            return new Vector2(x, y);
         }
 
         private void SetEnumerators(BeatPattern beatPattern)

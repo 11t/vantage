@@ -1,4 +1,4 @@
-﻿namespace Vantage.Animation3D
+﻿namespace Vantage.Animation3D.Scenes
 {
     using System.Collections.Generic;
 

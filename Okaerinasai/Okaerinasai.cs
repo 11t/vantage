@@ -1,8 +1,10 @@
 ﻿namespace Okaerinasai
 {
+    using System;
+    using System.Diagnostics;
+
     using Vantage;
     using Vantage.Animation2D.OsbTypes;
-    using Vantage.Animation3D;
     using Vantage.Animation3D.Animation.EasingCurves;
     using Vantage.Animation3D.Layers;
     using Vantage.Animation3D.Layers.Text;
@@ -88,12 +90,29 @@
             hexagonBeatPattern.Measures[15] = new BeatMeasure(0, 0.5, 0.5, 1.5, 0.5, 1);
             hexagonBeatPattern.Measures[33] = new BeatMeasure(0, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5);
 
-            var hexSceneGenerator = new HexagonSceneGenerator
+            var hexSceneGenerator = new OkaerinasaiHexagonSceneGenerator
             {
                 HexagonSpriteName = @"sb/hexagon240.png",
-                HexagonTextFont = this.textFontEN
+                HexagonTextFont = this.textFontEN,
+                HexagonAppearScale = 0.5f,
+                HexagonBeginScale = 2
             };
-            hexSceneGenerator.MakeScene(this.Storyboard, BPM, 22403, hexagonBeatPattern);
+            Scene3D scene = hexSceneGenerator.MakeScene(this.Storyboard, BPM, 22403, hexagonBeatPattern);
+            Layer particleLayer = scene.RootLayer.NewLayer();
+            particleLayer.Additive = true;
+            Random rng = new Random();
+            float invSqrt3 = (float)(1.0 / Math.Sqrt(3));
+            for (int i = 0; i < 100; i++)
+            {
+                Sprite3D particleSprite = particleLayer.NewSprite("sb/circle4px.png");
+                particleSprite.SetOpacity(0, 1);
+                float z = rng.Next(5000, 500000);
+                particleSprite.SetScale(0, z / 2000.0f);
+                int range = (int)(invSqrt3 * (z + 10000));
+                float x = rng.Next(-range, range);
+                float y = rng.Next(-range, range);
+                particleSprite.SetPosition(0, x, y, -z);
+            }
         }
 
         private void MakeKiai1Scene()
@@ -210,7 +229,8 @@
             okaerinasaiEN.SetOpacity(90073, 0, CubicBezierEasingCurve.EaseIn);
             okaerinasaiEN.SetOpacity(90244, 1);
             okaerinasaiEN.SetOpacity(90414, 1, BasicEasingCurve.Step);
-            okaerinasaiEN.SetOpacity(90585, 0);
+            okaerinasaiEN.SetOpacity(90585, 1);
+            okaerinasaiEN.SetOpacity(90755, 0);
 
             okaerinasaiJP.Text = kiaiLyrics[0];
             okaerinasaiEN.Text = "welcome home";
@@ -220,6 +240,21 @@
             okIL.Text = "bienvenuti";
             okSW.Text = "valkommen";
             okIN.Text = "selamat";
+
+            Random rng = new Random();
+            foreach (var textLayer in okaerinasaiEN.Children)
+            {
+                foreach (Sprite3D letter in textLayer.Children)
+                {
+                    Debug.WriteLine("hello");
+                    float z = -1000 - 500;
+                    float x = rng.Next(-300, 300);
+                    float y = rng.Next(-300, 300);
+                    letter.UpdateToTime(90585);
+                    letter.SetPosition(90585, letter.LocalPosition);
+                    letter.SetPosition(90755, x, y, z);
+                }
+            }
 
             var c2 = rl.NewSprite("sb/cloud0.png");
             var c1 = rl.NewSprite("sb/cloud0.png");
@@ -278,7 +313,7 @@
         {
             var bg = this.Storyboard.NewSprite2D("sb/bg-pink.png", "Background", "Centre");
             bg.Fade(0, 22403, 22403, 0, 1);
-            bg.Fade(0, 44136, 44221, 1, 0);
+            bg.Fade(0, 68766, 68766, 1, 0);
             bg.Scale(0, 0, 0, 1.25, 1.25);
             bg.Color(0, 0, 0, OsbColor.DarkSlateBlue, OsbColor.DarkSlateBlue);
         }
