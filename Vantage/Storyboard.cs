@@ -5,7 +5,7 @@
     using SharpDX;
 
     using Vantage.Animation2D;
-    using Vantage.Animation3D;
+    using Vantage.Animation3D.Scenes;
 
     public class Storyboard
     {
