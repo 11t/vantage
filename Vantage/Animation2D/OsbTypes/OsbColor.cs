@@ -98,6 +98,31 @@ namespace Vantage.Animation2D.OsbTypes
             return new OsbColor(sysColor.R / 255.0f, sysColor.G / 255.0f, sysColor.B / 255.0f);
         }
 
+		public static OsbColor FromHsb(float hue, float saturation, float brightness) 
+		{
+			int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+			double f = hue / 60 - Math.Floor(hue / 60);
+
+			brightness = brightness * 255;
+			int v = Convert.ToInt32(brightness);
+			int p = Convert.ToInt32(brightness * (1 - saturation));
+			int q = Convert.ToInt32(brightness * (1 - f * saturation));
+			int t = Convert.ToInt32(brightness * (1 - (1 - f) * saturation));
+
+			if (hi == 0)
+				return new OsbColor(v, t, p);
+			else if (hi == 1)
+				return new OsbColor(q, v, p);
+			else if (hi == 2)
+				return new OsbColor(p, v, t);
+			else if (hi == 3)
+				return new OsbColor(p, q, v);
+			else if (hi == 4)
+				return new OsbColor(t, p, v);
+			else
+				return new OsbColor(v, p, q);
+		}
+
         public static bool operator ==(OsbColor left, OsbColor right)
         {
             return left.Equals(right);

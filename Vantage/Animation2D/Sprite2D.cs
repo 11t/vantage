@@ -294,6 +294,27 @@
 			this.Color(0, time, red, green, blue);
 		}
 
+		public void ColorHsb(int easing, float startTime, float endTime, float startHue, float startSaturation, float startBrightness, float endHue, float endSaturation, float endBrightness) 
+		{
+			this.Color(easing, startTime, endTime, OsbColor.FromHsb(startHue, startSaturation, startBrightness), OsbColor.FromHsb(endHue, endSaturation, endBrightness));
+		}
+
+		public void ColorHsb(float startTime, float endTime, float startHue, float startSaturation, float startBrightness, float endHue, float endSaturation, float endBrightness) 
+		{
+			this.Color(0, startTime, endTime, startHue, startSaturation, startBrightness, endHue, endSaturation, endBrightness);
+		}
+
+		public void ColorHsb(int easing, float time, float hue, float saturation, float brightness) 
+		{
+			OsbColor color = OsbColor.FromHsb(hue, saturation, brightness);
+			this.Color(easing, time, time, color, color);
+		}
+
+		public void ColorHsb(float time, float hue, float saturation, float brightness) 
+		{
+			this.Color(0, time, hue, saturation, brightness);
+		}
+
         public void Fade(int easing, float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Commands.Add(new FadeCommand(easing, startTime, endTime, startOpacity, endOpacity));
