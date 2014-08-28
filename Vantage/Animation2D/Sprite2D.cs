@@ -149,30 +149,170 @@
             this.Commands.Add(new MoveCommand(easing, startTime, endTime, startPosition, endPosition));
         }
 
+		public void Move(float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition) 
+		{
+			this.Move(0, startTime, endTime, startPosition, endPosition);
+		}
+
+		public void Move(int easing, float time, OsbPosition position) 
+		{
+			this.Move(easing, time, time, position, position);
+		}
+
+		public void Move(float time, OsbPosition position) 
+		{
+			this.Move(0, time, time, position, position);
+		}
+
+		public void Move(int easing, float startTime, float endTime, double startX, double startY, double endX, double endY) 
+		{
+			this.Move(easing, startTime, endTime, new OsbPosition(startX, startY), new OsbPosition(endX, endY));
+		}
+
+		public void Move(float startTime, float endTime, double startX, double startY, double endX, double endY) 
+		{
+			this.Move(0, startTime, endTime, startX, startY, endX, endY);
+		}
+
+		public void Move(int easing, float time, double x, double y) 
+		{
+			this.Move(easing, time, new OsbPosition(x, y));
+		}
+
+		public void Move(float time, double x, double y) 
+		{
+			this.Move(0, time, x, y);
+		}
+
         public void Rotate(int easing, float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
         {
             this.Commands.Add(new RotateCommand(easing, startTime, endTime, startRotation, endRotation));
         }
+
+		public void Rotate(float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation) 
+		{
+			this.Rotate(0, startTime, endTime, startRotation, endRotation);
+		}
+
+		public void Rotate(int easing, float time, OsbDecimal rotation) 
+		{
+			this.Rotate(easing, time, time, rotation, rotation);
+		}
+
+		public void Rotate(float time, OsbDecimal rotation) 
+		{
+			this.Rotate(0, time, time, rotation, rotation);
+		}
 
         public void Scale(int easing, float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
         {
             this.Commands.Add(new ScaleCommand(easing, startTime, endTime, startScale, endScale));
         }
 
+		public void Scale(float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale) 
+		{
+			this.Scale(0, startTime, endTime, startScale, endScale);
+		}
+
+		public void Scale(int easing, float time, OsbDecimal scale) 
+		{
+			this.Scale(easing, time, time, scale, scale);
+		}
+
+		public void Scale(float time, OsbDecimal scale) {
+			this.Scale(0, time, time, scale, scale);
+		}
+
         public void VScale(int easing, float startTime, float endTime, OsbScale startScale, OsbScale endScale)
         {
             this.Commands.Add(new VScaleCommand(easing, startTime, endTime, startScale, endScale));
         }
+
+		public void VScale(float startTime, float endTime, OsbScale startScale, OsbScale endScale) 
+		{
+			this.VScale(0, startTime, endTime, startScale, endScale);
+		}
+
+		public void VScale(int easing, float startTime, float endTime, OsbDecimal startScaleX, OsbDecimal startScaleY, OsbDecimal endScaleX, OsbDecimal endScaleY) 
+		{
+			this.VScale(easing, startTime, endTime, new OsbScale(startScaleX, startScaleY), new OsbScale(endScaleX, endScaleY));
+		}
+
+		public void VScale(float startTime, float endTime, OsbDecimal startScaleX, OsbDecimal startScaleY, OsbDecimal endScaleX, OsbDecimal endScaleY) 
+		{
+			this.VScale(0, startTime, endTime, startScaleX, startScaleY, endScaleX, endScaleY);
+		}
+
+		public void VScale(int easing, float time, OsbDecimal scaleX, OsbDecimal scaleY) 
+		{
+			this.VScale(easing, time, time, scaleX, scaleY, scaleX, scaleY);
+		}
+
+		public void VScale(float time, OsbDecimal scaleX, OsbDecimal scaleY) 
+		{
+			this.VScale(0, time, time, scaleX, scaleY, scaleX, scaleY);
+		}
 
         public void Color(int easing, float startTime, float endTime, OsbColor startColor, OsbColor endColor)
         {
             this.Commands.Add(new ColorCommand(easing, startTime, endTime, startColor, endColor));
         }
 
+		public void Color(float startTime, float endTime, OsbColor startColor, OsbColor endColor) 
+		{
+			this.Color(0, startTime, endTime, startColor, endColor);
+		}
+
+		public void Color(int easing, float time, OsbColor color) 
+		{
+			this.Color(easing, time, time, color, color);
+		}
+
+		public void Color(float time, OsbColor color) 
+		{
+			this.Color(0, time, time, color, color);
+		}
+
+		public void Color(int easing, float startTime, float endTime, float startRed, float startGreen, float startBlue, float endRed, float endGreen, float endBlue) 
+		{
+			this.Color(easing, startTime, endTime, new OsbColor(startRed, startGreen, startBlue), new OsbColor(endRed, endGreen, endBlue));
+		}
+
+		public void Color(float startTime, float endTime, float startRed, float startGreen, float startBlue, float endRed, float endGreen, float endBlue) 
+		{
+			this.Color(0, startTime, endTime,startRed, startGreen, startBlue, endRed, endGreen, endBlue);
+		}
+
+		public void Color(int easing, float time, float red, float green, float blue) 
+		{
+			OsbColor color = new OsbColor(red, green, blue);
+			this.Color(easing, time, time, color, color);
+		}
+
+		public void Color(float time, float red, float green, float blue) 
+		{
+			this.Color(0, time, red, green, blue);
+		}
+
         public void Fade(int easing, float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Commands.Add(new FadeCommand(easing, startTime, endTime, startOpacity, endOpacity));
         }
+
+		public void Fade(float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity) 
+		{
+			this.Fade(0, startTime, endTime, startOpacity, endOpacity);
+		}
+
+		public void Fade(int easing, float time, OsbDecimal opacity) 
+		{
+			this.Fade(easing, time, time, opacity, opacity);
+		}
+
+		public void Fade(float time, OsbDecimal opacity) 
+		{
+			this.Fade(0, time, time, opacity, opacity);
+		}
 
         public void Parameter(int easing, float startTime, float endTime, OsbParameter parameter)
         {
