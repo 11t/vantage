@@ -103,11 +103,10 @@ namespace Vantage.Animation2D.OsbTypes
 			int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
 			double f = hue / 60 - Math.Floor(hue / 60);
 
-			brightness = brightness * 255;
-			int v = Convert.ToInt32(brightness);
-			int p = Convert.ToInt32(brightness * (1 - saturation));
-			int q = Convert.ToInt32(brightness * (1 - f * saturation));
-			int t = Convert.ToInt32(brightness * (1 - (1 - f) * saturation));
+			double v = brightness;
+			double p = brightness * (1 - saturation);
+			double q = brightness * (1 - f * saturation);
+			double t = brightness * (1 - (1 - f) * saturation);
 
 			if (hi == 0)
 				return new OsbColor(v, t, p);
