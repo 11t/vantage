@@ -52,11 +52,11 @@ namespace Vantage.Animation2D.OsbTypes
 
         public static OsbColor Yellow = FromHtml("#FFFF00");
 
-        private readonly float r;
-        private readonly float g;
-        private readonly float b;
+		private readonly double r;
+		private readonly double g;
+		private readonly double b;
 
-        public OsbColor(float r, float g, float b)
+		public OsbColor(double r, double g, double b)
         {
             this.r = r;
             this.g = g;
@@ -98,7 +98,7 @@ namespace Vantage.Animation2D.OsbTypes
             return new OsbColor(sysColor.R / 255.0f, sysColor.G / 255.0f, sysColor.B / 255.0f);
         }
 
-		public static OsbColor FromHsb(float hue, float saturation, float brightness) 
+		public static OsbColor FromHsb(double hue, double saturation, double brightness) 
 		{
 			int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
 			double f = hue / 60 - Math.Floor(hue / 60);

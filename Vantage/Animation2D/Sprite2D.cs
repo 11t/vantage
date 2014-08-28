@@ -273,44 +273,44 @@
 			this.Color(0, time, time, color, color);
 		}
 
-		public void Color(int easing, float startTime, float endTime, float startRed, float startGreen, float startBlue, float endRed, float endGreen, float endBlue) 
+		public void Color(int easing, float startTime, float endTime, double startRed, double startGreen, double startBlue, double endRed, double endGreen, double endBlue) 
 		{
 			this.Color(easing, startTime, endTime, new OsbColor(startRed, startGreen, startBlue), new OsbColor(endRed, endGreen, endBlue));
 		}
 
-		public void Color(float startTime, float endTime, float startRed, float startGreen, float startBlue, float endRed, float endGreen, float endBlue) 
+		public void Color(float startTime, float endTime, double startRed, double startGreen, double startBlue, double endRed, double endGreen, double endBlue) 
 		{
 			this.Color(0, startTime, endTime,startRed, startGreen, startBlue, endRed, endGreen, endBlue);
 		}
 
-		public void Color(int easing, float time, float red, float green, float blue) 
+		public void Color(int easing, float time, double red, double green, double blue) 
 		{
 			OsbColor color = new OsbColor(red, green, blue);
 			this.Color(easing, time, time, color, color);
 		}
 
-		public void Color(float time, float red, float green, float blue) 
+		public void Color(float time, double red, double green, double blue) 
 		{
 			this.Color(0, time, red, green, blue);
 		}
 
-		public void ColorHsb(int easing, float startTime, float endTime, float startHue, float startSaturation, float startBrightness, float endHue, float endSaturation, float endBrightness) 
+		public void ColorHsb(int easing, float startTime, float endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) 
 		{
 			this.Color(easing, startTime, endTime, OsbColor.FromHsb(startHue, startSaturation, startBrightness), OsbColor.FromHsb(endHue, endSaturation, endBrightness));
 		}
 
-		public void ColorHsb(float startTime, float endTime, float startHue, float startSaturation, float startBrightness, float endHue, float endSaturation, float endBrightness) 
+		public void ColorHsb(float startTime, float endTime, double startHue, double startSaturation, double startBrightness, double endHue, double endSaturation, double endBrightness) 
 		{
 			this.Color(0, startTime, endTime, startHue, startSaturation, startBrightness, endHue, endSaturation, endBrightness);
 		}
 
-		public void ColorHsb(int easing, float time, float hue, float saturation, float brightness) 
+		public void ColorHsb(int easing, float time, double hue, double saturation, double brightness) 
 		{
 			OsbColor color = OsbColor.FromHsb(hue, saturation, brightness);
 			this.Color(easing, time, time, color, color);
 		}
 
-		public void ColorHsb(float time, float hue, float saturation, float brightness) 
+		public void ColorHsb(float time, double hue, double saturation, double brightness) 
 		{
 			this.Color(0, time, hue, saturation, brightness);
 		}
