@@ -73,6 +73,16 @@
             return this.NewSprite2D(image, "Foreground", "Centre");
         }
 
+		public Sprite2D NewUnregisteredSprite2D(string image, string layer, string origin) 
+		{
+			return new Sprite2D(image, layer, origin);
+		}
+
+		public void RegisterSprite2D(Sprite2D sprite) 
+		{
+			this.Sprite2Ds.Add(sprite);
+		}
+
         public string ToOsbString()
         {
             const string Header = @"[Events]
