@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Animation2D\Commands\ColorCommand.cs" />
     <Compile Include="Animation2D\Commands\Command.cs" />
+    <Compile Include="Animation2D\Commands\TriggerCommand.cs" />
+    <Compile Include="Animation2D\Commands\LoopCommand.cs" />
+    <Compile Include="Animation2D\Commands\CommandGroup.cs" />
     <Compile Include="Animation2D\Commands\FadeCommand.cs" />
     <Compile Include="Animation2D\Commands\Generators\ColorCommandGenerator.cs" />
     <Compile Include="Animation2D\Commands\Generators\CommandGenerator.cs" />
