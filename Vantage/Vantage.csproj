@@ -80,6 +80,8 @@
     <Compile Include="Animation3D\Animation\EasingCurves\CubicBezierEasingCurve.cs" />
     <Compile Include="Animation3D\Animation\EasingCurves\IEasingCurve.cs" />
     <Compile Include="Animation3D\Animation\EasingCurves\LinearEasingCurve.cs" />
+    <Compile Include="Animation3D\Animation\EasingCurves\OsuEaseInEasingCurve.cs" />
+    <Compile Include="Animation3D\Animation\EasingCurves\OsuEaseOutEasingCurve.cs" />
     <Compile Include="Animation3D\Animation\EasingCurves\StepEasingCurve.cs" />
     <Compile Include="Animation3D\Animation\IAnimatableProperty.cs" />
     <Compile Include="Animation3D\Animation\Keyframes\DiscreteKeyframe.cs" />

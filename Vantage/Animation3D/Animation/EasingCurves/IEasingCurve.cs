@@ -2,6 +2,6 @@ namespace Vantage.Animation3D.Animation.EasingCurves
 {
     public interface IEasingCurve
     {
-        float Evaluate(float t);
+        float Evaluate(float x);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Vantage.Animation2D.Commands
 {
-    using Vantage.Animation2D;
+    using System.Globalization;
+
     using Vantage.Animation2D.OsbTypes;
 
     public class VScaleCommand : Command<OsbScale>
