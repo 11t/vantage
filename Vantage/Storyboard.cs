@@ -91,7 +91,7 @@ namespace Vantage
 
         public string ToOsbString()
         {
-            const string Header = @"[Events]\n";
+            const string Header = "[Events]\n";
 
             string[] stringArray = new string[this.Scene3Ds.Count + this.Sprite2Ds.Count];
             for (int i = 0; i < this.Scene3Ds.Count; i++)
@@ -105,7 +105,7 @@ namespace Vantage
                 stringArray[i + this.Scene3Ds.Count] = this.Sprite2Ds[i].ToOsbString();
             }
 
-            return Header + string.Join("\n", stringArray);
+            return Header + string.Join("\n", stringArray) + "\n//Storyboard Sound Samples";
         }
 
         #endregion
