@@ -95,7 +95,6 @@
     <Compile Include="Animation3D\Layers\Camera.cs" />
     <Compile Include="Animation3D\Layers\ILayer.cs" />
     <Compile Include="Animation3D\Layers\Layer.cs" />
-    <Compile Include="Animation3D\Layers\Orientation.cs" />
     <Compile Include="Animation3D\Layers\Sprite3D.cs" />
     <Compile Include="Animation3D\Layers\Text\AdditiveEnhancedTextLayer.cs" />
     <Compile Include="Animation3D\Layers\Text\Font.cs" />
