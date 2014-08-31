@@ -2,6 +2,8 @@
 {
     using SharpDX;
 
+    using Vantage.Animation2D.OsbTypes;
+
     public class Sprite2DState
     {
         public Sprite2DState(
@@ -9,7 +11,7 @@
             Vector2 position,
             double rotation,
             Vector2 scale,
-            Vector3 color,
+            OsbColor color,
             double opacity,
             bool additive,
             bool horizontalFlip,
@@ -38,7 +40,7 @@
 
         public Vector2 Scale { get; set; }
 
-        public Vector3 Color { get; set; }
+        public OsbColor Color { get; set; }
 
         public double Opacity { get; set; }
 

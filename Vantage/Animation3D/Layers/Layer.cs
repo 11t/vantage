@@ -134,7 +134,7 @@
         /// <summary>
         /// Gets the color property, representing this Layer's color, relative multiplicatively to its parent's color, at any given time.
         /// </summary>
-        public IAnimatableProperty<Keyframe<Vector3>, Vector3> Color { get; private set; }
+        public IAnimatableProperty<Keyframe<OsbColor>, OsbColor> Color { get; private set; }
 
         /// <summary>
         /// Gets the opacity property, representing this Layer's opacity, relative to its parent's opacity, at any given time.
@@ -174,7 +174,7 @@
         /// <summary>
         /// Gets the current color relative to the world.
         /// </summary>
-        public Vector3 WorldColor { get; private set; }
+        public OsbColor WorldColor { get; private set; }
 
         /// <summary>
         /// Gets the current opacity relative to the world.
@@ -217,7 +217,7 @@
         /// <summary>
         /// Gets the color relative to the parent Layer.
         /// </summary>
-        public Vector3 LocalColor
+        public OsbColor LocalColor
         {
             get
             {
@@ -487,8 +487,7 @@
 
         public void SetColor(float time, OsbColor color, IEasingCurve easingCurve)
         {
-            Vector3 vectorColor = color.ToVector3();
-            this.Color.InsertKeyframe(time, vectorColor, easingCurve);
+            this.Color.InsertKeyframe(time, color, easingCurve);
         }
 
         public void SetColor(float time, OsbColor color)

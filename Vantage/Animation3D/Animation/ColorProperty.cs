@@ -1,18 +1,17 @@
 namespace Vantage.Animation3D.Animation
 {
-    using SharpDX;
-
+    using Vantage.Animation2D.OsbTypes;
     using Vantage.Animation3D.Animation.Keyframes;
 
-    public class ColorProperty : AnimatableProperty<Keyframe<Vector3>, Vector3>
+    public class ColorProperty : AnimatableProperty<Keyframe<OsbColor>, OsbColor>
     {
-        public ColorProperty(Vector3 initialValue)
+        public ColorProperty(OsbColor initialValue)
             : base(initialValue)
         {
         }
 
         public ColorProperty()
-            : this(Vector3.One)
+            : this(OsbColor.White)
         {
         }
     }

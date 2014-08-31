@@ -169,14 +169,14 @@ namespace Vantage.Animation2D.OsbTypes
             return left.Equals(right);
         }
 
-        public static implicit operator OsbColor(Vector3 vector)
-        {
-            return new OsbColor(vector);
-        }
-
         public static bool operator !=(OsbColor left, OsbColor right)
         {
             return !left.Equals(right);
+        }
+
+        public static OsbColor operator *(OsbColor left, OsbColor right)
+        {
+            return new OsbColor(left.r * right.r, left.g * right.g, left.b * right.b);
         }
 
         public float DistanceFrom(object obj)

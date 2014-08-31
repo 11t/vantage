@@ -4,6 +4,8 @@
 
     using SharpDX;
 
+    using Vantage.Animation2D.OsbTypes;
+
     public interface ILayer
     {
         ILayer Root { get; }
@@ -26,7 +28,7 @@
 
         Vector3 WorldScale { get; }
 
-        Vector3 WorldColor { get; }
+        OsbColor WorldColor { get; }
 
         double WorldOpacity { get; }
 
