@@ -75,7 +75,7 @@
             hexagonMasterLayer.SetOpacity(0, this.MasterOpacity);
             hexagonMasterLayer.Additive = true;
 
-            float defaultZ = -mc.NearPlaneWidth;
+            float defaultZ = (float)-mc.NearPlaneWidth;
 
             List<float> beats = beatPattern.AbsoluteBeats().ToList();
 

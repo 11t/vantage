@@ -15,6 +15,8 @@
     /// </summary>
     public class Layer : ILayer
     {
+        protected static readonly IEasingCurve DefaultEasingCurve = BasicEasingCurve.Linear;
+
         /// <summary>
         /// The parent Layer in the layer hierarchy. 
         /// </summary>
@@ -418,7 +420,7 @@
 
         public void SetPosition(double time, Vector3 position)
         {
-            this.SetPosition(time, position, BasicEasingCurve.Linear);
+            this.SetPosition(time, position, DefaultEasingCurve);
         }
 
         public void SetPosition(double time, double x, double y, double z, IEasingCurve easingCurve)
@@ -428,7 +430,7 @@
 
         public void SetPosition(double time, double x, double y, double z)
         {
-            this.SetPosition(time, x, y, z, BasicEasingCurve.Linear);
+            this.SetPosition(time, x, y, z, DefaultEasingCurve);
         }
 
         public void SetAngles(double time, double x, double y, double z, IEasingCurve easingCurve)
@@ -442,7 +444,7 @@
 
         public void SetAngles(double time, double x, double y, double z)
         {
-            this.SetAngles(time, x, y, z, BasicEasingCurve.Linear);
+            this.SetAngles(time, x, y, z, DefaultEasingCurve);
         }
 
         public void SetRotation(double time, Quaternion rotationQuaternion, IEasingCurve easingCurve)
@@ -452,7 +454,7 @@
 
         public void SetRotation(double time, Quaternion rotationQuaternion)
         {
-            this.SetRotation(time, rotationQuaternion, BasicEasingCurve.Linear);
+            this.SetRotation(time, rotationQuaternion, DefaultEasingCurve);
         }
 
         public void SetScale(double time, Vector3 scale, IEasingCurve easingCurve)
@@ -462,7 +464,7 @@
 
         public void SetScale(double time, Vector3 scale)
         {
-            this.SetScale(time, scale, BasicEasingCurve.Linear);
+            this.SetScale(time, scale, DefaultEasingCurve);
         }
 
         public void SetScale(double time, double x, double y, double z, IEasingCurve easingCurve)
@@ -472,7 +474,7 @@
 
         public void SetScale(double time, double x, double y, double z)
         {
-            this.SetScale(time, x, y, z, BasicEasingCurve.Linear);
+            this.SetScale(time, x, y, z, DefaultEasingCurve);
         }
 
         public void SetScale(double time, double scale, IEasingCurve easingCurve)
@@ -482,17 +484,27 @@
 
         public void SetScale(double time, double scale)
         {
-            this.SetScale(time, scale, BasicEasingCurve.Linear);
+            this.SetScale(time, scale, DefaultEasingCurve);
         }
 
-        public void SetColor(float time, OsbColor color, IEasingCurve easingCurve)
+        public void SetColor(double time, OsbColor color, IEasingCurve easingCurve)
         {
             this.Color.InsertKeyframe(time, color, easingCurve);
         }
 
-        public void SetColor(float time, OsbColor color)
+        public void SetColor(double time, OsbColor color)
         {
-            this.SetColor(time, color, BasicEasingCurve.Linear);
+            this.SetColor(time, color, DefaultEasingCurve);
+        }
+
+        public void SetColor(double time, double r, double g, double b, IEasingCurve easingCurve)
+        {
+            this.SetColor(time, new OsbColor(r, g, b), easingCurve);
+        }
+
+        public void SetColor(double time, double r, double g, double b)
+        {
+            this.SetColor(time, r, g, b, DefaultEasingCurve);
         }
 
         public void SetOpacity(double time, double opacity, IEasingCurve easingCurve)
@@ -502,7 +514,7 @@
 
         public void SetOpacity(double time, double opacity)
         {
-            this.SetOpacity(time, opacity, BasicEasingCurve.Linear);
+            this.SetOpacity(time, opacity, DefaultEasingCurve);
         }
 
         public void OpacityTransition(
@@ -518,7 +530,7 @@
 
         public void OpacityTransition(float startTime, float endTime, float startOpacity, float endOpacity)
         {
-            this.OpacityTransition(startTime, endTime, startOpacity, endOpacity, BasicEasingCurve.Linear);
+            this.OpacityTransition(startTime, endTime, startOpacity, endOpacity, DefaultEasingCurve);
         }
     }
 }

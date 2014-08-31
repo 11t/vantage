@@ -11,7 +11,7 @@
     public class Sprite3D : Layer
     {
         private readonly Sprite2D representative;
-
+        
         private string imageName;
         private int width;
         private int height;
@@ -138,7 +138,7 @@
 
             float defaultScale = Storyboard.ViewportSize.Y / resolution.Y;
             Vector2 scale = new Vector2(this.WorldScale.X, this.WorldScale.Y);
-            scale = scale * mainCamera.NearPlaneWidth / clipCoordinates.W * defaultScale;
+            scale = scale * (float)mainCamera.NearPlaneWidth / clipCoordinates.W * defaultScale;
 
             this.State = new Sprite2DState(
                 this.CurrentTime,

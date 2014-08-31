@@ -15,22 +15,22 @@
     public class Camera : Layer, ICamera
     {
         private readonly Vector2 resolution;
-        private readonly float aspectRatio;
+        private readonly double aspectRatio;
 
-        private float horizontalFieldOfView;
-        private float verticalFieldOfView;
-        private float focalLength;
-        private float nearPlaneDistance;
-        private float farPlaneDistance;
-        private float nearPlaneWidth;
+        private double horizontalFieldOfView;
+        private double verticalFieldOfView;
+        private double focalLength;
+        private double nearPlaneDistance;
+        private double farPlaneDistance;
+        private double nearPlaneWidth;
 
-        public Camera(float width, float height)
+        public Camera(double width, double height)
         {
-            this.resolution = new Vector2(width, height);
+            this.resolution = new Vector2((float)width, (float)height);
             this.aspectRatio = width / height;
-            this.HorizontalFieldOfView = 60.0f;
-            this.NearPlaneDistance = 10.0f;
-            this.FarPlaneDistance = 2000.0f;
+            this.HorizontalFieldOfView = 60;
+            this.NearPlaneDistance = 10;
+            this.FarPlaneDistance = 2000;
             this.TargetProperty = new AnimatableProperty<Keyframe<Vector3>, Vector3>(Vector3.ForwardRH);
         }
 
@@ -60,22 +60,22 @@
             get { return this.resolution; }
         }
 
-        public float Width
+        public double Width
         {
             get { return this.Resolution.X; }
         }
 
-        public float Height
+        public double Height
         {
             get { return this.Resolution.Y; }
         }
 
-        public float AspectRatio
+        public double AspectRatio
         {
             get { return this.aspectRatio; }
         }
 
-        public float HorizontalFieldOfView
+        public double HorizontalFieldOfView
         {
             get
             {
@@ -92,12 +92,12 @@
             }
         }
 
-        public float VerticalFieldOfView
+        public double VerticalFieldOfView
         {
             get { return this.verticalFieldOfView; }
         }
 
-        public float NearPlaneDistance
+        public double NearPlaneDistance
         {
             get
             {
@@ -111,7 +111,7 @@
             }
         }
 
-        public float FarPlaneDistance
+        public double FarPlaneDistance
         {
             get
             {
@@ -125,12 +125,12 @@
             }
         }
 
-        public float FocalLength
+        public double FocalLength
         {
             get { return this.focalLength; }
         }
 
-        public float NearPlaneWidth
+        public double NearPlaneWidth
         {
             get { return this.nearPlaneWidth; }
         }
@@ -148,10 +148,10 @@
         public void UpdateProjection()
         {
             this.Projection = Matrix.PerspectiveFovRH(
-                MathUtil.DegreesToRadians(this.VerticalFieldOfView),
-                this.AspectRatio,
-                this.NearPlaneDistance,
-                this.FarPlaneDistance);
+                MathUtil.DegreesToRadians((float)this.VerticalFieldOfView),
+                (float)this.AspectRatio,
+                (float)this.NearPlaneDistance,
+                (float)this.FarPlaneDistance);
             this.ProjectionNeedsUpdate = false;
         }
 
@@ -198,22 +198,22 @@
         }
         */
 
-        public void SetTarget(float time, Vector3 target)
+        public void SetTarget(double time, Vector3 target)
         {
             this.SetTarget(time, target, BasicEasingCurve.Linear);
         }
 
-        public void SetTarget(float time, Vector3 target, IEasingCurve easingCurve)
+        public void SetTarget(double time, Vector3 target, IEasingCurve easingCurve)
         {
             this.TargetProperty.InsertKeyframe(time, target, easingCurve);
         }
 
-        public void SetTarget(float time, float x, float y, float z, IEasingCurve easingCurve)
+        public void SetTarget(double time, double x, double y, double z, IEasingCurve easingCurve)
         {
-            this.SetTarget(time, new Vector3(x, y, z), easingCurve);
+            this.SetTarget(time, new Vector3((float)x, (float)y, (float)z), easingCurve);
         }
 
-        public void SetTarget(float time, float x, float y, float z)
+        public void SetTarget(double time, double x, double y, double z)
         {
             this.SetTarget(time, x, y, z, BasicEasingCurve.Linear);
         }
@@ -236,16 +236,16 @@
             return ndc;
         }
 
-        private static float FocalLengthFromFieldOfView(float degrees)
+        private static double FocalLengthFromFieldOfView(double degrees)
         {
-            return (float)(1.0f / Math.Tan(MathUtil.DegreesToRadians(degrees / 2.0f)));
+            return 1.0 / Math.Tan(Math3D.DegreesToRadians(degrees / 2.0));
         }
 
-        private static float VerticalFromHorizontalFieldOfView(float degrees, float aspectRatio)
+        private static double VerticalFromHorizontalFieldOfView(double degrees, double aspectRatio)
         {
-            float horizontalRadians = MathUtil.DegreesToRadians(degrees);
-            float verticalRadians = (float)Math.Atan(Math.Tan(horizontalRadians * 0.5) / aspectRatio) * 2.0f;
-            return MathUtil.RadiansToDegrees(verticalRadians);
+            double horizontalRadians = Math3D.DegreesToRadians(degrees);
+            double verticalRadians = Math.Atan(Math.Tan(horizontalRadians * 0.5) / aspectRatio) * 2.0;
+            return Math3D.RadiansToDegrees(verticalRadians);
         }
     }
 }

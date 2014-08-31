@@ -8,6 +8,16 @@
     {
         public const double Pi2 = 2 * Math.PI;
 
+        public static double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180.0;
+        }
+
+        public static double RadiansToDegrees(double radians)
+        {
+            return radians * 180.0 / Math.PI;
+        }
+
         public static bool TimesAreEqual(double a, double b)
         {
             return Math.Abs(a - b) < StoryboardSettings.Instance.SceneConversionSettings.TimePrecision;
