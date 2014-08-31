@@ -2,6 +2,9 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Net.Mime;
+
+    using SharpDX;
 
     using Vantage;
     using Vantage.Animation2D.OsbTypes;
@@ -57,9 +60,10 @@
             this.InitializeStoryboard();
             this.InitializeFonts();
             this.DisableBackground();
-            this.MakeHexagonScene();
+            // this.MakeHexagonScene();
+            this.MakeRaindropsScene();
             this.MakeKiai1Scene();
-            this.MakeColorBackground();
+            this.MakeBlankBackground();
             this.MakeVignette();
         }
 
@@ -79,6 +83,83 @@
         {
             var bg = this.Storyboard.NewSprite2D("bg.jpg", "Background", "Centre");
             bg.Fade(0, 0, 0, 0, 0);
+        }
+
+        private void MakeRaindropsScene()
+        {
+            var rng = new Random();
+            var scene = this.Storyboard.NewScene3D(BPM, 585, 68766);
+            scene.ConversionSettings.MoveThreshold = 0;
+            var mc = scene.MainCamera;
+            var rl = scene.RootLayer;
+
+            mc.SetPosition(0, 0, 0, 400);
+            mc.SetTarget(0, 0, 0, 0);
+            var marqueeLayer = new MarqueeLayer("sb/rounded-rect-100px.png", 110, 47, 8, new OsbColor(0.9, 0.9, 0.9))
+                                   {
+                                       Parent = rl,
+                                       Additive = true
+                                   };
+            marqueeLayer.SetScale(0, 0.08f, 0.08f, 1);
+            marqueeLayer.SetOpacity(585, 0);
+            marqueeLayer.SetOpacity(585 + BeatDuration, 1);
+            marqueeLayer.Display("ABCDABCD", 585, new OsbColor(0.2, 0.2, 0.3), BasicEasingCurve.Step);
+            marqueeLayer.UpdateToTime(585);
+
+            foreach (Sprite3D sprite in marqueeLayer.Children)
+            {
+                var z = rng.Next(-300, 300);
+                sprite.SetPosition(22062, sprite.LocalPosition, CubicBezierEasingCurve.EaseIn);
+                sprite.SetPosition(22403, sprite.LocalPosition.X, sprite.LocalPosition.Y, z);
+            }
+
+            var beatPattern = new BeatPattern(8);
+            beatPattern.RepeatAddMeasure(new BeatMeasure(0, 6, 1, 1), 8);
+
+            Vector3 previousPosition = new Vector3(0, 0, 400);
+            Vector3 previousTarget = Vector3.Zero;
+            mc.SetPosition(22403, 0, 0, 400);
+            rl.UpdateToTime(22403);
+            for (int i = 0; i < 8; i++)
+            {
+                float time1 = 22403 + (i * 8 * BeatDuration);
+                float time2 = time1 + (6 * BeatDuration);
+                float time3 = time2 + (1 * BeatDuration);
+                float time4 = time3 + (1 * BeatDuration);
+
+                Sprite3D targetSprite = marqueeLayer.Children[rng.Next(0, marqueeLayer.Children.Count)] as Sprite3D;
+                Vector3 targetSpriteLocation = targetSprite.WorldPosition;
+
+                Debug.WriteLine(targetSpriteLocation.ToString());
+                Vector3 target = rng.NextSpherePoint(targetSpriteLocation, 2, 10);
+
+                Vector3 position2 = rng.NextSpherePoint(previousPosition, 20, 80);
+                //Vector3 position3 = rng.NextSpherePoint(target, 20, 100);
+                Vector3 forwardToTarget = target - position2;
+                Vector3 forwardToTargetNormalized = Vector3.Normalize(forwardToTarget);
+                Vector3 position4 = position2 + forwardToTarget - forwardToTargetNormalized * 80;
+                //Vector3 position4 = rng.NextSpherePoint(target, 20, 100);
+
+                var textLayer = new TextLayer(textFontEN, TextLetterSpacingEN, 30, TextAlignment.Center);
+                textLayer.Text = "Azer";
+                textLayer.Additive = true;
+                textLayer.SetOpacity(time3, 0);
+                textLayer.SetOpacity(time4, 1);
+                textLayer.SetPosition(0, targetSpriteLocation);
+                textLayer.SetScale(0, 0.08f);
+                textLayer.Parent = rl;
+                var textRotation = Math3D.RotationFromTo(Vector3.ForwardLH, -forwardToTargetNormalized);
+                textLayer.SetRotation(0, textRotation);
+
+                mc.SetPosition(time3, position2, CubicBezierEasingCurve.EaseIn);
+                //mc.SetPosition(time3, position3, CubicBezierEasingCurve.EaseIn);
+                mc.SetPosition(time4, position4);
+                mc.SetTarget(time2, previousTarget);
+                mc.SetTarget(time3, target);
+
+                previousPosition = position4;
+                previousTarget = target;
+            }
         }
 
         private void MakeHexagonScene()
@@ -246,7 +327,6 @@
             {
                 foreach (Sprite3D letter in textLayer.Children)
                 {
-                    Debug.WriteLine("hello");
                     float z = -1000 - 500;
                     float x = rng.Next(-300, 300);
                     float y = rng.Next(-300, 300);
@@ -303,7 +383,6 @@
             mc.SetTarget(110698, 0, 100, -4600);
 
             mc.SetTarget(111721, 0, 100, -4600, new CubicBezierEasingCurve(.79f, .02f, .99f, .27f));
-            mc.SetTargetLayer(112403, sbg, BasicEasingCurve.Linear);
 
             mc.SetPosition(112403, 0, 0, -2690);
             mc.SetPosition(scene.EndTime - 8 * BeatDuration, 0, 9000, 0);
@@ -316,6 +395,14 @@
             bg.Fade(0, 68766, 68766, 1, 0);
             bg.Scale(0, 0, 0, 1.25, 1.25);
             bg.Color(0, 0, 0, OsbColor.DarkSlateBlue, OsbColor.DarkSlateBlue);
+        }
+
+        private void MakeBlankBackground()
+        {
+            var bg = this.Storyboard.NewSprite2D("sb/blank.png", "Background", "Centre");
+            bg.Fade(0, 585, 585, 0, 0.4);
+            bg.Fade(0, 68766, 68766, 0.4, 0);
+            bg.Scale(0, 0, 0, 0.625, 0.625);
         }
 
         private void MakeVignette()

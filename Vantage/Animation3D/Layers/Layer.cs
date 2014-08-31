@@ -465,6 +465,12 @@
             this.SetScale(time, s, s, s);
         }
 
+        public void SetColor(float time, OsbColor color, IEasingCurve easingCurve)
+        {
+            Vector3 vectorColor = color.ToVector3();
+            this.Color.InsertKeyframe(time, vectorColor, easingCurve);
+        }
+
         public void SetColor(float time, float r, float g, float b)
         {
             this.Color.InsertKeyframe(time, r, g, b);
@@ -472,7 +478,7 @@
 
         public void SetColor(float time, OsbColor color)
         {
-            this.SetColor(time, color.R, color.G, color.B);
+            this.SetColor(time, color, BasicEasingCurve.Linear);
         }
 
         public void SetOpacity(float time, float opacity)

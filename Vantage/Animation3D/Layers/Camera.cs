@@ -4,7 +4,9 @@
 
     using SharpDX;
 
+    using Vantage.Animation3D.Animation;
     using Vantage.Animation3D.Animation.EasingCurves;
+    using Vantage.Animation3D.Animation.Keyframes;
 
     public interface ICamera
     {
@@ -29,7 +31,10 @@
             this.HorizontalFieldOfView = 60.0f;
             this.NearPlaneDistance = 10.0f;
             this.FarPlaneDistance = 2000.0f;
+            this.TargetProperty = new AnimatableProperty<Keyframe<Vector3>, Vector3>(Vector3.ForwardRH);
         }
+
+        public AnimatableProperty<Keyframe<Vector3>, Vector3> TargetProperty { get; private set; } 
 
         public Matrix View { get; private set; }
 
@@ -41,7 +46,12 @@
         {
             get
             {
-                return this.Forward + this.WorldPosition;
+                if (this.WorldRotation != Quaternion.Identity)
+                {
+                    return this.Forward + this.WorldPosition;
+                }
+
+                return this.TargetProperty.CurrentValue;
             }
         }
 
@@ -145,6 +155,7 @@
             this.ProjectionNeedsUpdate = false;
         }
 
+        /*
         public void SetTargetLayer(float time, ILayer targetLayer, IEasingCurve easingCurve)
         {
             Rotation.UpdateToTime(time);
@@ -185,11 +196,33 @@
         {
             this.SetTarget(time, x, y, z, BasicEasingCurve.Linear);
         }
+        */
+
+        public void SetTarget(float time, Vector3 target)
+        {
+            this.SetTarget(time, target, BasicEasingCurve.Linear);
+        }
+
+        public void SetTarget(float time, Vector3 target, IEasingCurve easingCurve)
+        {
+            this.TargetProperty.InsertKeyframe(time, target, easingCurve);
+        }
+
+        public void SetTarget(float time, float x, float y, float z, IEasingCurve easingCurve)
+        {
+            this.SetTarget(time, new Vector3(x, y, z), easingCurve);
+        }
+
+        public void SetTarget(float time, float x, float y, float z)
+        {
+            this.SetTarget(time, x, y, z, BasicEasingCurve.Linear);
+        }
 
         public override void UpdateToTime(float time)
         {
             // TODO: UpdateProjection() does not always need to be called
             base.UpdateToTime(time);
+            this.TargetProperty.UpdateToTime(time);
             this.UpdateView();
             this.UpdateProjection();
             this.ViewProjection = this.View * this.Projection;

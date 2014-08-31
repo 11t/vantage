@@ -219,6 +219,11 @@ namespace Vantage.Animation2D.OsbTypes
             return this.R.ToString(CultureInfo.InvariantCulture) + ',' + this.G + ',' + this.B;
         }
 
+        public Vector3 ToVector3()
+        {
+            return new Vector3((float)this.r, (float)this.g, (float)this.b);
+        }
+
         #endregion
 
         #region Methods

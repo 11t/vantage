@@ -6,10 +6,10 @@
         {
             this.TimePrecision = 1;
 
-            this.MoveThreshold = 8.0f;
-            this.RotateThreshold = 0.00f;
-            this.ScaleThreshold = 0.00f;
-            this.ColorThreshold = 1.0f;
+            this.MoveThreshold = 0;
+            this.RotateThreshold = 0;
+            this.ScaleThreshold = 0;
+            this.ColorThreshold = 0;
             this.FadeThreshold = 0;
 
             this.DefaultTextLetterSpacing = 0;
