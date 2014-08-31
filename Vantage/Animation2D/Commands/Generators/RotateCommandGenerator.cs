@@ -7,12 +7,12 @@ namespace Vantage.Animation2D.Commands.Generators
 
     public class RotateCommandGenerator : CommandGenerator<OsbDecimal>
     {
-        public RotateCommandGenerator(float allowedError)
+        public RotateCommandGenerator(double allowedError)
             : base(allowedError)
         {
         }
 
-        public override ICommand CreateCommand(float time, OsbDecimal value)
+        public override ICommand CreateCommand(double time, OsbDecimal value)
         {
             var difference = value - this.Value;
             int sign = difference < 0 ? -1 : 1;
@@ -26,7 +26,7 @@ namespace Vantage.Animation2D.Commands.Generators
             return new RotateCommand(0, this.Time, time, this.Value, endValue);
         }
 
-        public override ICommand Generate(float time, OsbDecimal value, bool visible)
+        public override ICommand Generate(double time, OsbDecimal value, bool visible)
         {
             if (!visible && this.Visible)
             {

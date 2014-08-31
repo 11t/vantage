@@ -218,7 +218,7 @@
             this.SetTarget(time, x, y, z, BasicEasingCurve.Linear);
         }
 
-        public override void UpdateToTime(float time)
+        public override void UpdateToTime(double time)
         {
             // TODO: UpdateProjection() does not always need to be called
             base.UpdateToTime(time);

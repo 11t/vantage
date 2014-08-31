@@ -6,12 +6,12 @@ namespace Vantage.Animation2D.Commands.Generators
 
     public class ScaleCommandGenerator : CommandGenerator<OsbScale>
     {
-        public ScaleCommandGenerator(float allowedError)
+        public ScaleCommandGenerator(double allowedError)
             : base(allowedError)
         {
         }
 
-        public override ICommand CreateCommand(float time, OsbScale value)
+        public override ICommand CreateCommand(double time, OsbScale value)
         {
             if (this.Value.X == this.Value.Y && value.X == value.Y)
             {
@@ -21,7 +21,7 @@ namespace Vantage.Animation2D.Commands.Generators
             return new VScaleCommand(0, this.Time, time, this.Value, value);
         }
 
-        public override ICommand Generate(float time, OsbScale value, bool visible)
+        public override ICommand Generate(double time, OsbScale value, bool visible)
         {
             if (visible && !this.Visible)
             {

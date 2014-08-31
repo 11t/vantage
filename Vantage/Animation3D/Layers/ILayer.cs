@@ -12,7 +12,7 @@
 
         IList<ILayer> Children { get; }
 
-        float CurrentTime { get; }
+        double CurrentTime { get; }
         
         Vector3 Forward { get; }
 
@@ -28,7 +28,7 @@
 
         Vector3 WorldColor { get; }
 
-        float WorldOpacity { get; }
+        double WorldOpacity { get; }
 
         Matrix LocalToWorld { get; }
 
@@ -42,6 +42,6 @@
 
         T NewChild<T>() where T : ILayer, new();
 
-        void UpdateToTime(float time);
+        void UpdateToTime(double time);
     }
 }

@@ -6,17 +6,17 @@ namespace Vantage.Animation2D.Commands.Generators
 
     public class FadeCommandGenerator : CommandGenerator<OsbDecimal>
     {
-        public FadeCommandGenerator(float allowedError)
+        public FadeCommandGenerator(double allowedError)
             : base(allowedError)
         {
         }
 
-        public override ICommand CreateCommand(float time, OsbDecimal value)
+        public override ICommand CreateCommand(double time, OsbDecimal value)
         {
             return new FadeCommand(0, this.Time, time, this.Value, value);
         }
 
-        public override ICommand Generate(float time, OsbDecimal value, bool visible)
+        public override ICommand Generate(double time, OsbDecimal value, bool visible)
         {
             if (!visible && this.Visible)
             {

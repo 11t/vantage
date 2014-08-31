@@ -7,31 +7,31 @@
     public abstract class CommandGenerator<TValue>
         where TValue : IOsbType
     {
-        protected CommandGenerator(float allowedError)
+        protected CommandGenerator(double allowedError)
         {
             this.AllowedError = allowedError;
         }
 
-        public float Time { get; set; }
+        public double Time { get; set; }
 
         public TValue Value { get; set; }
 
         public bool Visible { get; set; }
 
-        public float AllowedError { get; set; }
+        public double AllowedError { get; set; }
 
         public bool IssuedCommand { get; set; }
 
-        public virtual void Set(float time, TValue value, bool visible)
+        public virtual void Set(double time, TValue value, bool visible)
         {
             this.Time = time;
             this.Value = value;
             this.Visible = visible;
         }
 
-        public abstract ICommand CreateCommand(float time, TValue value);
+        public abstract ICommand CreateCommand(double time, TValue value);
 
-        public virtual ICommand Generate(float time, TValue value, bool visible)
+        public virtual ICommand Generate(double time, TValue value, bool visible)
         {
             ICommand command = default(ICommand);
             float distance = value.DistanceFrom(this.Value);

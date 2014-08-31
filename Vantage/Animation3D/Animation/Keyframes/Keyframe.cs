@@ -29,7 +29,7 @@ namespace Vantage.Animation3D.Animation.Keyframes
         /// <param name="value">
         /// The value of the keyframe at its specified time.
         /// </param>
-        public Keyframe(float time, T value)
+        public Keyframe(double time, T value)
             : this(time, value, BasicEasingCurve.Linear)
         {
         }
@@ -46,7 +46,7 @@ namespace Vantage.Animation3D.Animation.Keyframes
         /// <param name="easingCurve">
         /// The easing curve that controls how values are interpolated between this keyframe and the next keyframe.
         /// </param>
-        public Keyframe(float time, T value, IEasingCurve easingCurve)
+        public Keyframe(double time, T value, IEasingCurve easingCurve)
         {
             this.Time = time;
             this.Value = value;
@@ -65,7 +65,7 @@ namespace Vantage.Animation3D.Animation.Keyframes
         /// <summary>
         ///     Gets or sets the time.
         /// </summary>
-        public float Time { get; set; }
+        public double Time { get; set; }
 
         /// <summary>
         ///     Gets or sets the value.
@@ -89,15 +89,15 @@ namespace Vantage.Animation3D.Animation.Keyframes
         /// The type <see cref="T"/> value representing the interpolation between this Keyframe and the next Keyframe at the
         ///     given time.
         /// </returns>
-        public T ValueAtTime(IKeyframe<T> next, float time)
+        public T ValueAtTime(IKeyframe<T> next, double time)
         {
             if (time <= this.Time || this.EasingCurve == null || next == null)
             {
                 return this.Value;
             }
 
-            float x = (time - this.Time) / (next.Time - this.Time);
-            float y = this.EasingCurve.Evaluate(x);
+            double x = (time - this.Time) / (next.Time - this.Time);
+            double y = this.EasingCurve.Evaluate(x);
             return this.Interpolate(this.Value, next.Value, y);
         }
 
@@ -122,11 +122,12 @@ namespace Vantage.Animation3D.Animation.Keyframes
         /// <returns>
         /// The type <see cref="T"/> value representing an interpolation between start and end by amount.
         /// </returns>
-        internal virtual T Interpolate(T start, T end, float amount)
+        internal virtual T Interpolate(T start, T end, double amount)
         {
             dynamic a = start;
             dynamic b = end;
-            return (a * (1 - amount)) + (b * amount);
+            float floatAmount = (float)amount;
+            return (a * (1 - floatAmount)) + (b * floatAmount);
         }
 
         #endregion

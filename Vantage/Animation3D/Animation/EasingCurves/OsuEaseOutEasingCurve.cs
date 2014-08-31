@@ -2,9 +2,9 @@
 {
     public class OsuEaseOutEasingCurve : IEasingCurve
     {
-        public float Evaluate(float x)
+        public double Evaluate(double x)
         {
-            float a = 1 - x;
+            double a = 1 - x;
             return -(a * a) + 1;
         }
     }

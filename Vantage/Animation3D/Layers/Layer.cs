@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets the current time to which this Layer was last updated.
         /// </summary>
-        public float CurrentTime { get; private set; }
+        public double CurrentTime { get; private set; }
 
         /// <summary>
         /// Gets the root Layer in the Layer hierarchy.
@@ -139,7 +139,7 @@
         /// <summary>
         /// Gets the opacity property, representing this Layer's opacity, relative to its parent's opacity, at any given time.
         /// </summary>
-        public IAnimatableProperty<Keyframe<float>, float> Opacity { get; private set; }
+        public IAnimatableProperty<Keyframe<double>, double> Opacity { get; private set; }
 
         /// <summary>
         /// Gets the forward vector, the positive Z axis direction of this Layer relative to the world's coordinate system.
@@ -179,7 +179,7 @@
         /// <summary>
         /// Gets the current opacity relative to the world.
         /// </summary>
-        public float WorldOpacity { get; private set; }
+        public double WorldOpacity { get; private set; }
 
         /// <summary>
         /// Gets the position relative to the parent Layer. Represents this Layer's translation from the parent's origin (0, 0, 0).
@@ -228,7 +228,7 @@
         /// <summary>
         /// Gets the opacity relative to the parent Layer.
         /// </summary>
-        public float LocalOpacity
+        public double LocalOpacity
         {
             get
             {
@@ -359,7 +359,7 @@
         /// <param name="time">
         /// The time.
         /// </param>
-        public virtual void UpdateToTime(float time)
+        public virtual void UpdateToTime(double time)
         {
             this.CurrentTime = time;
             
@@ -411,58 +411,78 @@
             }
         }
 
-        public void SetPosition(float time, Vector3 position)
-        {
-            this.Position.InsertKeyframe(time, position);
-        }
-
-        public void SetPosition(float time, Vector3 position, IEasingCurve easingCurve)
+        public void SetPosition(double time, Vector3 position, IEasingCurve easingCurve)
         {
             this.Position.InsertKeyframe(time, position, easingCurve);
         }
 
-        public void SetPosition(float time, float x, float y, float z)
+        public void SetPosition(double time, Vector3 position)
         {
-            this.Position.InsertKeyframe(time, x, y, z);
+            this.SetPosition(time, position, BasicEasingCurve.Linear);
         }
 
-        public void SetPosition(float time, float x, float y, float z, IEasingCurve easingCurve)
+        public void SetPosition(double time, double x, double y, double z, IEasingCurve easingCurve)
         {
-            this.Position.InsertKeyframe(easingCurve, time, x, y, z);
+            this.SetPosition(time, new Vector3((float)x, (float)y, (float)z), easingCurve);
         }
 
-        public void SetAngles(float time, float x, float y, float z)
+        public void SetPosition(double time, double x, double y, double z)
+        {
+            this.SetPosition(time, x, y, z, BasicEasingCurve.Linear);
+        }
+
+        public void SetAngles(double time, double x, double y, double z, IEasingCurve easingCurve)
+        {
+            float x2 = MathUtil.DegreesToRadians((float)x);
+            float y2 = MathUtil.DegreesToRadians((float)y);
+            float z2 = MathUtil.DegreesToRadians((float)z);
+            Quaternion rotationQuaternion = Quaternion.RotationYawPitchRoll(y2, x2, z2);
+            this.SetRotation(time, rotationQuaternion, easingCurve);
+        }
+
+        public void SetAngles(double time, double x, double y, double z)
         {
             this.SetAngles(time, x, y, z, BasicEasingCurve.Linear);
         }
 
-        public void SetAngles(float time, float x, float y, float z, IEasingCurve easingCurve)
-        {
-            x = MathUtil.DegreesToRadians(x);
-            y = MathUtil.DegreesToRadians(y);
-            z = MathUtil.DegreesToRadians(z);
-            Quaternion rotationQuaternion = Quaternion.RotationYawPitchRoll(y, x, z);
-            this.SetRotation(time, rotationQuaternion, easingCurve);
-        }
-
-        public void SetRotation(float time, Quaternion rotationQuaternion, IEasingCurve easingCurve)
+        public void SetRotation(double time, Quaternion rotationQuaternion, IEasingCurve easingCurve)
         {
             this.Rotation.InsertKeyframe(time, Quaternion.Normalize(rotationQuaternion), easingCurve);
         }
 
-        public void SetRotation(float time, Quaternion rotationQuaternion)
+        public void SetRotation(double time, Quaternion rotationQuaternion)
         {
             this.SetRotation(time, rotationQuaternion, BasicEasingCurve.Linear);
         }
 
-        public void SetScale(float time, float x, float y, float z)
+        public void SetScale(double time, Vector3 scale, IEasingCurve easingCurve)
         {
-            this.Scale.InsertKeyframe(time, x, y, z);
+            this.Scale.InsertKeyframe(time, scale, easingCurve);
         }
 
-        public void SetScale(float time, float s)
+        public void SetScale(double time, Vector3 scale)
         {
-            this.SetScale(time, s, s, s);
+            this.SetScale(time, scale, BasicEasingCurve.Linear);
+        }
+
+        public void SetScale(double time, double x, double y, double z, IEasingCurve easingCurve)
+        {
+            this.SetScale(time, new Vector3((float)x, (float)y, (float)z), easingCurve);
+        }
+
+        public void SetScale(double time, double x, double y, double z)
+        {
+            this.SetScale(time, x, y, z, BasicEasingCurve.Linear);
+        }
+
+        public void SetScale(double time, double scale, IEasingCurve easingCurve)
+        {
+            this.SetScale(time, scale, scale, scale, easingCurve);
+        }
+
+        public void SetScale(double time, double scale)
+        {
+            this.SetScale(time, scale, BasicEasingCurve.Linear);
         }
 
         public void SetColor(float time, OsbColor color, IEasingCurve easingCurve)
@@ -471,24 +491,19 @@
             this.Color.InsertKeyframe(time, vectorColor, easingCurve);
         }
 
-        public void SetColor(float time, float r, float g, float b)
-        {
-            this.Color.InsertKeyframe(time, r, g, b);
-        }
-
         public void SetColor(float time, OsbColor color)
         {
             this.SetColor(time, color, BasicEasingCurve.Linear);
         }
 
-        public void SetOpacity(float time, float opacity)
-        {
-            this.Opacity.InsertKeyframe(time, opacity);
-        }
-
-        public void SetOpacity(float time, float opacity, IEasingCurve easingCurve)
+        public void SetOpacity(double time, double opacity, IEasingCurve easingCurve)
         {
             this.Opacity.InsertKeyframe(time, opacity, easingCurve);
+        }
+
+        public void SetOpacity(double time, double opacity)
+        {
+            this.SetOpacity(time, opacity, BasicEasingCurve.Linear);
         }
 
         public void OpacityTransition(

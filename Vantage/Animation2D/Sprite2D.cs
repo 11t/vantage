@@ -140,7 +140,7 @@ namespace Vantage.Animation2D
             FadeGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold;
 
             Sprite2DState initialState = this.States[0];
-            float initialTime = initialState.Time;
+            double initialTime = initialState.Time;
             bool initialVisible = initialState.Visible;
             bool everVisible = initialVisible;
 
@@ -153,7 +153,7 @@ namespace Vantage.Animation2D
             for (int i = 1; i < this.States.Count - 1; i++)
             {
                 Sprite2DState state = this.States[i];
-                float time = state.Time;
+                double time = state.Time;
                 bool visible = state.Visible;
                 if (visible)
                 {
@@ -168,7 +168,7 @@ namespace Vantage.Animation2D
             }
 
             Sprite2DState finalState = this.States[this.States.Count - 1];
-            float finalTime = finalState.Time;
+            double finalTime = finalState.Time;
 
             this.AddCommand(MoveGenerator.Generate(finalTime, finalState.Position, false));
             this.AddCommand(RotateGenerator.Generate(finalTime, finalState.Rotation, false));
@@ -203,7 +203,7 @@ namespace Vantage.Animation2D
             }
         }
 
-        public void AdditiveP(float startTime, float endTime)
+        public void AdditiveP(double startTime, double endTime)
         {
             this.Parameter(0, startTime, endTime, OsbParameter.AdditiveBlending);
         }
@@ -213,30 +213,30 @@ namespace Vantage.Animation2D
             this.Commands.Clear();
         }
 
-        public void Color(int easing, float startTime, float endTime, OsbColor startColor, OsbColor endColor)
+        public void Color(int easing, double startTime, double endTime, OsbColor startColor, OsbColor endColor)
         {
             this.Commands.Add(new ColorCommand(easing, startTime, endTime, startColor, endColor));
         }
 
-        public void Color(float startTime, float endTime, OsbColor startColor, OsbColor endColor)
+        public void Color(double startTime, double endTime, OsbColor startColor, OsbColor endColor)
         {
             this.Color(0, startTime, endTime, startColor, endColor);
         }
 
-        public void Color(int easing, float time, OsbColor color)
+        public void Color(int easing, double time, OsbColor color)
         {
             this.Color(easing, time, time, color, color);
         }
 
-        public void Color(float time, OsbColor color)
+        public void Color(double time, OsbColor color)
         {
             this.Color(0, time, time, color, color);
         }
 
         public void Color(
-            int easing, 
-            float startTime, 
-            float endTime, 
+            int easing,
+            double startTime,
+            double endTime, 
             double startRed, 
             double startGreen, 
             double startBlue, 
@@ -253,8 +253,8 @@ namespace Vantage.Animation2D
         }
 
         public void Color(
-            float startTime, 
-            float endTime, 
+            double startTime,
+            double endTime,
             double startRed, 
             double startGreen, 
             double startBlue, 
@@ -265,21 +265,21 @@ namespace Vantage.Animation2D
             this.Color(0, startTime, endTime, startRed, startGreen, startBlue, endRed, endGreen, endBlue);
         }
 
-        public void Color(int easing, float time, double red, double green, double blue)
+        public void Color(int easing, double time, double red, double green, double blue)
         {
             OsbColor color = new OsbColor(red, green, blue);
             this.Color(easing, time, time, color, color);
         }
 
-        public void Color(float time, double red, double green, double blue)
+        public void Color(double time, double red, double green, double blue)
         {
             this.Color(0, time, red, green, blue);
         }
 
         public void ColorHsb(
-            int easing, 
-            float startTime, 
-            float endTime, 
+            int easing,
+            double startTime,
+            double endTime, 
             double startHue, 
             double startSaturation, 
             double startBrightness, 
@@ -296,8 +296,8 @@ namespace Vantage.Animation2D
         }
 
         public void ColorHsb(
-            float startTime, 
-            float endTime, 
+            double startTime,
+            double endTime, 
             double startHue, 
             double startSaturation, 
             double startBrightness, 
@@ -317,50 +317,50 @@ namespace Vantage.Animation2D
                 endBrightness);
         }
 
-        public void ColorHsb(int easing, float time, double hue, double saturation, double brightness)
+        public void ColorHsb(int easing, double time, double hue, double saturation, double brightness)
         {
             OsbColor color = OsbColor.FromHsb(hue, saturation, brightness);
             this.Color(easing, time, time, color, color);
         }
 
-        public void ColorHsb(float time, double hue, double saturation, double brightness)
+        public void ColorHsb(double time, double hue, double saturation, double brightness)
         {
             this.ColorHsb(0, time, hue, saturation, brightness);
         }
 
-        public void Fade(int easing, float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
+        public void Fade(int easing, double startTime, double endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Commands.Add(new FadeCommand(easing, startTime, endTime, startOpacity, endOpacity));
         }
 
-        public void Fade(float startTime, float endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
+        public void Fade(double startTime, double endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Fade(0, startTime, endTime, startOpacity, endOpacity);
         }
 
-        public void Fade(int easing, float time, OsbDecimal opacity)
+        public void Fade(int easing, double time, OsbDecimal opacity)
         {
             this.Fade(easing, time, time, opacity, opacity);
         }
 
-        public void Fade(float time, OsbDecimal opacity)
+        public void Fade(double time, OsbDecimal opacity)
         {
             this.Fade(0, time, time, opacity, opacity);
         }
 
-        public void FlipH(float startTime, float endTime)
+        public void FlipH(double startTime, double endTime)
         {
             this.Parameter(0, startTime, endTime, OsbParameter.FlipHorizontal);
         }
 
-        public void FlipV(float startTime, float endTime)
+        public void FlipV(double startTime, double endTime)
         {
             this.Parameter(0, startTime, endTime, OsbParameter.FlipVertical);
         }
 
-        public float GetCommandsStartTime()
+        public double GetCommandsStartTime()
         {
-            float commandsStartTime = float.MaxValue;
+            double commandsStartTime = double.MaxValue;
             foreach (ICommand command in this.Commands)
             {
                 commandsStartTime = Math.Min(commandsStartTime, command.StartTime);
@@ -369,30 +369,30 @@ namespace Vantage.Animation2D
             return commandsStartTime;
         }
 
-        public void Move(int easing, float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
+        public void Move(int easing, double startTime, double endTime, OsbPosition startPosition, OsbPosition endPosition)
         {
             this.Commands.Add(new MoveCommand(easing, startTime, endTime, startPosition, endPosition));
         }
 
-        public void Move(float startTime, float endTime, OsbPosition startPosition, OsbPosition endPosition)
+        public void Move(double startTime, double endTime, OsbPosition startPosition, OsbPosition endPosition)
         {
             this.Move(0, startTime, endTime, startPosition, endPosition);
         }
 
-        public void Move(int easing, float time, OsbPosition position)
+        public void Move(int easing, double time, OsbPosition position)
         {
             this.Move(easing, time, time, position, position);
         }
 
-        public void Move(float time, OsbPosition position)
+        public void Move(double time, OsbPosition position)
         {
             this.Move(0, time, time, position, position);
         }
 
         public void Move(
-            int easing, 
-            float startTime, 
-            float endTime, 
+            int easing,
+            double startTime,
+            double endTime, 
             double startX, 
             double startY, 
             double endX, 
@@ -401,102 +401,102 @@ namespace Vantage.Animation2D
             this.Move(easing, startTime, endTime, new OsbPosition(startX, startY), new OsbPosition(endX, endY));
         }
 
-        public void Move(float startTime, float endTime, double startX, double startY, double endX, double endY)
+        public void Move(double startTime, double endTime, double startX, double startY, double endX, double endY)
         {
             this.Move(0, startTime, endTime, startX, startY, endX, endY);
         }
 
-        public void Move(int easing, float time, double x, double y)
+        public void Move(int easing, double time, double x, double y)
         {
             this.Move(easing, time, new OsbPosition(x, y));
         }
 
-        public void Move(float time, double x, double y)
+        public void Move(double time, double x, double y)
         {
             this.Move(0, time, x, y);
         }
 
-        public void MoveX(int easing, float startTime, float endTime, OsbDecimal startX, OsbDecimal endX)
+        public void MoveX(int easing, double startTime, double endTime, OsbDecimal startX, OsbDecimal endX)
         {
             this.Commands.Add(new MoveXCommand(easing, startTime, endTime, startX, endX));
         }
 
-        public void MoveX(float startTime, float endTime, OsbDecimal startX, OsbDecimal endX)
+        public void MoveX(double startTime, double endTime, OsbDecimal startX, OsbDecimal endX)
         {
             this.MoveX(0, startTime, endTime, startX, endX);
         }
 
-        public void MoveX(int easing, float time, OsbDecimal x)
+        public void MoveX(int easing, double time, OsbDecimal x)
         {
             this.MoveX(easing, time, time, x, x);
         }
 
-        public void MoveX(float time, OsbDecimal x)
+        public void MoveX(double time, OsbDecimal x)
         {
             this.MoveX(0, time, time, x, x);
         }
 
-        public void MoveY(int easing, float startTime, float endTime, OsbDecimal startY, OsbDecimal endY)
+        public void MoveY(int easing, double startTime, double endTime, OsbDecimal startY, OsbDecimal endY)
         {
             this.Commands.Add(new MoveYCommand(easing, startTime, endTime, startY, endY));
         }
 
-        public void MoveY(float startTime, float endTime, OsbDecimal startY, OsbDecimal endY)
+        public void MoveY(double startTime, double endTime, OsbDecimal startY, OsbDecimal endY)
         {
             this.MoveY(0, startTime, endTime, startY, endY);
         }
 
-        public void MoveY(int easing, float time, OsbDecimal y)
+        public void MoveY(int easing, double time, OsbDecimal y)
         {
             this.MoveY(easing, time, time, y, y);
         }
 
-        public void MoveY(float time, OsbDecimal y)
+        public void MoveY(double time, OsbDecimal y)
         {
             this.MoveY(0, time, time, y, y);
         }
 
-        public void Parameter(int easing, float startTime, float endTime, OsbParameter parameter)
+        public void Parameter(int easing, double startTime, double endTime, OsbParameter parameter)
         {
             this.Commands.Add(new ParameterCommand(easing, startTime, endTime, parameter));
         }
 
-        public void Rotate(int easing, float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
+        public void Rotate(int easing, double startTime, double endTime, OsbDecimal startRotation, OsbDecimal endRotation)
         {
             this.Commands.Add(new RotateCommand(easing, startTime, endTime, startRotation, endRotation));
         }
 
-        public void Rotate(float startTime, float endTime, OsbDecimal startRotation, OsbDecimal endRotation)
+        public void Rotate(double startTime, double endTime, OsbDecimal startRotation, OsbDecimal endRotation)
         {
             this.Rotate(0, startTime, endTime, startRotation, endRotation);
         }
 
-        public void Rotate(int easing, float time, OsbDecimal rotation)
+        public void Rotate(int easing, double time, OsbDecimal rotation)
         {
             this.Rotate(easing, time, time, rotation, rotation);
         }
 
-        public void Rotate(float time, OsbDecimal rotation)
+        public void Rotate(double time, OsbDecimal rotation)
         {
             this.Rotate(0, time, time, rotation, rotation);
         }
 
-        public void Scale(int easing, float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
+        public void Scale(int easing, double startTime, double endTime, OsbDecimal startScale, OsbDecimal endScale)
         {
             this.Commands.Add(new ScaleCommand(easing, startTime, endTime, startScale, endScale));
         }
 
-        public void Scale(float startTime, float endTime, OsbDecimal startScale, OsbDecimal endScale)
+        public void Scale(double startTime, double endTime, OsbDecimal startScale, OsbDecimal endScale)
         {
             this.Scale(0, startTime, endTime, startScale, endScale);
         }
 
-        public void Scale(int easing, float time, OsbDecimal scale)
+        public void Scale(int easing, double time, OsbDecimal scale)
         {
             this.Scale(easing, time, time, scale, scale);
         }
 
-        public void Scale(float time, OsbDecimal scale)
+        public void Scale(double time, OsbDecimal scale)
         {
             this.Scale(0, time, time, scale, scale);
         }
@@ -520,20 +520,20 @@ namespace Vantage.Animation2D
             return string.Join("\n ", stringArray);
         }
 
-        public void VScale(int easing, float startTime, float endTime, OsbScale startScale, OsbScale endScale)
+        public void VScale(int easing, double startTime, double endTime, OsbScale startScale, OsbScale endScale)
         {
             this.Commands.Add(new VScaleCommand(easing, startTime, endTime, startScale, endScale));
         }
 
-        public void VScale(float startTime, float endTime, OsbScale startScale, OsbScale endScale)
+        public void VScale(double startTime, double endTime, OsbScale startScale, OsbScale endScale)
         {
             this.VScale(0, startTime, endTime, startScale, endScale);
         }
 
         public void VScale(
-            int easing, 
-            float startTime, 
-            float endTime, 
+            int easing,
+            double startTime,
+            double endTime, 
             OsbDecimal startScaleX, 
             OsbDecimal startScaleY, 
             OsbDecimal endScaleX, 
@@ -548,8 +548,8 @@ namespace Vantage.Animation2D
         }
 
         public void VScale(
-            float startTime, 
-            float endTime, 
+            double startTime,
+            double endTime, 
             OsbDecimal startScaleX, 
             OsbDecimal startScaleY, 
             OsbDecimal endScaleX, 
@@ -558,12 +558,12 @@ namespace Vantage.Animation2D
             this.VScale(0, startTime, endTime, startScaleX, startScaleY, endScaleX, endScaleY);
         }
 
-        public void VScale(int easing, float time, OsbDecimal scaleX, OsbDecimal scaleY)
+        public void VScale(int easing, double time, OsbDecimal scaleX, OsbDecimal scaleY)
         {
             this.VScale(easing, time, time, scaleX, scaleY, scaleX, scaleY);
         }
 
-        public void VScale(float time, OsbDecimal scaleX, OsbDecimal scaleY)
+        public void VScale(double time, OsbDecimal scaleX, OsbDecimal scaleY)
         {
             this.VScale(0, time, time, scaleX, scaleY, scaleX, scaleY);
         }

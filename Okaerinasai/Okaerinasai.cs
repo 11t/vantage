@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Net.Mime;
 
     using SharpDX;
@@ -95,7 +96,7 @@
 
             mc.SetPosition(0, 0, 0, 400);
             mc.SetTarget(0, 0, 0, 0);
-            var marqueeLayer = new MarqueeLayer("sb/rounded-rect-100px.png", 110, 47, 8, new OsbColor(0.9, 0.9, 0.9))
+            var marqueeLayer = new MarqueeLayer("sb/rounded-rect-100px.png", 110, 47, 8, new OsbColor(0.8, 0.8, 0.8))
                                    {
                                        Parent = rl,
                                        Additive = true
@@ -141,15 +142,24 @@
                 //Vector3 position4 = rng.NextSpherePoint(target, 20, 100);
 
                 var textLayer = new TextLayer(textFontEN, TextLetterSpacingEN, 30, TextAlignment.Center);
-                textLayer.Text = "Azer";
+                var text = "Azer";
                 textLayer.Additive = true;
                 textLayer.SetOpacity(time3, 0);
                 textLayer.SetOpacity(time4, 1);
                 textLayer.SetPosition(0, targetSpriteLocation);
                 textLayer.SetScale(0, 0.08f);
                 textLayer.Parent = rl;
-                var textRotation = Math3D.RotationFromTo(Vector3.ForwardLH, -forwardToTargetNormalized);
+                var forward = forwardToTarget;
+                forward.Y = 0;
+                forward.Normalize();
+                var textRotation = Quaternion.RotationYawPitchRoll((float)Math.Atan(forward.X / forward.Z), 0, 0);
+                if (forward.Z > 0)
+                {
+                    text = new string(text.ToCharArray().Reverse().ToArray());
+                }
+                // var textRotation = Math3D.RotationFromTo(Vector3.ForwardRH, forward);
                 textLayer.SetRotation(0, textRotation);
+                textLayer.Text = text;
 
                 mc.SetPosition(time3, position2, CubicBezierEasingCurve.EaseIn);
                 //mc.SetPosition(time3, position3, CubicBezierEasingCurve.EaseIn);

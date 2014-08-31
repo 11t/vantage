@@ -9,8 +9,8 @@
     public class AnimatableProperty<TKeyframe, TValue> : IAnimatableProperty<TKeyframe, TValue>
         where TKeyframe : class, IKeyframe<TValue>
     {
-        private readonly List<TKeyframe> keyframes;
-        private float currentTime;
+        private readonly IList<TKeyframe> keyframes;
+        private double currentTime;
         private int currentIndex;
 
         public AnimatableProperty(TValue initialValue)
@@ -34,7 +34,7 @@
             }
         }
 
-        public List<TKeyframe> Keyframes
+        public IList<TKeyframe> Keyframes
         {
             get { return this.keyframes; }
         }
@@ -72,7 +72,7 @@
             }
         }
 
-        public float CurrentTime
+        public double CurrentTime
         {
             get
             {
@@ -125,7 +125,7 @@
 
         public IEnumerator<TKeyframe> GetEnumerator()
         {
-            return ((IEnumerable<TKeyframe>)this.keyframes).GetEnumerator();
+            return this.keyframes.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -154,42 +154,44 @@
             {
                 this.keyframes.Insert(++this.CurrentIndex, keyframe);
             }
-
-            // this.CurrentValue = this.CurrentKeyframe.Value;
         }
 
+        /*
         public void InsertKeyframeAtCurrentTime(params object[] args)
         {
             TValue value = this.NewValue(args);
             this.InsertKeyframeAtCurrentTime(value);
         }
 
-        public void InsertKeyframe(float time, TValue value)
+        public void InsertKeyframe(double time, TValue value)
         {
             this.InsertKeyframe(this.NewKeyframe(time, value));
         }
+        */
 
-        public void InsertKeyframe(float time, TValue value, IEasingCurve easingCurve)
+        public void InsertKeyframe(double time, TValue value, IEasingCurve easingCurve)
         {
             this.InsertKeyframe(this.NewKeyframe(time, value, easingCurve));
         }
 
-        public void InsertKeyframe(float time, params object[] args)
+        /*
+        public void InsertKeyframe(double time, params object[] args)
         {
             TValue value = this.NewValue(args);
             this.InsertKeyframe(time, value);
         }
 
-        public void InsertKeyframe(IEasingCurve easingCurve, float time, params object[] args)
+        public void InsertKeyframe(IEasingCurve easingCurve, double time, params object[] args)
         {
             TValue value = this.NewValue(args);
             this.InsertKeyframe(time, value, easingCurve);
         }
+        */
 
         // Inserts the specified keyframe into the Keyframes list (in order) and updates the current value.
         public void InsertKeyframe(TKeyframe keyframe)
         {
-            float time = keyframe.Time;
+            double time = keyframe.Time;
 
             // If Keyframes is empty or if the keyframe time is greater than the last keyframe time,
             // append the keyframe to the end of the Keyframes list.
@@ -215,8 +217,6 @@
                     }
                 }
             }
-
-            // this.CurrentValue = this.CurrentKeyframe.ValueAtTime(this.NextKeyframe, this.CurrentTime);
         }
 
         public void RemoveKeyframe(TKeyframe keyframe)
@@ -227,8 +227,6 @@
             {
                 this.CurrentIndex--;
             }
-
-            // this.CurrentValue = this.CurrentKeyframe.ValueAtTime(this.NextKeyframe, this.CurrentTime);
         }
 
         public void RemoveCurrentKeyframe()
@@ -238,22 +236,20 @@
             {
                 this.CurrentIndex--;
             }
-
-            // this.CurrentValue = this.CurrentKeyframe.ValueAtTime(this.NextKeyframe, this.CurrentTime);
         }
 
-        public void UpdateToTime(float time)
+        public void UpdateToTime(double time)
         {
             this.CurrentTime = time;
         }
 
-        private TKeyframe NewKeyframe(float time, TValue value, IEasingCurve easingCurve)
+        private TKeyframe NewKeyframe(double time, TValue value, IEasingCurve easingCurve)
         {
             TKeyframe keyframe = Activator.CreateInstance(typeof(TKeyframe), time, value, easingCurve) as TKeyframe;
             return keyframe;
         }
 
-        private TKeyframe NewKeyframe(float time, TValue value)
+        private TKeyframe NewKeyframe(double time, TValue value)
         {
             return this.NewKeyframe(time, value, BasicEasingCurve.Linear);
         }

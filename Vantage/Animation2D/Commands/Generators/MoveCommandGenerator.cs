@@ -5,7 +5,7 @@ namespace Vantage.Animation2D.Commands.Generators
 
     public class MoveCommandGenerator : CommandGenerator<OsbPosition>
     {
-        public MoveCommandGenerator(float allowedError)
+        public MoveCommandGenerator(double allowedError)
             : base(allowedError)
         {
             this.DidMove = false;
@@ -13,12 +13,12 @@ namespace Vantage.Animation2D.Commands.Generators
 
         public bool DidMove { get; set; }
 
-        public override ICommand CreateCommand(float time, OsbPosition value)
+        public override ICommand CreateCommand(double time, OsbPosition value)
         {
             return new MoveCommand(0, this.Time, time, this.Value, value);
         }
 
-        public override ICommand Generate(float time, OsbPosition value, bool visible)
+        public override ICommand Generate(double time, OsbPosition value, bool visible)
         {
             /*
             ICommand command = null;

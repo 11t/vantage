@@ -5,7 +5,7 @@
     public class Sprite2DState
     {
         public Sprite2DState(
-            float time,
+            double time,
             Vector2 position,
             double rotation,
             Vector2 scale,
@@ -30,7 +30,7 @@
             this.Height = height;
         }
 
-        public float Time { get; set; }
+        public double Time { get; set; }
 
         public Vector2 Position { get; set; }
 
@@ -56,12 +56,12 @@
         {
             get
             {
-                float halfWidth = this.Width / 2.0f * this.Scale.X;
-                float halfHeight = this.Height / 2.0f * this.Scale.Y;
-                float left = this.Position.X - halfWidth;
-                float right = this.Position.X + halfWidth;
-                float top = this.Position.Y - halfHeight;
-                float bottom = this.Position.Y + halfHeight;
+                double halfWidth = this.Width / 2.0 * this.Scale.X;
+                double halfHeight = this.Height / 2.0 * this.Scale.Y;
+                double left = this.Position.X - halfWidth;
+                double right = this.Position.X + halfWidth;
+                double top = this.Position.Y - halfHeight;
+                double bottom = this.Position.Y + halfHeight;
                 Rectangle bounds = Storyboard.ViewportBounds;
                 if (!(bounds.Left < right && bounds.Right > left &&
                       bounds.Bottom > top && bounds.Top < bottom))

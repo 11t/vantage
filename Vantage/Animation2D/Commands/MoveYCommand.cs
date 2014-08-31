@@ -4,7 +4,7 @@
 
     public class MoveYCommand : Command<OsbDecimal>
     {
-        public MoveYCommand(int easing, float startTime, float endTime, OsbDecimal startValue, OsbDecimal endValue)
+        public MoveYCommand(int easing, double startTime, double endTime, OsbDecimal startValue, OsbDecimal endValue)
             : base("MY", easing, startTime, endTime, startValue, endValue)
         {
         }

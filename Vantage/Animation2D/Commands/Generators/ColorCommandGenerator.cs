@@ -6,12 +6,12 @@ namespace Vantage.Animation2D.Commands.Generators
 
     public class ColorCommandGenerator : CommandGenerator<OsbColor>
     {
-        public ColorCommandGenerator(float allowedError)
+        public ColorCommandGenerator(double allowedError)
             : base(allowedError)
         {
         }
 
-        public override ICommand CreateCommand(float time, OsbColor value)
+        public override ICommand CreateCommand(double time, OsbColor value)
         {
             return new ColorCommand(0, this.Time, time, this.Value, value);
         }

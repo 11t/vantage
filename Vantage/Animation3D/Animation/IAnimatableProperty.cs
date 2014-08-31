@@ -8,27 +8,19 @@
     public interface IAnimatableProperty<TKeyframe, TValue> : IEnumerable<TKeyframe>
         where TKeyframe : IKeyframe<TValue>
     {
-        float CurrentTime { get; }
+        double CurrentTime { get; }
 
         TValue CurrentValue { get; }
 
         TKeyframe CurrentKeyframe { get; }
 
-        void UpdateToTime(float time);
-
-        void InsertKeyframe(float time, TValue value);
-
-        void InsertKeyframe(float time, TValue value, IEasingCurve easingCurve);
-
-        void InsertKeyframe(float time, params object[] args);
-
-        void InsertKeyframe(IEasingCurve easingCurve, float time, params object[] args);
+        void UpdateToTime(double time);
 
         void InsertKeyframe(TKeyframe keyframe);
 
-        void InsertKeyframeAtCurrentTime(TValue value);
+        void InsertKeyframe(double time, TValue value, IEasingCurve easingCurve);
 
-        void InsertKeyframeAtCurrentTime(params object[] args);
+        void InsertKeyframeAtCurrentTime(TValue value);
 
         void RemoveKeyframe(TKeyframe keyframe);
 

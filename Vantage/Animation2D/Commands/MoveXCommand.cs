@@ -4,7 +4,7 @@
 
     public class MoveXCommand : Command<OsbDecimal>
     {
-        public MoveXCommand(int easing, float startTime, float endTime, OsbDecimal startValue, OsbDecimal endValue)
+        public MoveXCommand(int easing, double startTime, double endTime, OsbDecimal startValue, OsbDecimal endValue)
             : base("MX", easing, startTime, endTime, startValue, endValue)
         {
         }

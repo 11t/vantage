@@ -7,7 +7,7 @@
     public abstract class Command<T> : ICommand
         where T : IOsbType
     {
-        protected Command(string identifier, int easing, float startTime, float endTime, T startValue, T endValue)
+        protected Command(string identifier, int easing, double startTime, double endTime, T startValue, T endValue)
         {
             this.Identifier = identifier;
             this.Easing = easing;
@@ -21,9 +21,9 @@
 
         public int Easing { get; set; }
 
-        public float StartTime { get; set; }
+        public double StartTime { get; set; }
 
-        public float EndTime { get; set; }
+        public double EndTime { get; set; }
 
         public T StartValue { get; set; }
 
