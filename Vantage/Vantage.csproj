@@ -87,6 +87,7 @@
     <Compile Include="Animation3D\Animation\Keyframes\DiscreteKeyframe.cs" />
     <Compile Include="Animation3D\Animation\Keyframes\IKeyframe.cs" />
     <Compile Include="Animation3D\Animation\Keyframes\Keyframe.cs" />
+    <Compile Include="Animation3D\Animation\Keyframes\NullableKeyframe.cs" />
     <Compile Include="Animation3D\Animation\Keyframes\QuaternionKeyframe.cs" />
     <Compile Include="Animation3D\Animation\OpacityProperty.cs" />
     <Compile Include="Animation3D\Animation\PositionProperty.cs" />

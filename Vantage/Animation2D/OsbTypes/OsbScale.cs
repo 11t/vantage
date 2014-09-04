@@ -6,6 +6,8 @@ namespace Vantage.Animation2D.OsbTypes
 
     public struct OsbScale : IOsbType, IEquatable<OsbScale>
     {
+        public static OsbScale One = new OsbScale(1, 1);
+
         private readonly OsbDecimal x;
         private readonly OsbDecimal y;
 

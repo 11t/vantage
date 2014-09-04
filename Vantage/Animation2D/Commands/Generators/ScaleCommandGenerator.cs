@@ -1,6 +1,5 @@
 namespace Vantage.Animation2D.Commands.Generators
 {
-    using Vantage.Animation2D;
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.OsbTypes;
 
@@ -27,6 +26,7 @@ namespace Vantage.Animation2D.Commands.Generators
             {
                 ICommand command = this.CreateCommand(time, value);
                 this.Set(time, value, true);
+                this.IssuedCommand = true;
                 return command;
             }
 

@@ -10,6 +10,7 @@
         protected CommandGenerator(double allowedError)
         {
             this.AllowedError = allowedError;
+            this.IssuedCommand = false;
         }
 
         public double Time { get; set; }

@@ -7,6 +7,7 @@ namespace Vantage.Animation2D
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.Commands.Generators;
@@ -139,6 +140,12 @@ namespace Vantage.Animation2D
             ColorGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold;
             FadeGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold;
 
+            MoveGenerator.IssuedCommand = false;
+            RotateGenerator.IssuedCommand = false;
+            ScaleGenerator.IssuedCommand = false;
+            ColorGenerator.IssuedCommand = false;
+            FadeGenerator.IssuedCommand = false;
+
             Sprite2DState initialState = this.States[0];
             double initialTime = initialState.Time;
             bool initialVisible = initialState.Visible;
@@ -200,6 +207,13 @@ namespace Vantage.Animation2D
             if (!ColorGenerator.IssuedCommand && finalColor != OsbColor.White)
             {
                 this.Commands.Add(new ColorCommand(0, initialTime, finalTime, finalColor, finalColor));
+            }
+
+            OsbScale finalScale = finalState.Scale;
+            if (!ScaleGenerator.IssuedCommand && finalScale != OsbScale.One)
+            {
+                // TODO: Select for S or V
+                this.Commands.Add(new VScaleCommand(0, initialTime, finalTime, finalScale, finalScale));
             }
         }
 

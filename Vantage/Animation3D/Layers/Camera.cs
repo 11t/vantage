@@ -31,10 +31,10 @@
             this.HorizontalFieldOfView = 60;
             this.NearPlaneDistance = 10;
             this.FarPlaneDistance = 2000;
-            this.TargetProperty = new AnimatableProperty<Keyframe<Vector3>, Vector3>(Vector3.ForwardRH);
+            this.TargetProperty = new AnimatableProperty<NullableKeyframe<Vector3>, Vector3?>(null);
         }
 
-        public AnimatableProperty<Keyframe<Vector3>, Vector3> TargetProperty { get; private set; } 
+        public AnimatableProperty<NullableKeyframe<Vector3>, Vector3?> TargetProperty { get; private set; } 
 
         public Matrix View { get; private set; }
 
@@ -46,12 +46,12 @@
         {
             get
             {
-                if (this.WorldRotation != Quaternion.Identity)
+                if (this.TargetProperty.CurrentValue != null)
                 {
-                    return this.Forward + this.WorldPosition;
+                    return this.TargetProperty.CurrentValue.Value;
                 }
 
-                return this.TargetProperty.CurrentValue;
+                return this.Forward + this.WorldPosition;
             }
         }
 

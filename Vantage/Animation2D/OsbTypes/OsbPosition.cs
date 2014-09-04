@@ -89,9 +89,16 @@ namespace Vantage.Animation2D.OsbTypes
 
         public string ToOsbString()
         {
-            int intX = (int)Math.Round(this.X);
-            int intY = (int)Math.Round(this.Y);
-            return intX.ToString(CultureInfo.InvariantCulture) + "," + intY;
+            if (StoryboardSettings.Instance.SceneConversionSettings.UseFloatForMove)
+            {
+                return this.X.ToString(CultureInfo.InvariantCulture) + "," + this.Y;
+            }
+            else
+            {
+                int intX = (int)Math.Round(this.X);
+                int intY = (int)Math.Round(this.Y);
+                return intX.ToString(CultureInfo.InvariantCulture) + "," + intY;
+            }
         }
 
         public float DistanceFrom(object obj)

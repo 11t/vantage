@@ -8,10 +8,7 @@ namespace Vantage.Animation2D.Commands.Generators
         public MoveCommandGenerator(double allowedError)
             : base(allowedError)
         {
-            this.DidMove = false;
         }
-
-        public bool DidMove { get; set; }
 
         public override ICommand CreateCommand(double time, OsbPosition value)
         {

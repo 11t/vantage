@@ -14,7 +14,11 @@
 
             this.DefaultTextLetterSpacing = 0;
             this.DefaultTextSpaceWidth = 30;
+
+            this.UseFloatForMove = false;
         }
+
+        public bool UseFloatForMove { get; set; }
 
         public float TimePrecision { get; set; }
 
