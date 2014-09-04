@@ -42,7 +42,7 @@
 
         bool DebugTrack { get; set; }
 
-        T NewChild<T>() where T : ILayer, new();
+        TChild NewChild<TChild>(params object[] args) where TChild : class, ILayer;
 
         void UpdateToTime(double time);
     }

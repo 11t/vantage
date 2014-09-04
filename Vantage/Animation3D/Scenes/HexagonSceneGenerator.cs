@@ -122,7 +122,7 @@
                 if (this.HexagonTextFont != null)
                 {
                     string text = this.TextEnumerator.Current;
-                    var hexagonText = new TextLayer(this.HexagonTextFont, this.HexagonTextLetterSpacing)
+                    var hexagonText = new TextLayer<Sprite3D>(this.HexagonTextFont, this.HexagonTextLetterSpacing)
                                           {
                                               Parent =
                                                   hexagonLayer,

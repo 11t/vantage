@@ -106,9 +106,9 @@ namespace Vantage.Animation3D.Layers.Text
             }
         }
 
-        public TextLayer NewTextLayer()
+        public TextLayer<TSprite> NewTextLayer<TSprite>() where TSprite : Sprite3D
         {
-            var textLayer = new TextLayer(this.Font, this.LetterSpacing, this.SpaceWidth, this.Alignment);
+            var textLayer = new TextLayer<TSprite>(this.Font, this.LetterSpacing, this.SpaceWidth, this.Alignment);
             textLayer.Parent = this;
             textLayer.Text = this.Text;
             this.TextLayers.Add(textLayer);

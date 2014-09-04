@@ -2,9 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class TextLayer : Layer, ITextLayer
+    public class TextLayer<TSprite> : Layer, ITextLayer
+        where TSprite : Sprite3D
     {
-        private readonly IList<Sprite3D> textSprites; 
+        private readonly IList<TSprite> textSprites; 
 
         private Font font;
         private string text;
@@ -33,7 +34,7 @@
             this.letterSpacing = letterSpacing;
             this.spaceWidth = spaceWidth;
             this.alignment = alignment;
-            this.textSprites = new List<Sprite3D>();
+            this.textSprites = new List<TSprite>();
         }
 
         public Font Font
@@ -110,7 +111,7 @@
 
         private void ClearTextSprites()
         {
-            foreach (Sprite3D sprite in this.textSprites)
+            foreach (TSprite sprite in this.textSprites)
             {
                 Children.Remove(sprite);
             }
@@ -135,7 +136,7 @@
                 }
 
                 string imageName = this.Font.Letters[c].ImageName;
-                Sprite3D sprite = this.NewSprite(imageName);
+                TSprite sprite = this.NewChild<TSprite>(imageName);
                 sprite.SetPosition(0, positions[i], 0, 0);
                 this.textSprites.Add(sprite);
                 i++;
@@ -158,7 +159,7 @@
                     continue;
                 }
 
-                Sprite3D sprite = this.textSprites[i];
+                TSprite sprite = this.textSprites[i];
                 sprite.SetPosition(0, positions[i], 0, 0);
                 i++;
             }

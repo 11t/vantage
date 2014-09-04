@@ -5,8 +5,8 @@ namespace Vantage.Animation3D.Layers.Text
         public AdditiveEnhancedTextLayer(Font font, int letterSpacing, int spaceWidth, TextAlignment alignment)
             : base(font, letterSpacing, spaceWidth, alignment)
         {
-            this.NewTextLayer();
-            this.NewTextLayer().Additive = true;
+            this.NewTextLayer<Sprite3D>();
+            this.NewTextLayer<Sprite3D>().Additive = true;
         }
 
         public AdditiveEnhancedTextLayer(Font font, int letterSpacing, int spaceWidth)

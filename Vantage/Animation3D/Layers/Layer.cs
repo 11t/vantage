@@ -1,5 +1,6 @@
 ﻿namespace Vantage.Animation3D.Layers
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
@@ -322,9 +323,14 @@
         /// <returns>
         /// The type <see cref="T"/> newly created child Layer.
         /// </returns>
-        public T NewChild<T>() where T : ILayer, new()
+        public TChild NewChild<TChild>(params object[] args) where TChild : class, ILayer
         {
-            var child = new T { Parent = this };
+            TChild child = Activator.CreateInstance(typeof(TChild), args) as TChild;
+            if (child != null)
+            {
+                child.Parent = this;
+            }
+
             return child;
         }
 
