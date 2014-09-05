@@ -7,8 +7,11 @@
     public class CubicBezierEasingCurve : IEasingCurve
     {
         public static readonly CubicBezierEasingCurve Linear = new CubicBezierEasingCurve(0, 0, 0, 0);
-        public static readonly CubicBezierEasingCurve EaseIn = new CubicBezierEasingCurve(0.5, 0, 1, 0.5);
-        public static readonly CubicBezierEasingCurve EaseOut = new CubicBezierEasingCurve(0, 0.5, 0.5, 1);
+        public static readonly CubicBezierEasingCurve EaseInStrong = new CubicBezierEasingCurve(0.5, 0, 1, 0.5);
+        public static readonly CubicBezierEasingCurve EaseOutStrong = new CubicBezierEasingCurve(0, 0.5, 0.5, 1);
+        public static readonly CubicBezierEasingCurve EaseIn = new CubicBezierEasingCurve(0.5, 0, 1, 1);
+        public static readonly CubicBezierEasingCurve EaseOut = new CubicBezierEasingCurve(0, 0, 0.5, 1);
+        public static readonly CubicBezierEasingCurve EaseInOut = new CubicBezierEasingCurve(0.5, 0, 0.5, 1);
 
         public CubicBezierEasingCurve(Vector2 p1, Vector2 p2)
         {

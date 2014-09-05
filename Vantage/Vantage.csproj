@@ -95,6 +95,7 @@
     <Compile Include="Animation3D\Animation\ScaleProperty.cs" />
     <Compile Include="Animation3D\Layers\Camera.cs" />
     <Compile Include="Animation3D\Layers\ILayer.cs" />
+    <Compile Include="Animation3D\Layers\ISprite.cs" />
     <Compile Include="Animation3D\Layers\Layer.cs" />
     <Compile Include="Animation3D\Layers\MarqueeLayer.cs" />
     <Compile Include="Animation3D\Layers\PulseSprite.cs" />

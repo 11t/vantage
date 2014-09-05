@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     public class TextLayer<TSprite> : Layer, ITextLayer
-        where TSprite : Sprite3D
+        where TSprite : Layer, ISprite
     {
         private readonly IList<TSprite> textSprites; 
 

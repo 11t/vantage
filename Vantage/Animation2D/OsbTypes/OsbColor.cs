@@ -120,6 +120,11 @@ namespace Vantage.Animation2D.OsbTypes
 
         #region Public Methods and Operators
 
+        public static OsbColor FromRgb(byte r, byte g, byte b)
+        {
+            return new OsbColor(r / 255.0, g / 255.0, b / 255.0);
+        }
+
         public static OsbColor FromHsb(double hue, double saturation, double brightness)
         {
             int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
@@ -174,9 +179,24 @@ namespace Vantage.Animation2D.OsbTypes
             return !left.Equals(right);
         }
 
+        public static OsbColor operator +(OsbColor left, OsbColor right)
+        {
+            return new OsbColor(left.r + right.r, left.g + right.g, left.b + right.b);
+        }
+
         public static OsbColor operator *(OsbColor left, OsbColor right)
         {
             return new OsbColor(left.r * right.r, left.g * right.g, left.b * right.b);
+        }
+
+        public static OsbColor operator *(OsbColor left, double right)
+        {
+            return new OsbColor(left.r * right, left.g * right, left.b * right);
+        }
+
+        public static OsbColor operator *(double left, OsbColor right)
+        {
+            return right * left;
         }
 
         public float DistanceFrom(object obj)

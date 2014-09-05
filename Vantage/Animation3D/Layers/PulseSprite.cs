@@ -6,23 +6,34 @@
     using Vantage.Animation2D.OsbTypes;
     using Vantage.Animation3D.Animation.EasingCurves;
 
-    public class PulseSprite : Sprite3D
+    public class PulseSprite : Layer, ISprite
     {
-        public IList<Sprite3D> Afterimages { get; private set; }
+        public PulseSprite(string imageName)
+            : this(imageName, 2, OsbColor.Aqua, OsbColor.Fuchsia)
+        {
+        }
 
         public PulseSprite(string imageName, int count, params OsbColor[] colors)
-            : base(imageName)
         {
+            this.ImageName = imageName;
             this.Afterimages = new List<Sprite3D>(count);
             for (int i = 0; i < count; i++)
             {
-                var afterimage = new Sprite3D(imageName) { Parent = this };
+                var afterimage = this.NewSprite(imageName);
                 afterimage.SetColor(0, colors[i]);
                 afterimage.SetOpacity(0, 0, BasicEasingCurve.Step);
                 afterimage.SetPosition(0, 0, 0, 0, BasicEasingCurve.Step);
-                this.Afterimages[i] = afterimage;
+                this.Afterimages.Add(afterimage);
             }
+
+            this.Sprite = this.NewSprite(imageName);
         }
+
+        public Sprite3D Sprite { get; private set; }
+
+        public string ImageName { get; set; }
+
+        public IList<Sprite3D> Afterimages { get; private set; }
 
         public void Pulse(double time, double duration, double radius)
         {
@@ -38,7 +49,7 @@
                 afterimage.SetOpacity(time, 1, BasicEasingCurve.Step);
                 afterimage.SetOpacity(endTime, 0, BasicEasingCurve.Step);
                 afterimage.SetPosition(time, x, y, 0, BasicEasingCurve.Linear);
-                afterimage.SetPosition(time, 0, 0, 0, BasicEasingCurve.Step);
+                afterimage.SetPosition(endTime, 0, 0, 0, BasicEasingCurve.Step);
             }
         }
     }

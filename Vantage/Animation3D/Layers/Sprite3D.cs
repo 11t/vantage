@@ -8,7 +8,7 @@
 
     using Vantage.Animation2D;
 
-    public class Sprite3D : Layer
+    public class Sprite3D : Layer, ISprite
     {
         private readonly Sprite2D representative;
         

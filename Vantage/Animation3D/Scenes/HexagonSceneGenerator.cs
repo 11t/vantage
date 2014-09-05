@@ -87,9 +87,9 @@
                 this.EnumeratorsMoveNext();
 
                 float beat = beats[i];
-                float appearTime = scene.Timing(0, beat);
-                float beginTime = scene.Timing(0, beat - this.HexagonAppearTransitionDurationBeats);
-                float nextBeginTime = scene.Timing(0, beats[i + 1] - 0.25);
+                float appearTime = (float)scene.Timing(0, beat);
+                float beginTime = (float)scene.Timing(0, beat - this.HexagonAppearTransitionDurationBeats);
+                float nextBeginTime = (float)scene.Timing(0, beats[i + 1] - 0.25);
 
                 Tuple<int, int> gridPosition = this.GridPositionEnumerator.Current;
                 Vector2 position = HexagonPosition(

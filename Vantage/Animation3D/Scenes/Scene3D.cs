@@ -6,12 +6,12 @@
 
     public class Scene3D
     {
-        private const float DefaultResolutionWidth = 1366;
-        private const float DefaultResolutionHeight = 768;
+        private const double DefaultResolutionWidth = 1366;
+        private const double DefaultResolutionHeight = 768;
 
-        private float bpm;
+        private double bpm;
 
-        public Scene3D(float bpm, float startTime, float endTime, float rendersPerBeat, float width, float height)
+        public Scene3D(double bpm, double startTime, double endTime, double rendersPerBeat, double width, double height)
         {
             this.BPM = bpm;
             this.StartTime = startTime;
@@ -23,16 +23,16 @@
             this.ConversionSettings = new SceneConversionSettings();
         }
 
-        public Scene3D(float bpm, float startTime, float endTime)
+        public Scene3D(double bpm, double startTime, double endTime)
             : this(bpm, startTime, endTime, 4.0f, DefaultResolutionWidth, DefaultResolutionHeight)
         {
         }
 
-        public float StartTime { get; set; }
+        public double StartTime { get; set; }
 
-        public float EndTime { get; set; }
+        public double EndTime { get; set; }
 
-        public float BPM
+        public double BPM
         {
             get
             {
@@ -42,13 +42,13 @@
             set
             {
                 this.bpm = value;
-                this.BeatDuration = 60000.0f / value;
+                this.BeatDuration = 60000.0 / value;
             }
         }
 
-        public float BeatDuration { get; private set; }
+        public double BeatDuration { get; private set; }
 
-        public float RenderTimeStep { get; set; }
+        public double RenderTimeStep { get; set; }
 
         public Layer RootLayer { get; set; }
 
@@ -78,7 +78,7 @@
             this.Sprites.Clear();
             this.AddSpritesFromLayer(this.RootLayer);
 
-            for (float time = this.StartTime; time < this.EndTime; time += this.RenderTimeStep)
+            for (double time = this.StartTime; time < this.EndTime; time += this.RenderTimeStep)
             {
                 this.UpdateSpriteStatesToTime(time);
             }
@@ -114,7 +114,7 @@
             }
         }
 
-        public void UpdateSpriteStatesToTime(float time)
+        public void UpdateSpriteStatesToTime(double time)
         {
             this.UpdateToTime(time);
             foreach (Sprite3D sprite in this.Sprites)
@@ -124,13 +124,13 @@
             }
         }
 
-        public void UpdateToTime(float time)
+        public void UpdateToTime(double time)
         {
             this.RootLayer.UpdateToTime(time);
             this.MainCamera.UpdateToTime(time);
         }
 
-        public float Timing(double measure, double beat)
+        public double Timing(double measure, double beat)
         {
             double totalBeats = (4 * measure) + beat;
             double totalDuration = totalBeats * this.BeatDuration;

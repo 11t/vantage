@@ -55,12 +55,12 @@ namespace Vantage
 
         #region Public Methods and Operators
 
-        public Scene3D NewScene3D(float bpm, float startTime, float endTime)
+        public Scene3D NewScene3D(double bpm, double startTime, double endTime)
         {
             return this.NewScene3D(bpm, startTime, endTime, 8.0f);
         }
 
-        public Scene3D NewScene3D(float bpm, float startTime, float endTime, float rendersPerBeat)
+        public Scene3D NewScene3D(double bpm, double startTime, double endTime, double rendersPerBeat)
         {
             var scene = new Scene3D(bpm, startTime, endTime, rendersPerBeat, this.Resolution.X, this.Resolution.Y);
             this.Scene3Ds.Add(scene);
