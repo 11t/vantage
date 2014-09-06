@@ -7,7 +7,6 @@ namespace Vantage.Animation2D
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.Commands.Generators;
@@ -120,6 +119,8 @@ namespace Vantage.Animation2D
 
         public bool VerticalFlip { get; set; }
 
+        protected CommandGroup CurrentCommandGroup { get; set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -128,7 +129,20 @@ namespace Vantage.Animation2D
         {
             if (command != null)
             {
-                this.Commands.Add(command);
+                var commandGroup = command as CommandGroup;
+                if (commandGroup != null)
+                {
+                    this.CurrentCommandGroup = commandGroup;
+                    this.Commands.Add(commandGroup);
+                }
+                else if (this.CurrentCommandGroup != null)
+                {
+                    this.CurrentCommandGroup.AddCommand(command);
+                }
+                else
+                {
+                    this.Commands.Add(command);
+                }
             }
         }
 
@@ -342,6 +356,11 @@ namespace Vantage.Animation2D
             this.ColorHsb(0, time, hue, saturation, brightness);
         }
 
+        public void EndCommandGroup()
+        {
+            this.CurrentCommandGroup = null;
+        }
+
         public void Fade(int easing, double startTime, double endTime, OsbDecimal startOpacity, OsbDecimal endOpacity)
         {
             this.Commands.Add(new FadeCommand(easing, startTime, endTime, startOpacity, endOpacity));
@@ -381,6 +400,17 @@ namespace Vantage.Animation2D
             }
 
             return commandsStartTime;
+        }
+
+        public double GetCommandsEndTime()
+        {
+            double commandsEndTime = 0;
+            foreach (ICommand command in this.Commands)
+            {
+                commandsEndTime = Math.Max(commandsEndTime, command.EndTime);
+            }
+
+            return commandsEndTime;
         }
 
         public void Move(int easing, double startTime, double endTime, OsbPosition startPosition, OsbPosition endPosition)
@@ -513,6 +543,20 @@ namespace Vantage.Animation2D
         public void Scale(double time, OsbDecimal scale)
         {
             this.Scale(0, time, time, scale, scale);
+        }
+
+        public LoopCommand StartLoopGroup(double startTime, int loopCount)
+        {
+            LoopCommand loopCommand = new LoopCommand(startTime, loopCount);
+            this.AddCommand(loopCommand);
+            return loopCommand;
+        }
+
+        public TriggerCommand StartTriggerGroup(string triggerName, double startTime, double endTime)
+        {
+            TriggerCommand triggerCommand = new TriggerCommand(triggerName, startTime, endTime);
+            this.AddCommand(triggerCommand);
+            return triggerCommand;
         }
 
         public string ToOsbString()

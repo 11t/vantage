@@ -44,7 +44,7 @@ D
 10001
 11110";
 
-        private static IDictionary<char, int[,]> LetterDictionary = InitializeMarqueeLetterDictionary();
+        private static readonly IDictionary<char, int[,]> LetterDictionary = InitializeMarqueeLetterDictionary();
 
         public MarqueeLayer(string cellSpriteName, int cellSpriteSpacing, int numColumns, int numRows, OsbColor defaultColor)
         {
