@@ -38,6 +38,10 @@
         /// </summary>
         private bool verticalFlip;
 
+        private bool lockScale;
+
+        private bool lockRotation;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Layer"/> class.
         /// </summary>
@@ -57,6 +61,8 @@
             this.additive = false;
             this.horizontalFlip = false;
             this.verticalFlip = false;
+            this.lockScale = false;
+            this.lockRotation = false;
         }
 
         /// <summary>
@@ -108,6 +114,8 @@
                     if (value.Additive) this.Additive = true;
                     if (value.HorizontalFlip) this.HorizontalFlip = true;
                     if (value.VerticalFlip) this.VerticalFlip = true;
+                    if (value.LockScale) this.LockScale = true;
+                    if (value.LockRotation) this.LockRotation = true;
                 }
 
                 this.parent = value;
@@ -309,6 +317,40 @@
             }
         }
 
+        public bool LockScale
+        {
+            get
+            {
+                return this.lockScale;
+            }
+
+            set
+            {
+                this.lockScale = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.LockScale = value;
+                }
+            }
+        }
+
+        public bool LockRotation
+        {
+            get
+            {
+                return this.lockRotation;
+            }
+
+            set
+            {
+                this.lockRotation = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.LockRotation = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether to track the Layer for debug purposes.
         /// </summary>
@@ -344,6 +386,12 @@
         {
             var layer = new Layer { Parent = this };
             return layer;
+        }
+
+        public Sprite3D NewSprite(string imageName, string layer, string origin)
+        {
+            var sprite = new Sprite3D(imageName, layer, origin) { Parent = this };
+            return sprite;
         }
 
         /// <summary>
@@ -402,6 +450,7 @@
             {
                 this.WorldPosition = Vector3.TransformCoordinate(this.LocalPosition, this.Parent.LocalToWorld);
                 this.WorldRotation = Quaternion.Normalize(this.Parent.WorldRotation * this.LocalRotation);
+                // this.WorldScale = this.LockScale ? this.LocalScale : this.Parent.WorldScale * this.LocalScale;
                 this.WorldScale = this.Parent.WorldScale * this.LocalScale;
                 this.WorldOpacity = this.Parent.WorldOpacity * this.LocalOpacity;
                 this.WorldColor = this.Parent.WorldColor * this.LocalColor;
@@ -451,6 +500,16 @@
         public void SetAngles(double time, double x, double y, double z)
         {
             this.SetAngles(time, x, y, z, DefaultEasingCurve);
+        }
+
+        public void SetAngles(double time, double z, IEasingCurve easingCurve)
+        {
+            this.SetAngles(time, 0, 0, z, easingCurve);
+        }
+
+        public void SetAngles(double time, double z)
+        {
+            this.SetAngles(time, z, DefaultEasingCurve);
         }
 
         public void SetRotation(double time, Quaternion rotationQuaternion, IEasingCurve easingCurve)

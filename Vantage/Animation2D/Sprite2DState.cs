@@ -1,5 +1,7 @@
 ﻿namespace Vantage.Animation2D
 {
+    using System;
+
     using SharpDX;
 
     using Vantage.Animation2D.OsbTypes;
@@ -60,10 +62,11 @@
             {
                 double halfWidth = this.Width / 2.0 * this.Scale.X;
                 double halfHeight = this.Height / 2.0 * this.Scale.Y;
-                double left = this.Position.X - halfWidth;
-                double right = this.Position.X + halfWidth;
-                double top = this.Position.Y - halfHeight;
-                double bottom = this.Position.Y + halfHeight;
+                double halfMax = Math.Max(halfWidth, halfHeight) * Math.Sqrt(2);
+                double left = this.Position.X - halfMax;
+                double right = this.Position.X + halfMax;
+                double top = this.Position.Y - halfMax;
+                double bottom = this.Position.Y + halfMax;
                 Rectangle bounds = Storyboard.ViewportBounds;
                 if (!(bounds.Left < right && bounds.Right > left &&
                       bounds.Bottom > top && bounds.Top < bottom))

@@ -146,14 +146,19 @@ namespace Vantage.Animation2D
             }
         }
 
-        public void AddCommandsFromStates()
+        private void UpdateGeneratorAllowedErrors(double time)
         {
+            StoryboardSettings.Instance.SceneConversionSettings.UpdateToTime(time);
+
             MoveGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold;
             RotateGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold;
             ScaleGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold;
             ColorGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold;
             FadeGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold;
+        }
 
+        public void AddCommandsFromStates()
+        {
             MoveGenerator.IssuedCommand = false;
             RotateGenerator.IssuedCommand = false;
             ScaleGenerator.IssuedCommand = false;
@@ -165,6 +170,8 @@ namespace Vantage.Animation2D
             bool initialVisible = initialState.Visible;
             bool everVisible = initialVisible;
 
+            this.UpdateGeneratorAllowedErrors(initialTime);
+
             MoveGenerator.Set(initialTime, initialState.Position, initialVisible);
             RotateGenerator.Set(initialTime, initialState.Rotation, initialVisible);
             ScaleGenerator.Set(initialTime, initialState.Scale, initialVisible);
@@ -175,6 +182,7 @@ namespace Vantage.Animation2D
             {
                 Sprite2DState state = this.States[i];
                 double time = state.Time;
+                this.UpdateGeneratorAllowedErrors(time);
                 bool visible = state.Visible;
                 if (visible)
                 {

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation2D\CommandConverter.cs" />
     <Compile Include="Animation2D\Commands\ColorCommand.cs" />
     <Compile Include="Animation2D\Commands\Command.cs" />
     <Compile Include="Animation2D\Commands\TriggerCommand.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Animation3D\Layers\Layer.cs" />
     <Compile Include="Animation3D\Layers\MarqueeLayer.cs" />
     <Compile Include="Animation3D\Layers\PulseSprite.cs" />
+    <Compile Include="Animation3D\Layers\RadialWipeLayer.cs" />
     <Compile Include="Animation3D\Layers\Sprite3D.cs" />
     <Compile Include="Animation3D\Layers\Text\AdditiveEnhancedTextLayer.cs" />
     <Compile Include="Animation3D\Layers\Text\Font.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Animation3D\Layers\Text\Letter.cs" />
     <Compile Include="Animation3D\Layers\Text\MultiTextLayer.cs" />
     <Compile Include="Animation3D\Layers\Text\TextLayer.cs" />
+    <Compile Include="Animation3D\Layers\UISelectionLayer.cs" />
     <Compile Include="Animation3D\Scenes\HexagonSceneGenerator.cs" />
     <Compile Include="Animation3D\Scenes\Scene3D.cs" />
     <Compile Include="BeatMeasure.cs" />

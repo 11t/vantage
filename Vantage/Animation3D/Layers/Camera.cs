@@ -198,12 +198,12 @@
         }
         */
 
-        public void SetTarget(double time, Vector3 target)
+        public void SetTarget(double time, Vector3? target)
         {
             this.SetTarget(time, target, BasicEasingCurve.Linear);
         }
 
-        public void SetTarget(double time, Vector3 target, IEasingCurve easingCurve)
+        public void SetTarget(double time, Vector3? target, IEasingCurve easingCurve)
         {
             this.TargetProperty.InsertKeyframe(time, target, easingCurve);
         }

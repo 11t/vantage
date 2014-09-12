@@ -134,10 +134,14 @@
             position.X -= 107;
 
             // float rotation = -this.WorldRotation.Z;
-            float rotation = this.CalculateRoll(this.WorldRotation * Quaternion.Invert(mainCamera.WorldRotation));
+            float rotation = this.LockRotation
+                                 ? this.CalculateRoll(this.LocalRotation)
+                                 : this.CalculateRoll(this.WorldRotation * Quaternion.Invert(mainCamera.WorldRotation));
 
             float defaultScale = Storyboard.ViewportSize.Y / resolution.Y;
-            Vector2 scale = new Vector2(this.WorldScale.X, this.WorldScale.Y);
+            Vector2 scale = this.LockScale
+                                ? new Vector2(this.LocalScale.X, this.LocalScale.Y)
+                                : new Vector2(this.WorldScale.X, this.WorldScale.Y);
             scale = scale * (float)mainCamera.NearPlaneWidth / clipCoordinates.W * defaultScale;
 
             this.State = new Sprite2DState(

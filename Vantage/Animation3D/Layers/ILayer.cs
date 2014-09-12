@@ -40,6 +40,10 @@
 
         bool VerticalFlip { get; set; }
 
+        bool LockScale { get; set; }
+
+        bool LockRotation { get; set; }
+
         bool DebugTrack { get; set; }
 
         TChild NewChild<TChild>(params object[] args) where TChild : class, ILayer;

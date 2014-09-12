@@ -66,7 +66,6 @@
             float beatDuration = 60000.0f / bpm;
             float endTime = startTime + (beatDuration * beatPattern.TotalBeats);
             Scene3D scene = storyboard.NewScene3D(bpm, startTime, endTime);
-            scene.ConversionSettings.MoveThreshold = 0;
 
             Layer rl = scene.RootLayer;
             Camera mc = scene.MainCamera;

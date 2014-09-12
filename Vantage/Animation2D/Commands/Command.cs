@@ -29,7 +29,7 @@
 
         public T EndValue { get; set; }
 
-        public string ToOsbString()
+        public virtual string ToOsbString()
         {
             string startTimeString = ((int)this.StartTime).ToString(CultureInfo.InvariantCulture);
             string endTimeString = ((int)this.EndTime).ToString(CultureInfo.InvariantCulture);

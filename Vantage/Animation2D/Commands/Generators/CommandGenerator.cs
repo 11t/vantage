@@ -1,6 +1,5 @@
 ﻿namespace Vantage.Animation2D.Commands.Generators
 {
-    using Vantage.Animation2D;
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.OsbTypes;
 
@@ -22,6 +21,8 @@
         public double AllowedError { get; set; }
 
         public bool IssuedCommand { get; set; }
+
+        protected TValue CurrentSlope { get; set; }
 
         public virtual void Set(double time, TValue value, bool visible)
         {
