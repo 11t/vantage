@@ -49,6 +49,8 @@
     <Compile Include="Animation2D\CommandConverter.cs" />
     <Compile Include="Animation2D\Commands\ColorCommand.cs" />
     <Compile Include="Animation2D\Commands\Command.cs" />
+    <Compile Include="Animation2D\Commands\Generators\MoveXCommandGenerator.cs" />
+    <Compile Include="Animation2D\Commands\Generators\MoveYCommandGenerator.cs" />
     <Compile Include="Animation2D\Commands\TriggerCommand.cs" />
     <Compile Include="Animation2D\Commands\LoopCommand.cs" />
     <Compile Include="Animation2D\Commands\CommandGroup.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Animation2D\Commands\RotateCommand.cs" />
     <Compile Include="Animation2D\Commands\ScaleCommand.cs" />
     <Compile Include="Animation2D\Commands\VScaleCommand.cs" />
+    <Compile Include="Animation2D\MoveSplitCommandConverter.cs" />
     <Compile Include="Animation2D\OsbTypes\IOsbType.cs" />
     <Compile Include="Animation2D\OsbTypes\OsbColor.cs" />
     <Compile Include="Animation2D\OsbTypes\OsbDecimal.cs" />

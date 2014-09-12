@@ -6,7 +6,7 @@
     using Vantage.Animation2D.Commands.Generators;
     using Vantage.Animation2D.OsbTypes;
 
-    public static class CommandConverter
+    public static class MoveSplitCommandConverter
     {
         /// <summary>
         /// The generator used for creating Color commands from Sprite2DState objects.
@@ -23,8 +23,14 @@
         /// <summary>
         /// The generator used for creating Move commands from Sprite2DState objects.
         /// </summary>
-        private static readonly MoveCommandGenerator MoveGenerator =
-            new MoveCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
+        private static readonly MoveXCommandGenerator MoveXGenerator =
+            new MoveXCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
+
+        /// <summary>
+        /// The generator used for creating Move commands from Sprite2DState objects.
+        /// </summary>
+        private static readonly MoveYCommandGenerator MoveYGenerator =
+            new MoveYCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
 
         /// <summary>
         /// The generator used for creating Rotate commands from Sprite2DState objects.
@@ -45,11 +51,7 @@
             bool horizontalFlip,
             bool verticalFlip)
         {
-            MoveGenerator.IssuedCommand = false;
-            RotateGenerator.IssuedCommand = false;
-            ScaleGenerator.IssuedCommand = false;
-            ColorGenerator.IssuedCommand = false;
-            FadeGenerator.IssuedCommand = false;
+            ResetGeneratorIssuedCommands();
 
             Sprite2DState initialState = stateList[0];
             double initialTime = initialState.Time;
@@ -132,16 +134,28 @@
             Sprite2DState state,
             bool visible)
         {
-            AddCommandToList(MoveGenerator.Generate(time, state.Position, visible), commandList);
+            AddCommandToList(MoveXGenerator.Generate(time, state.Position.X, visible), commandList);
+            AddCommandToList(MoveYGenerator.Generate(time, state.Position.Y, visible), commandList);
             AddCommandToList(RotateGenerator.Generate(time, state.Rotation, visible), commandList);
             AddCommandToList(ScaleGenerator.Generate(time, state.Scale, visible), commandList);
             AddCommandToList(ColorGenerator.Generate(time, state.Color, visible), commandList);
             AddCommandToList(FadeGenerator.Generate(time, state.Opacity, visible), commandList);
         }
 
+        private static void ResetGeneratorIssuedCommands()
+        {
+            MoveXGenerator.IssuedCommand = false;
+            MoveYGenerator.IssuedCommand = false;
+            RotateGenerator.IssuedCommand = false;
+            ScaleGenerator.IssuedCommand = false;
+            ColorGenerator.IssuedCommand = false;
+            FadeGenerator.IssuedCommand = false;
+        }
+
         private static void SetGenerators(double time, Sprite2DState state, bool visible)
         {
-            MoveGenerator.Set(time, state.Position, visible);
+            MoveXGenerator.Set(time, state.Position.X, visible);
+            MoveYGenerator.Set(time, state.Position.Y, visible);
             RotateGenerator.Set(time, state.Rotation, visible);
             ScaleGenerator.Set(time, state.Scale, visible);
             ColorGenerator.Set(time, state.Color, visible);
@@ -152,7 +166,8 @@
         {
             StoryboardSettings.Instance.SceneConversionSettings.UpdateToTime(time);
 
-            MoveGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold;
+            MoveXGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold;
+            MoveYGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold;
             RotateGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold;
             ScaleGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold;
             ColorGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold;

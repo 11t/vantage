@@ -2,7 +2,6 @@
 {
     using System;
     using System.Drawing;
-    using System.Globalization;
 
     using SharpDX;
 
@@ -151,16 +150,8 @@
                 scale,
                 this.WorldColor,
                 this.WorldOpacity,
-                this.Additive,
-                this.HorizontalFlip,
-                this.VerticalFlip,
                 this.Width,
                 this.Height);
-
-            if (this.DebugTrack)
-            {
-                System.Diagnostics.Debug.WriteLine(this.CurrentTime.ToString(CultureInfo.InvariantCulture), mainCamera.ViewProjection.ToString());
-            }
         }
 
         private float CalculateRoll(Quaternion rotation)

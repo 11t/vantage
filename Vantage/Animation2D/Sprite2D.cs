@@ -1,15 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Sprite2D.cs" company="">
-//   
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Vantage.Animation2D
+﻿namespace Vantage.Animation2D
 {
     using System;
     using System.Collections.Generic;
 
     using Vantage.Animation2D.Commands;
-    using Vantage.Animation2D.Commands.Generators;
     using Vantage.Animation2D.OsbTypes;
 
     /// <summary>
@@ -17,40 +11,6 @@ namespace Vantage.Animation2D
     /// </summary>
     public class Sprite2D
     {
-        #region Static Fields
-
-        /// <summary>
-        /// The generator used for creating Color commands from Sprite2DState objects.
-        /// </summary>
-        public static readonly ColorCommandGenerator ColorGenerator =
-            new ColorCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold);
-
-        /// <summary>
-        /// The generator used for creating Fade commands from Sprite2DState objects.
-        /// </summary>
-        public static readonly FadeCommandGenerator FadeGenerator =
-            new FadeCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold);
-
-        /// <summary>
-        /// The generator used for creating Move commands from Sprite2DState objects.
-        /// </summary>
-        public static readonly MoveCommandGenerator MoveGenerator =
-            new MoveCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold);
-
-        /// <summary>
-        /// The generator used for creating Rotate commands from Sprite2DState objects.
-        /// </summary>
-        public static readonly RotateCommandGenerator RotateGenerator =
-            new RotateCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold);
-
-        /// <summary>
-        /// The generator used for creating Scale and VScale commands from Sprite2DState objects.
-        /// </summary>
-        public static readonly ScaleCommandGenerator ScaleGenerator =
-            new ScaleCommandGenerator(StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold);
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
@@ -146,97 +106,14 @@ namespace Vantage.Animation2D
             }
         }
 
-        private void UpdateGeneratorAllowedErrors(double time)
-        {
-            StoryboardSettings.Instance.SceneConversionSettings.UpdateToTime(time);
-
-            MoveGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.MoveThreshold;
-            RotateGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.RotateThreshold;
-            ScaleGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ScaleThreshold;
-            ColorGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.ColorThreshold;
-            FadeGenerator.AllowedError = StoryboardSettings.Instance.SceneConversionSettings.FadeThreshold;
-        }
-
         public void AddCommandsFromStates()
         {
-            MoveGenerator.IssuedCommand = false;
-            RotateGenerator.IssuedCommand = false;
-            ScaleGenerator.IssuedCommand = false;
-            ColorGenerator.IssuedCommand = false;
-            FadeGenerator.IssuedCommand = false;
-
-            Sprite2DState initialState = this.States[0];
-            double initialTime = initialState.Time;
-            bool initialVisible = initialState.Visible;
-            bool everVisible = initialVisible;
-
-            this.UpdateGeneratorAllowedErrors(initialTime);
-
-            MoveGenerator.Set(initialTime, initialState.Position, initialVisible);
-            RotateGenerator.Set(initialTime, initialState.Rotation, initialVisible);
-            ScaleGenerator.Set(initialTime, initialState.Scale, initialVisible);
-            ColorGenerator.Set(initialTime, initialState.Color, initialVisible);
-            FadeGenerator.Set(initialTime, initialState.Opacity, initialVisible);
-
-            for (int i = 1; i < this.States.Count - 1; i++)
-            {
-                Sprite2DState state = this.States[i];
-                double time = state.Time;
-                this.UpdateGeneratorAllowedErrors(time);
-                bool visible = state.Visible;
-                if (visible)
-                {
-                    everVisible = true;
-                }
-
-                this.AddCommand(MoveGenerator.Generate(time, state.Position, visible));
-                this.AddCommand(RotateGenerator.Generate(time, state.Rotation, visible));
-                this.AddCommand(ScaleGenerator.Generate(time, state.Scale, visible));
-                this.AddCommand(ColorGenerator.Generate(time, state.Color, visible));
-                this.AddCommand(FadeGenerator.Generate(time, state.Opacity, visible));
-            }
-
-            Sprite2DState finalState = this.States[this.States.Count - 1];
-            double finalTime = finalState.Time;
-
-            this.AddCommand(MoveGenerator.Generate(finalTime, finalState.Position, false));
-            this.AddCommand(RotateGenerator.Generate(finalTime, finalState.Rotation, false));
-            this.AddCommand(ScaleGenerator.Generate(finalTime, finalState.Scale, false));
-            this.AddCommand(ColorGenerator.Generate(finalTime, finalState.Color, false));
-            this.AddCommand(FadeGenerator.Generate(finalTime, finalState.Opacity, false));
-
-            if (!everVisible)
-            {
-                return;
-            }
-
-            if (this.Additive)
-            {
-                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.AdditiveBlending));
-            }
-
-            if (this.HorizontalFlip)
-            {
-                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipHorizontal));
-            }
-
-            if (this.VerticalFlip)
-            {
-                this.Commands.Add(new ParameterCommand(0, initialTime, finalTime, OsbParameter.FlipVertical));
-            }
-
-            OsbColor finalColor = finalState.Color;
-            if (!ColorGenerator.IssuedCommand && finalColor != OsbColor.White)
-            {
-                this.Commands.Add(new ColorCommand(0, initialTime, finalTime, finalColor, finalColor));
-            }
-
-            OsbScale finalScale = finalState.Scale;
-            if (!ScaleGenerator.IssuedCommand && finalScale != OsbScale.One)
-            {
-                // TODO: Select for S or V
-                this.Commands.Add(new VScaleCommand(0, initialTime, finalTime, finalScale, finalScale));
-            }
+            MoveSplitCommandConverter.AddCommandsFromStateList(
+                this.Commands,
+                this.States,
+                this.Additive,
+                this.HorizontalFlip,
+                this.VerticalFlip);
         }
 
         public void AdditiveP(double startTime, double endTime)

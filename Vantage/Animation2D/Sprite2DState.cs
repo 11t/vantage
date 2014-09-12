@@ -15,9 +15,6 @@
             Vector2 scale,
             OsbColor color,
             double opacity,
-            bool additive,
-            bool horizontalFlip,
-            bool verticalFlip,
             int width,
             int height)
         {
@@ -27,9 +24,6 @@
             this.Scale = scale;
             this.Color = color;
             this.Opacity = opacity;
-            this.Additive = additive;
-            this.HorizontalFlip = horizontalFlip;
-            this.VerticalFlip = verticalFlip;
             this.Width = width;
             this.Height = height;
         }
@@ -49,12 +43,6 @@
         public int Width { get; set; }
 
         public int Height { get; set; }
-
-        public bool Additive { get; set; }
-
-        public bool HorizontalFlip { get; set; }
-
-        public bool VerticalFlip { get; set; }
 
         public bool Visible
         {

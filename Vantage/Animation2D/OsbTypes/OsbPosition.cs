@@ -91,7 +91,7 @@ namespace Vantage.Animation2D.OsbTypes
         {
             if (StoryboardSettings.Instance.SceneConversionSettings.UseFloatForMove)
             {
-                return this.X.ToString(CultureInfo.InvariantCulture) + "," + this.Y;
+                return Math.Round(this.X, 4).ToString(CultureInfo.InvariantCulture) + "," + this.Y;
             }
             else
             {
