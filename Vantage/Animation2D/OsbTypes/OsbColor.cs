@@ -184,6 +184,11 @@ namespace Vantage.Animation2D.OsbTypes
             return new OsbColor(left.r + right.r, left.g + right.g, left.b + right.b);
         }
 
+        public static OsbColor operator -(OsbColor left, OsbColor right)
+        {
+            return new OsbColor(left.r - right.r, left.g - right.g, left.b - right.b);
+        }
+
         public static OsbColor operator *(OsbColor left, OsbColor right)
         {
             return new OsbColor(left.r * right.r, left.g * right.g, left.b * right.b);
@@ -197,6 +202,11 @@ namespace Vantage.Animation2D.OsbTypes
         public static OsbColor operator *(double left, OsbColor right)
         {
             return right * left;
+        }
+
+        public static OsbColor operator /(OsbColor left, double right)
+        {
+            return new OsbColor(left.r / right, left.g / right, left.b / right);
         }
 
         public float DistanceFrom(object obj)

@@ -46,6 +46,8 @@
             }
         }
 
+        public double TimingBeatOffset { get; set; }
+
         public double BeatDuration { get; private set; }
 
         public double RenderTimeStep { get; set; }
@@ -132,7 +134,7 @@
 
         public double Timing(double measure, double beat)
         {
-            double totalBeats = (4 * measure) + beat;
+            double totalBeats = (4 * measure) + beat + this.TimingBeatOffset;
             double totalDuration = totalBeats * this.BeatDuration;
             return (float)(this.StartTime + totalDuration);
         }

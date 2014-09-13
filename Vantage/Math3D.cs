@@ -1,12 +1,32 @@
 ﻿namespace Vantage
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Windows.Forms.VisualStyles;
 
     using SharpDX;
 
     public static class Math3D
     {
+        public const double DoubleEpsilon = 0.00001;
+
         public const double Pi2 = 2 * Math.PI;
+
+        public static double Clamp(double value, double min, double max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
+        }
 
         public static double DegreesToRadians(double degrees)
         {
@@ -66,6 +86,55 @@
             Quaternion rotationQuaternion = new Quaternion(xyz, w);
             rotationQuaternion.Normalize();
             return rotationQuaternion;
+        }
+
+        public static double SumSquaresError<T>(IList<double> times, IList<T> values, double slope, double intercept)
+        {
+            double sumSquaresError = 0;
+            for (int i = 0; i < times.Count; i++)
+            {
+                dynamic value = values[i];
+                double error = value - ((times[i] * slope) + intercept);
+                sumSquaresError += error * error;
+            }
+
+            return sumSquaresError;
+        }
+
+        public static Tuple<double, double> LinearLeastSquares<T>(IList<double> times, IList<T> values)
+        {
+            double slope;
+            double intercept;
+
+            double x = 0;
+            dynamic y = default(T);
+            dynamic xy = default(T);
+            double x2 = 0;
+            double n = times.Count;
+
+            for (int i = 0; i < times.Count; i++)
+            {
+                double time = times[i];
+                dynamic value = values[i];
+                x += time;
+                y += value;
+                xy += time * value;
+                x2 += time * time;
+            }
+
+            double j = (times.Count * x2) - (x * x);
+            if (Math.Abs(j) >= DoubleEpsilon)
+            {
+                slope = ((n * xy) - (x * y)) / j;
+                intercept = ((y * x2) - (x * xy)) / j;
+            }
+            else
+            {
+                slope = 0;
+                intercept = 0;
+            }
+
+            return new Tuple<double, double>(slope, intercept);
         }
     }
 }

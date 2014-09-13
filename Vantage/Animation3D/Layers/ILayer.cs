@@ -44,6 +44,10 @@
 
         bool LockRotation { get; set; }
 
+        double FogDistanceMaximum { get; set; }
+
+        double FogDistanceMinimum { get; set; }
+
         bool DebugTrack { get; set; }
 
         TChild NewChild<TChild>(params object[] args) where TChild : class, ILayer;

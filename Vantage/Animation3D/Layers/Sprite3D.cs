@@ -143,13 +143,23 @@
                                 : new Vector2(this.WorldScale.X, this.WorldScale.Y);
             scale = scale * (float)mainCamera.NearPlaneWidth / clipCoordinates.W * defaultScale;
 
+            double opacity = this.WorldOpacity;
+            if (this.FogDistanceMaximum > 0)
+            {
+                double distance = Vector3.Distance(mainCamera.WorldPosition, this.WorldPosition);
+                double fraction = (distance - this.FogDistanceMinimum)
+                                  / (this.FogDistanceMaximum - this.FogDistanceMinimum);
+                double opacityMultiplier = Math3D.Clamp(1 - fraction, 0, 1);
+                opacity *= opacityMultiplier;
+            }
+
             this.State = new Sprite2DState(
                 this.CurrentTime,
                 position,
                 rotation,
                 scale,
                 this.WorldColor,
-                this.WorldOpacity,
+                opacity,
                 this.Width,
                 this.Height);
         }

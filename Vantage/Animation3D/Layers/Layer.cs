@@ -42,6 +42,10 @@
 
         private bool lockRotation;
 
+        private double fogDistanceMaximum;
+
+        private double fogDistanceMinimum;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Layer"/> class.
         /// </summary>
@@ -116,6 +120,8 @@
                     if (value.VerticalFlip) this.VerticalFlip = true;
                     if (value.LockScale) this.LockScale = true;
                     if (value.LockRotation) this.LockRotation = true;
+                    this.FogDistanceMaximum = value.FogDistanceMaximum;
+                    this.FogDistanceMinimum = value.FogDistanceMinimum;
                 }
 
                 this.parent = value;
@@ -351,6 +357,40 @@
             }
         }
 
+        public double FogDistanceMaximum
+        {
+            get
+            {
+                return this.fogDistanceMaximum;
+            }
+
+            set
+            {
+                this.fogDistanceMaximum = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.FogDistanceMaximum = value;
+                }
+            }
+        }
+
+        public double FogDistanceMinimum
+        {
+            get
+            {
+                return this.fogDistanceMinimum;
+            }
+
+            set
+            {
+                this.fogDistanceMinimum = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.FogDistanceMinimum = value;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether to track the Layer for debug purposes.
         /// </summary>
@@ -359,11 +399,11 @@
         /// <summary>
         /// Creates a new Layer and attaches it as a child to this Layer.
         /// </summary>
-        /// <typeparam name="T">
+        /// <typeparam name="TChild">
         /// The type of the child Layer.
         /// </typeparam>
         /// <returns>
-        /// The type <see cref="T"/> newly created child Layer.
+        /// The type <see cref="TChild"/> newly created child Layer.
         /// </returns>
         public TChild NewChild<TChild>(params object[] args) where TChild : class, ILayer
         {
@@ -450,7 +490,6 @@
             {
                 this.WorldPosition = Vector3.TransformCoordinate(this.LocalPosition, this.Parent.LocalToWorld);
                 this.WorldRotation = Quaternion.Normalize(this.Parent.WorldRotation * this.LocalRotation);
-                // this.WorldScale = this.LockScale ? this.LocalScale : this.Parent.WorldScale * this.LocalScale;
                 this.WorldScale = this.Parent.WorldScale * this.LocalScale;
                 this.WorldOpacity = this.Parent.WorldOpacity * this.LocalOpacity;
                 this.WorldColor = this.Parent.WorldColor * this.LocalColor;
