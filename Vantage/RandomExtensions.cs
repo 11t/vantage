@@ -6,6 +6,18 @@
 
     public static class RandomExtensions
     {
+        public static int NextSigned(this Random r, int min, int max)
+        {
+            int sign = r.Next(0, 2);
+            int next = r.Next(min, max);
+            if (sign != 0)
+            {
+                next *= -1;
+            }
+
+            return next;
+        }
+
         public static double NextGaussian(this Random r, double mu = 0, double sigma = 1)
         {
             var u1 = r.NextDouble();

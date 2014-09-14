@@ -30,9 +30,10 @@
 
         public IEnumerable<float> AbsoluteBeats()
         {
-            double beatSum = this.Measures[0].Delay;
+            double beatSum = 0; //this.Measures[0].Delay;
             foreach (var measure in this.Measures)
             {
+                beatSum += measure.Delay;
                 foreach (double beatDuration in measure.BeatDurations)
                 {
                     yield return (float)beatSum;
