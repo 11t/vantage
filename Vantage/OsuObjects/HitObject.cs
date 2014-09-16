@@ -2,6 +2,8 @@
 {
     using System.Linq;
 
+    using Vantage.Animation2D.OsbTypes;
+
     public abstract class HitObject : IHitObject
     {
         protected const int HitCircleBit = 0;
@@ -78,11 +80,31 @@
             }
         }
 
+        public OsbColor Color { get; set; }
+
         public HitsoundParameter HitsoundParameter { get; set; }
 
         public IControlPoint ControlPoint { get; set; }
 
         protected int TypeEncoding { get; set; }
+
+        public static HitObject FromOsuString(string osuString)
+        {
+            string[] data = osuString.Trim().Split(',');
+            int typeEncoding = int.Parse(data[3]);
+            
+            if (typeEncoding.CheckBit(HitCircleBit))
+            {
+                return HitCircle.FromOsuString(osuString);
+            }
+
+            if (typeEncoding.CheckBit(SliderBit))
+            {
+                return Slider.FromOsuString(osuString);
+            }
+
+            return Spinner.FromOsuString(osuString);
+        }
 
         protected virtual void ReadFromOsuString(string osuString)
         {

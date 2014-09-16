@@ -44,9 +44,13 @@
 
         bool LockRotation { get; set; }
 
-        double FogDistanceMaximum { get; set; }
+        double NearFogDistanceMinimum { get; set; }
 
-        double FogDistanceMinimum { get; set; }
+        double NearFogDistanceMaximum { get; set; }
+
+        double FarFogDistanceMinimum { get; set; }
+
+        double FarFogDistanceMaximum { get; set; }
 
         bool DebugTrack { get; set; }
 

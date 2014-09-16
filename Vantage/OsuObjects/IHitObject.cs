@@ -1,5 +1,7 @@
 ﻿namespace Vantage.OsuObjects
 {
+    using Vantage.Animation2D.OsbTypes;
+
     public interface IHitObject
     {
         double X { get; set; }
@@ -15,5 +17,7 @@
         HitsoundParameter HitsoundParameter { get; set; }
 
         IControlPoint ControlPoint { get; set; }
+
+        OsbColor Color { get; set; }
     }
 }

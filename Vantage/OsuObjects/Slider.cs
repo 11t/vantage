@@ -30,11 +30,23 @@
 
         public double Length { get; set; }
 
-        public static Slider FromOsuString(string osuString)
+        public static new Slider FromOsuString(string osuString)
         {
             Slider slider = new Slider();
             slider.ReadFromOsuString(osuString);
             return slider;
+        }
+
+        public double Duration(double sliderVelocity)
+        {
+            double beatDuration = this.ControlPoint.BeatDuration;
+            double beatLength = sliderVelocity * 100;
+            if (!this.ControlPoint.IsTimingPoint)
+            {
+                beatLength *= -100.0 / this.ControlPoint.Velocity;
+            }
+
+            return this.Length / (beatLength * beatDuration);
         }
 
         protected override void ReadFromOsuString(string osuString)

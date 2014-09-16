@@ -1,6 +1,7 @@
 ﻿namespace Vantage.Animation3D.Layers
 {
     using System;
+    using System.Data.Odbc;
     using System.Drawing;
 
     using SharpDX;
@@ -144,13 +145,28 @@
             scale = scale * (float)mainCamera.NearPlaneWidth / clipCoordinates.W * defaultScale;
 
             double opacity = this.WorldOpacity;
-            if (this.FogDistanceMaximum > 0)
+            if (this.FarFogDistanceMaximum > 0)
             {
                 double distance = Vector3.Distance(mainCamera.WorldPosition, this.WorldPosition);
-                double fraction = (distance - this.FogDistanceMinimum)
-                                  / (this.FogDistanceMaximum - this.FogDistanceMinimum);
-                double opacityMultiplier = Math3D.Clamp(1 - fraction, 0, 1);
-                opacity *= opacityMultiplier;
+                if (distance > this.FarFogDistanceMinimum)
+                {
+                    double fraction = (distance - this.FarFogDistanceMinimum)
+                                      / (this.FarFogDistanceMaximum - this.FarFogDistanceMinimum);
+                    double opacityMultiplier = Math3D.Clamp(1 - fraction, 0, 1);
+                    opacity *= opacityMultiplier;
+                }
+            }
+
+            if (this.NearFogDistanceMaximum > 0)
+            {
+                double distance = Vector3.Distance(mainCamera.WorldPosition, this.WorldPosition);
+                if (distance < this.NearFogDistanceMaximum)
+                {
+                    double fraction = (distance - this.NearFogDistanceMinimum)
+                                      / (this.NearFogDistanceMaximum - this.NearFogDistanceMinimum);
+                    double opacityMultiplier = Math3D.Clamp(fraction, 0, 1);
+                    opacity *= opacityMultiplier;
+                }
             }
 
             this.State = new Sprite2DState(

@@ -132,6 +132,7 @@
     <Compile Include="OsuObjects\OsuBeatmap.cs" />
     <Compile Include="OsuObjects\Slider.cs" />
     <Compile Include="OsuObjects\Spinner.cs" />
+    <Compile Include="OsuObjects\ControlPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomExtensions.cs" />
     <Compile Include="SceneConversionSettings.cs" />

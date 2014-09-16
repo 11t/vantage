@@ -42,9 +42,13 @@
 
         private bool lockRotation;
 
-        private double fogDistanceMaximum;
+        private double nearFogDistanceMinimum;
 
-        private double fogDistanceMinimum;
+        private double nearFogDistanceMaximum;
+
+        private double farFogDistanceMinimum;
+
+        private double farFogDistanceMaximum;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Layer"/> class.
@@ -120,8 +124,10 @@
                     if (value.VerticalFlip) this.VerticalFlip = true;
                     if (value.LockScale) this.LockScale = true;
                     if (value.LockRotation) this.LockRotation = true;
-                    this.FogDistanceMaximum = value.FogDistanceMaximum;
-                    this.FogDistanceMinimum = value.FogDistanceMinimum;
+                    this.FarFogDistanceMaximum = value.FarFogDistanceMaximum;
+                    this.FarFogDistanceMinimum = value.FarFogDistanceMinimum;
+                    this.NearFogDistanceMaximum = value.NearFogDistanceMaximum;
+                    this.NearFogDistanceMinimum = value.NearFogDistanceMinimum;
                 }
 
                 this.parent = value;
@@ -357,36 +363,70 @@
             }
         }
 
-        public double FogDistanceMaximum
+        public double FarFogDistanceMaximum
         {
             get
             {
-                return this.fogDistanceMaximum;
+                return this.farFogDistanceMaximum;
             }
 
             set
             {
-                this.fogDistanceMaximum = value;
+                this.farFogDistanceMaximum = value;
                 foreach (ILayer child in this.Children)
                 {
-                    child.FogDistanceMaximum = value;
+                    child.FarFogDistanceMaximum = value;
                 }
             }
         }
 
-        public double FogDistanceMinimum
+        public double FarFogDistanceMinimum
         {
             get
             {
-                return this.fogDistanceMinimum;
+                return this.farFogDistanceMinimum;
             }
 
             set
             {
-                this.fogDistanceMinimum = value;
+                this.farFogDistanceMinimum = value;
                 foreach (ILayer child in this.Children)
                 {
-                    child.FogDistanceMinimum = value;
+                    child.FarFogDistanceMinimum = value;
+                }
+            }
+        }
+
+        public double NearFogDistanceMaximum
+        {
+            get
+            {
+                return this.nearFogDistanceMaximum;
+            }
+
+            set
+            {
+                this.nearFogDistanceMaximum = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.NearFogDistanceMaximum = value;
+                }
+            }
+        }
+
+        public double NearFogDistanceMinimum
+        {
+            get
+            {
+                return this.nearFogDistanceMinimum;
+            }
+
+            set
+            {
+                this.nearFogDistanceMinimum = value;
+                foreach (ILayer child in this.Children)
+                {
+                    child.NearFogDistanceMinimum = value;
                 }
             }
         }

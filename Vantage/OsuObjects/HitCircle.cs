@@ -7,7 +7,7 @@
         {
         }
 
-        public static HitCircle FromOsuString(string osuString)
+        public static new HitCircle FromOsuString(string osuString)
         {
             HitCircle hitCircle = new HitCircle();
             hitCircle.ReadFromOsuString(osuString);

@@ -10,7 +10,7 @@
 
         public double EndTime { get; set; }
 
-        public static Spinner FromOsuString(string osuString)
+        public static new Spinner FromOsuString(string osuString)
         {
             Spinner spinner = new Spinner();
             spinner.ReadFromOsuString(osuString);
