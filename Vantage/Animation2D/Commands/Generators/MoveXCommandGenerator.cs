@@ -61,7 +61,7 @@
             }
 
             return base.Generate(time, value, visible);
-            /*
+            
             double previousTime = this.PreviousTimes[this.PreviousTimes.Count - 1];
             OsbDecimal previousValue = this.PreviousValues[this.PreviousValues.Count - 1];
 
@@ -105,7 +105,6 @@
 
             this.Visible = visible;
             return command;
-            */
         }
     }
 }

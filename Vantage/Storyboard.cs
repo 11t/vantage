@@ -67,11 +67,16 @@ namespace Vantage
             return scene;
         }
 
-        public Sprite2D NewSprite2D(string image, string layer, string origin)
+        public Sprite2D NewSprite2D(string image, string layer, string origin, int initialX, int initialY)
         {
-            var sprite = new Sprite2D(image, layer, origin);
+            var sprite = new Sprite2D(image, layer, origin, initialX, initialY);
             this.Sprite2Ds.Add(sprite);
             return sprite;
+        }
+
+        public Sprite2D NewSprite2D(string image, string layer, string origin)
+        {
+            return this.NewSprite2D(image, layer, origin, 320, 240);
         }
 
         public Sprite2D NewSprite2D(string image)

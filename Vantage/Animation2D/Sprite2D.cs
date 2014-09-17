@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using Vantage.Animation2D.Commands;
     using Vantage.Animation2D.OsbTypes;
@@ -37,14 +38,21 @@
         /// The name of the location of the anchor point (Centre, TopLeft, etc.) of the Sprite. 
         /// </param>
         public Sprite2D(string image, string layer, string origin)
-            : this(image, layer, origin, false, false, false)
+            : this(image, layer, origin, 320, 240)
+        {
+        }
+
+        public Sprite2D(string image, string layer, string origin, int initialX, int initialY)
+            : this(image, layer, origin, initialX, initialY, false, false, false)
         {
         }
 
         public Sprite2D(
             string image, 
             string layer, 
-            string origin, 
+            string origin,
+            int initialX,
+            int initialY,
             bool additive, 
             bool horizontalFlip, 
             bool verticalFlip)
@@ -54,6 +62,8 @@
             this.ImageName = image;
             this.Layer = layer;
             this.Origin = origin;
+            this.InitialX = initialX;
+            this.InitialY = initialY;
             this.Additive = additive;
             this.HorizontalFlip = horizontalFlip;
             this.VerticalFlip = verticalFlip;
@@ -74,6 +84,10 @@
         public string Layer { get; set; }
 
         public string Origin { get; set; }
+
+        public int InitialX { get; set; }
+
+        public int InitialY { get; set; }
 
         public IList<Sprite2DState> States { get; private set; }
 
@@ -451,7 +465,12 @@
                 return string.Empty;
             }
 
-            string[] headerArray = { "Sprite", this.Layer, this.Origin, "\"" + this.ImageName + "\"", "320,240" };
+            string[] headerArray =
+                {
+                    "Sprite", this.Layer, this.Origin, "\"" + this.ImageName + "\"",
+                    this.InitialX.ToString(CultureInfo.InvariantCulture),
+                    this.InitialY.ToString(CultureInfo.InvariantCulture)
+                };
             string header = string.Join(",", headerArray);
             string[] stringArray = new string[this.Commands.Count + 1];
             stringArray[0] = header;
