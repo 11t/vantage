@@ -19,7 +19,7 @@
         }
 
         public TextLayer(Font font, int letterSpacing)
-            : this(font, letterSpacing, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextLetterSpacing)
+            : this(font, letterSpacing, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextSpaceWidth)
         {
         }
 
@@ -109,6 +109,8 @@
             }
         }
 
+        public IList<int> HorizontalPositions { get; private set; }
+
         private void ClearTextSprites()
         {
             foreach (TSprite sprite in this.textSprites)
@@ -126,7 +128,8 @@
                 return;
             }
 
-            IList<int> positions = this.HorizontalPositions();
+            this.UpdateHorizontalPositions();
+            IList<int> positions = this.HorizontalPositions;
             int i = 0;
             foreach (char c in this.Text)
             {
@@ -150,7 +153,8 @@
                 return;
             }
 
-            IList<int> positions = this.HorizontalPositions();
+            this.UpdateHorizontalPositions();
+            IList<int> positions = this.HorizontalPositions;
             int i = 0;
             foreach (char c in this.Text)
             {
@@ -165,7 +169,7 @@
             }
         }
 
-        private IList<int> HorizontalPositions()
+        private void UpdateHorizontalPositions()
         {
             int spaceAdjustment = 0;
             int prevPosition = 0;
@@ -213,7 +217,7 @@
                     break;
             }
 
-            return positions;
+            this.HorizontalPositions = positions;
         }
     }
 }

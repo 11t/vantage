@@ -33,9 +33,14 @@
             var x1 = r.NextGaussian();
             var x2 = r.NextGaussian();
             var x3 = r.NextGaussian();
-            var u = r.NextDouble(minRadius / maxRadius, 1);
+            var u = r.NextDoubleInRange(minRadius / maxRadius, 1);
             var d = (maxRadius * Math.Pow(u, 1.0 / 3.0)) / Math.Sqrt((x1 * x1) + (x2 * x2) + (x3 * x3));
             return new Vector3((float)(d * x1), (float)(d * x2), (float)(d * x3)) + center;
+        }
+
+        public static double NextDoubleInRange(this Random r, double min, double max)
+        {
+            return min + ((max - min) * r.NextDouble());
         }
     }
 }

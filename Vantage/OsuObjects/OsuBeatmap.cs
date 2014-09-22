@@ -90,7 +90,7 @@
                 if (hitObject is Slider)
                 {
                     Slider slider = hitObject as Slider;
-                    double sliderDuration = slider.Duration(this.SliderVelocity);
+                    double sliderDuration = slider.Duration;
                     double sliderTime = slider.Time;
                     for (int i = 0; i < slider.RepeatAmount; i++)
                     {
@@ -123,7 +123,9 @@
             
             foreach (var hitobjectString in hitobjectStrings)
             {
-                this.HitObjects.Add(HitObject.FromOsuString(hitobjectString));
+                HitObject hitObject = HitObject.FromOsuString(hitobjectString);
+                hitObject.Beatmap = this;
+                this.HitObjects.Add(hitObject);
             }
 
             foreach (var colorString in colorStrings)

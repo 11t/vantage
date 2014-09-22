@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REANIMATE", "REANIMATE\REAN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuObjectsUnitTests", "OsuObjectsUnitTests\OsuObjectsUnitTests.csproj", "{BC25D0B6-62DC-4030-A949-1CF732F69EC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuronecia", "Neuronecia\Neuronecia.csproj", "{3C88433D-FD16-4BCA-B68B-47E61A3936D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BC25D0B6-62DC-4030-A949-1CF732F69EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC25D0B6-62DC-4030-A949-1CF732F69EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC25D0B6-62DC-4030-A949-1CF732F69EC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C88433D-FD16-4BCA-B68B-47E61A3936D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C88433D-FD16-4BCA-B68B-47E61A3936D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C88433D-FD16-4BCA-B68B-47E61A3936D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C88433D-FD16-4BCA-B68B-47E61A3936D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

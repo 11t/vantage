@@ -661,20 +661,15 @@
             this.SetOpacity(time, opacity, DefaultEasingCurve);
         }
 
-        public void OpacityTransition(
-            float startTime,
-            float endTime,
-            float startOpacity,
-            float endOpacity,
-            IEasingCurve easingCurve)
+        public void Fade(int easing, double startTime, double endTime, double startOpacity, double endOpacity)
         {
-            this.SetOpacity(startTime, startOpacity, easingCurve);
-            this.SetOpacity(endTime, endOpacity);
+            this.Fade(BasicEasingCurve.FromEasingParameter(easing), startTime, endTime, startOpacity, endOpacity);
         }
 
-        public void OpacityTransition(float startTime, float endTime, float startOpacity, float endOpacity)
+        public void Fade(IEasingCurve easingCurve, double startTime, double endTime, double startOpacity, double endOpacity)
         {
-            this.OpacityTransition(startTime, endTime, startOpacity, endOpacity, DefaultEasingCurve);
+            this.SetOpacity(startTime, startOpacity, easingCurve);
+            this.SetOpacity(endTime, endOpacity, BasicEasingCurve.Step);
         }
     }
 }

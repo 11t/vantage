@@ -4,6 +4,8 @@
 
     public interface IHitObject
     {
+        OsuBeatmap Beatmap { get; set; }
+
         double X { get; set; }
         
         double Y { get; set; }

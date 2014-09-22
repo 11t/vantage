@@ -107,7 +107,7 @@
                 Quaternion slideRotation = Quaternion.RotationAxis(Vector3.ForwardRH, slideAngle);
 
                 var hexagonLayer = hexagonMasterLayer.NewLayer();
-                hexagonLayer.OpacityTransition(beginTime, appearTime, 0, 1);
+                hexagonLayer.Fade(0, beginTime, appearTime, 0, 1);
                 hexagonLayer.SetPosition(scene.StartTime, hexagonPosition);
                 hexagonLayer.SetScale(beginTime, this.HexagonBeginScale);
                 hexagonLayer.SetScale(appearTime, this.HexagonAppearScale);
