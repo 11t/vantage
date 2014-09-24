@@ -110,6 +110,7 @@
     <Compile Include="Animation3D\Layers\RadialWipeLayer.cs" />
     <Compile Include="Animation3D\Layers\Sprite3D.cs" />
     <Compile Include="Animation3D\Layers\Text\AdditiveEnhancedTextLayer.cs" />
+    <Compile Include="Animation3D\Layers\Text\AdditivePulseTextLayer.cs" />
     <Compile Include="Animation3D\Layers\Text\Font.cs" />
     <Compile Include="Animation3D\Layers\Text\ITextLayer.cs" />
     <Compile Include="Animation3D\Layers\Text\Letter.cs" />

@@ -14,12 +14,12 @@
         private TextAlignment alignment;
 
         public TextLayer(Font font)
-            : this(font, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextLetterSpacing)
+            : this(font, font.DefaultLetterSpacing)
         {
         }
 
         public TextLayer(Font font, int letterSpacing)
-            : this(font, letterSpacing, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextSpaceWidth)
+            : this(font, letterSpacing, font.DefaultSpaceWidth)
         {
         }
 

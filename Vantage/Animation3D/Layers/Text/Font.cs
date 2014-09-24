@@ -33,6 +33,10 @@
 
         public string Extension { get; set; }
 
+        public int DefaultLetterSpacing { get; set; }
+
+        public int DefaultSpaceWidth { get; set; }
+
         public Sprite3D LetterSprite(char c)
         {
             return new Sprite3D(this.Letters[c].ImageName);

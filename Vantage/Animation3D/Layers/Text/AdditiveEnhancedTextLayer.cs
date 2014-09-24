@@ -15,7 +15,12 @@ namespace Vantage.Animation3D.Layers.Text
         }
 
         public AdditiveEnhancedTextLayer(Font font, int letterSpacing)
-            : this(font, letterSpacing, StoryboardSettings.Instance.SceneConversionSettings.DefaultTextSpaceWidth)
+            : this(font, letterSpacing, font.DefaultSpaceWidth)
+        {
+        }
+
+        public AdditiveEnhancedTextLayer(Font font)
+            : this(font, font.DefaultLetterSpacing)
         {
         }
     }

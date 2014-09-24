@@ -20,6 +20,8 @@
 
         public static readonly CubicBezierEasingCurve EaseInOut = new CubicBezierEasingCurve(0.5, 0, 0.5, 1);
 
+        public static readonly CubicBezierEasingCurve EaseOutIn = new CubicBezierEasingCurve(0, 0.42, 1, 0.58);
+
         public CubicBezierEasingCurve(Vector2 p1, Vector2 p2)
         {
             this.P1 = p1;
